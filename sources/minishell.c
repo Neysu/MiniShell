@@ -6,9 +6,14 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/06 23:18:31 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/06 23:20:19 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	main(int argc, char **argv)
+{
+	
+	return (0);
+}
