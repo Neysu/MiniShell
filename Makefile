@@ -4,7 +4,11 @@ FLAGS = -lreadline
 LIB = libft/libft.a
 FT_PRINTF = ft_printf/ft_printf.a
 SRCDIR = sources
+EXECDIR = exec
 SRC = $(SRCDIR)/minishell.c \
+		$(SRCDIR)/get_env.c \
+		$(SRCDIR)/$(EXECDIR)/exec.c \
+		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
 
 OBJ := $(SRC:.c=.o)
 
