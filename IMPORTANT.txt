@@ -5,4 +5,4 @@ Hey pour qu'on arrive a bosser correctement ils vas nous falloir des regles (si 
     - On vas essayer d'utiliser les memes fonction (tout ce qui est ft_strchr ou ces trucs) j'ai mis ma libft si tu veux la modifier vas-y j'ai fait des fonction en plus pour mon utilisation
         comme ft_strext qui sert a s'assurer qu'il y a une extension dans mon ficher.
     - Se mettre d'accord avant de push sur main (pense a faire tes propres branches on fera des merges)
-    
+    - Pense a rajouter tes fichiers dans le makefile et a les triers

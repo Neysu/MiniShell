@@ -1,5 +1,6 @@
-NAME = cub3d
+NAME = minishell
 CFLAGS = -Wall -Wextra -Werror -g
+FLAGS = -lreadline
 LIB = libft/libft.a
 FT_PRINTF = ft_printf/ft_printf.a
 SRCDIR = sources
@@ -13,7 +14,7 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ) $(LIB) $(FT_PRINTF)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(FT_PRINTF) $(LIB)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(FT_PRINTF) $(LIB) $(FLAGS)
 
 $(LIB):
 	$(MAKE) -C libft
