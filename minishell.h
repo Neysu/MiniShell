@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/07 05:32:29 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/08 02:39:43 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ typedef struct		s_envp
 
 typedef struct		s_cmd
 {
-	char			*line;
 	char			**cmd;
 	int				pipefd[2];
 	struct s_cmd	*next;
 }					t_cmd;
+
+t_cmd	*parse_cmd(char *line);
 
 t_envp	*get_env(char **envp);
 t_envp	*ft_lstnew_env(char *envp);

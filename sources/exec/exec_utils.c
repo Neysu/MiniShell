@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/07 04:31:35 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/08 02:45:37 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*findcmd(t_cmd *cmd_data, t_envp *envp)
 	if (!access(cmd_data->cmd[0], X_OK))
 		return (cmd_data->cmd[0]);
 	while (ft_strncmp(envp->var, "PATH=", 5) && envp)
-		i++;
+		envp = envp->next;
 	path = ft_split(envp->var + 5, ':');
 	i = 0;
 	while (path[i])

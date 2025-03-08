@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/08 02:37:10 by elliot           ###   ########.fr       */
+/*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
+/*   Updated: 2025/03/08 02:39:15 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+t_cmd	*parse_cmd(char *line)
 {
-	char	*line;
-	t_envp	*env_data;
 	t_cmd	*cmd_data;
+	char	**cmd;
 
-	(void)argc;
-	(void)argv;
-	while (1)
-	{
-		env_data = get_env(envp);
-		line = readline("MINISHELL > ");
-		cmd_data = parse_cmd(line);
-		exec_cmd(cmd_data, env_data);
-	}
-	return (0);
+	cmd_data = ft_calloc(sizeof(t_cmd), 1);
+	cmd = ft_split(line, ' ');
+	cmd_data->cmd = cmd;
+	return (cmd_data);
 }

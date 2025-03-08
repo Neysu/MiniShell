@@ -6,11 +6,13 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/07 05:27:36 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/08 03:27:04 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 char	**env_to_str(t_envp *envp)
 {
@@ -34,11 +36,23 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 {
 	char	*path;
 	char	**envp;
+	int		status;
+	pid_t	pid;
 
-	path = findcmd(cmd_data, envp_data);
-	if (!path)
+	pid = fork();
+	if (pid == -1)
 		return (1);
-	envp = env_to_str(envp_data);
-	execve(path, cmd_data->cmd, envp);	
+	if (pid == 0)
+	{
+		path = findcmd(cmd_data, envp_data);
+		if (!path)
+			return (1);
+		envp = env_to_str(envp_data);
+		execve(path, cmd_data->cmd, envp);
+		free(path);
+		exit(1);
+	}
+	else
+		waitpid(pid, &status, 0);
 	return (0);
 }

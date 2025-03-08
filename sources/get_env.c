@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:33:00 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/07 05:14:30 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/08 02:42:43 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ size_t	ft_envsize(t_envp *env)
 
 	current = env;
 	i = 0;
-	while (env)
+	while (current)
 	{
-		env = env->next;
+		current = current->next;
 		i++;
 	}
 	return (i);
@@ -66,6 +66,7 @@ t_envp	*get_env(char **envp)
 	t_envp	*env;
 
 	i = 0;
+	env = NULL;
 	while (envp[i])
 	{
 		ft_lstadd_back(&env, envp[i]);
