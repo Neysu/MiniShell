@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/08 02:39:43 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/09 03:12:15 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_envp	*ft_lstnew_env(char *envp);
 
 size_t	ft_envsize(t_envp *env);
 
-int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
+int		exec_cmd(t_cmd *cmd_data, t_envp *envp, char **test);
 
 char	**env_to_str(t_envp *envp);
 

@@ -7,4 +7,5 @@ Hey pour qu'on arrive a bosser correctement ils vas nous falloir des regles (si 
     - Se mettre d'accord avant de push sur main (pense a faire tes propres branches on fera des merges)
     - Pense a rajouter tes fichiers dans le makefile et a les triers
     - essaie d'utiliser des ft_calloc pr eviter des problemes avec la memoires
-    
+
+
