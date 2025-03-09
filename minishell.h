@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/09 03:12:15 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/09 13:24:45 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+#define ERRORCMD "minishell : %s: unknown command\n"
 
 typedef struct		s_envp
 {
@@ -48,11 +50,15 @@ t_envp	*ft_lstnew_env(char *envp);
 
 size_t	ft_envsize(t_envp *env);
 
-int		exec_cmd(t_cmd *cmd_data, t_envp *envp, char **test);
-
-char	**env_to_str(t_envp *envp);
+int		is_builtin(char *line);
+int		print_pwd(t_envp *envp);
+int		print_env(t_envp *envp);
+int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
+int		exec_buitlins(char *line, t_envp *env_data);
 
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);
+
+char	**env_to_str(t_envp *envp);
 
 void	ft_lstadd_back(t_envp **lst, char *envp);
 
