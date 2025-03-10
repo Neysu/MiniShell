@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:06:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/09 13:42:39 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/10 03:10:48 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,8 @@ int		print_env(t_envp *envp)
 	return (0);
 }
 
-int		change_dirs(t_envp *envp, char *line)
+int		ft_echo(char *line)
 {
-	t_envp	*current;
-
-	current = envp;
-	while (ft_strncmp(envp->var, "PWD", 3) && current->next)
-		current = current->next;
 	
 	return (0);
 }
