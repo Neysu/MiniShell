@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:06:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/11 12:57:22 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/11 17:53:29 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,48 @@ int		print_pwd(char *line)
 		return (1);
 	ft_putendl_fd(pwd, 1);
 	free(pwd);
-	//free(buffer);
+	return (0);
+}
+
+int		ft_unset(char *line, t_envp *envp_data)
+{
+	int		i;
+	size_t	len;
+	t_envp	*current;
+	char	**args;
+
+	i = 1;
+	args = ft_split(line, ' ');
+	if (ft_arrlen(args) < 2)
+		return (ft_putendl_fd(UNSETARGS, 2), 1);
+	while (args[i])
+	{
+		len = ft_strlen(args[i]);
+		current = envp_data;
+		while (current->next)
+		{
+			if (!ft_strncmp(current->var, args[i], len))
+				ft_bzero(current->var, len);
+			current = current->next;
+		}
+		i++;
+	}
+	return (0);
+}
+
+int		change_dirs(t_envp *envp, char *line)
+{
+	char	**args;
+	char	*path;
+
+	(void)envp;
+	path = ft_calloc(sizeof(char), PATH_MAX_LEN);
+	getcwd(path, PATH_MAX_LEN);
+	args = ft_split(line, ' ');
+	if (ft_arrlen(args) != 2)
+		return (ft_putendl_fd("Too much args", 2), 1);
+	path = ft_strsep(path, args[1], '/');
+	if (chdir((const char *)path) == -1)
+		return (perror(path), 1);
 	return (0);
 }

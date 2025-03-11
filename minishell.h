@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/11 12:55:19 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/11 14:16:35 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-#define ERRORCMD "minishell : %s: unknown command\n"
-#define PATH_MAX_LEN 4096
+# define ERRORCMD "minishell : %s: unknown command\n"
+# define UNSETARGS "unset: not enough args"
+# define PATH_MAX_LEN 4096
 
 typedef struct		s_envp
 {
@@ -56,6 +57,7 @@ int		is_builtin(char *line);
 int		print_pwd(char *line);
 int		print_env(t_envp *envp);
 int		change_dirs(t_envp *envp, char *line);
+int		ft_unset(char *line, t_envp *envp_data);
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
 int		exec_buitlins(char *line, t_envp *env_data);
 
