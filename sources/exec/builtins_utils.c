@@ -6,11 +6,13 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:06:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/10 03:10:48 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/11 12:57:22 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stdbool.h>
+#include <stddef.h>
 
 int		print_env(t_envp *envp)
 {
@@ -27,18 +29,43 @@ int		print_env(t_envp *envp)
 
 int		ft_echo(char *line)
 {
-	
+	char	**tab;
+	int		i;
+	bool	new_line;
+
+	i = 1;
+	new_line = true;
+	tab = ft_split(line, ' ');
+	while (!ft_strncmp(tab[i], "-n", 2) && tab[i])
+	{
+		new_line = false;
+		i++;
+	}
+	while (tab[i])
+	{
+		ft_putstr_fd(tab[i], 1);
+		ft_putchar_fd(' ', 2);
+		i++;
+	}
+	if (new_line)
+		ft_putchar_fd('\n', 1);
 	return (0);
 }
 
-int		print_pwd(t_envp *envp)
+int		print_pwd(char *line)
 {
-	t_envp	*current;
+	char	*buffer;
+	char	*pwd;
+	size_t	size;
 
-	current = envp;
-	while (ft_strncmp(current->var, "PWD", 3) && current->next)
-		current = current->next;
-	if (current->next)
-		ft_putendl_fd(current->var + 4, 1);
+	(void)line;
+	size = PATH_MAX_LEN;
+	buffer = ft_calloc(sizeof(char), PATH_MAX_LEN);
+	pwd = getcwd(buffer, size);
+	if (!pwd)
+		return (1);
+	ft_putendl_fd(pwd, 1);
+	free(pwd);
+	//free(buffer);
 	return (0);
 }
