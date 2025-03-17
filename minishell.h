@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/11 14:16:35 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/17 22:23:59 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 
 char	**env_to_str(t_envp *envp);
 
+void	error_path(char *s);
 void	ft_lstadd_back(t_envp **lst, char *envp);
 
 #endif

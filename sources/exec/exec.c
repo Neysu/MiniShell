@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/09 11:46:44 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/17 22:24:31 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 
 	pid = fork();
 	if (pid == -1)
-		_exit(1);
+		exit(0);
 	if (pid == 0)
 	{
 		path = findcmd(cmd_data, envp_data);
 		if (!path)
-			exit (1);
+			error_path(cmd_data->cmd[0]);
 		envp = env_to_str(envp_data);
 		if (execve(path, cmd_data->cmd, envp) == -1)
 			(ft_printf(ERRORCMD, cmd_data->cmd[0]), ft_free_arr(cmd_data->cmd), ft_free_arr(envp), exit(1));

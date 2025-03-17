@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:06:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/11 17:53:29 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/17 22:09:50 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int		print_env(t_envp *envp)
 	current = envp;
 	while (current->next)
 	{
-		ft_putendl_fd(current->var, 1);
+		if (current->var[0])
+			ft_putendl_fd(current->var, 1);
 		current = current->next;
 	}
 	return (0);
@@ -87,7 +88,7 @@ int		ft_unset(char *line, t_envp *envp_data)
 		while (current->next)
 		{
 			if (!ft_strncmp(current->var, args[i], len))
-				ft_bzero(current->var, len);
+				ft_bzero(current->var, ft_strlen(current->var));
 			current = current->next;
 		}
 		i++;

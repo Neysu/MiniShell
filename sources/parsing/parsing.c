@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/11 17:52:05 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/17 18:22:58 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 int	is_builtin(char *line)
 {
+	if (!line)
+		return (0);
 	if (!ft_strncmp(line, "echo", 4))
 		return (1);
-	if (!ft_strncmp(line, "cd", 2))
+	else if (!ft_strncmp(line, "cd", 2))
 		return (1);
-	if (!ft_strncmp(line, "pwd", 3))
+	else if (!ft_strncmp(line, "pwd", 3))
 		return (1);
-	if (!ft_strncmp(line, "export", 6))
+	else if (!ft_strncmp(line, "export", 6))
 		return (1);
-	if (!ft_strncmp(line, "unset", 5))
+	else if (!ft_strncmp(line, "unset", 5))
 		return (1);
-	if (!ft_strncmp(line, "env", 3))
+	else if (!ft_strncmp(line, "env", 3))
 		return (1);
-	if (!ft_strncmp(line, "exit", 4))
+	else if (!ft_strncmp(line, "exit", 4))
 		return (1);
 	return (0);
 }
