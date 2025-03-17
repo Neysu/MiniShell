@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/11 14:16:35 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/17 20:49:47 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,16 @@ typedef struct		s_envp
 	struct s_envp	*next;
 }					t_envp;
 
+typedef enum {
+	TOKEN_WORD,		// command or argument
+	TOKEN_PIPE,		// pipe (|)
+	TOKEN_REDIRECT	// redirection ( >, <, >>, <<)
+} t_token_type;
+
 typedef struct		s_cmd
 {
-	char			**cmd;
+	t_token_type	type;
+	char			*cmd;
 	int				pipefd[2];
 	struct s_cmd	*next;
 }					t_cmd;

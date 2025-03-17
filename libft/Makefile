@@ -23,6 +23,7 @@ SRC = \
 	ft_put/ft_putstr_fd.c \
 	ft_put/ft_puttab_fd.c \
 	ft_str/ft_strchr.c \
+	ft_str/ft_strcmp.c \
 	ft_str/ft_strdup.c \
 	ft_str/ft_striteri.c \
 	ft_str/ft_strjoin.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/11 17:52:05 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/17 21:16:47 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,52 @@ int	is_builtin(char *line)
 	return (0);
 }
 
+t_cmd	*create_cmd(t_token_type type, char *cmd)
+{
+	t_cmd *cmd_data;
+
+	cmd_data = ft_calloc(sizeof(t_cmd), 1);
+	if (!cmd_data)
+		return (NULL);
+	cmd_data->type = type;
+	cmd_data->cmd = cmd;
+	cmd_data->next = NULL;
+	return (cmd_data);
+}
+
 t_cmd	*parse_cmd(char *line)
 {
 	t_cmd	*cmd_data;
 	char	**cmd;
+	t_cmd	*head;
+	t_cmd	*current;
 
-	cmd_data = ft_calloc(sizeof(t_cmd), 1);
 	cmd = ft_split(line, ' ');
-	cmd_data->cmd = cmd;
-	return (cmd_data);
+	head = NULL;
+	current = NULL;
+	int i = 0;
+	while (cmd[i])
+	{
+		t_token_type type = TOKEN_WORD;
+
+		if (ft_strcmp(cmd[i], "|") == 0)
+			type = TOKEN_PIPE;
+		else if (ft_strcmp(cmd[i], ">") == 0 || ft_strcmp(cmd[i], "<") == 0
+					|| ft_strcmp(cmd[i], ">>") == 0  || ft_strcmp(cmd[i], "<<") == 0)
+			type = TOKEN_REDIRECT;
+		cmd_data = create_cmd(type, cmd[i]);
+
+		if (!head)
+		{
+			head = cmd_data;
+			current = head;
+		}
+		else
+		{
+			current->next = cmd_data;
+			current = current->next;
+		}
+		i++;
+	}
+	return (head);
 }
