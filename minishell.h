@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/17 22:23:59 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:15:09 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int		print_env(t_envp *envp);
 int		change_dirs(t_envp *envp, char *line);
 int		ft_unset(char *line, t_envp *envp_data);
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
+int		ft_export(t_envp *envp_data, char *line);
 int		exec_buitlins(char *line, t_envp *env_data);
 
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);

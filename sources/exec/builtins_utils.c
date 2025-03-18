@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:06:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/17 22:09:50 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:05:16 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,18 @@ int		change_dirs(t_envp *envp, char *line)
 	if (chdir((const char *)path) == -1)
 		return (perror(path), 1);
 	return (0);
+}
+
+int		ft_export(t_envp *envp_data, char *line)
+{
+	char	**args;
+	int		i;
+	
+	i = 0;
+	args = ft_split(line, ' ');
+	if (ft_arrlen(args) < 2)
+	{
+		print_env(envp_data);
+		exit(0);
+	}
 }
