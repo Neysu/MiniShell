@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/17 21:16:47 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:37:09 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_cmd	*create_cmd(t_token_type type, char *cmd)
 	if (!cmd_data)
 		return (NULL);
 	cmd_data->type = type;
-	cmd_data->cmd = cmd;
+	cmd_data->cmd = ft_strdup(cmd);
 	cmd_data->next = NULL;
 	return (cmd_data);
 }
@@ -61,9 +61,14 @@ t_cmd	*parse_cmd(char *line)
 
 		if (ft_strcmp(cmd[i], "|") == 0)
 			type = TOKEN_PIPE;
-		else if (ft_strcmp(cmd[i], ">") == 0 || ft_strcmp(cmd[i], "<") == 0
-					|| ft_strcmp(cmd[i], ">>") == 0  || ft_strcmp(cmd[i], "<<") == 0)
-			type = TOKEN_REDIRECT;
+		else if (ft_strcmp(cmd[i], "<") == 0)
+			type = TOKEN_REDIRECT_IN;
+		else if (ft_strcmp(cmd[i], ">") == 0)
+			type = TOKEN_REDIRECT_OUT;
+		else if (ft_strcmp(cmd[i], "<<") == 0)
+			type = TOKEN_APPEND;
+		else if (ft_strcmp(cmd[i], ">>") == 0)
+			type = TOKEN_HEREDOC;
 		cmd_data = create_cmd(type, cmd[i]);
 
 		if (!head)
