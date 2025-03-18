@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/18 14:32:30 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:02:33 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct		s_envp
 typedef enum {
 	TOKEN_WORD,			// command or argument
 	TOKEN_PIPE,			// pipe (|)
+	TOKEN_ENV,			// $HOME
 	TOKEN_REDIRECT_IN,	// <
 	TOKEN_REDIRECT_OUT,	// >
 	TOKEN_APPEND,		// <<
@@ -50,7 +51,7 @@ typedef enum {
 typedef struct		s_cmd
 {
 	t_token_type	type;
-	char			*cmd;
+	char			**cmd;
 	int				pipefd[2];
 	struct s_cmd	*next;
 }					t_cmd;

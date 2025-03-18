@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/18 14:37:09 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:08:29 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_cmd	*create_cmd(t_token_type type, char *cmd)
 	if (!cmd_data)
 		return (NULL);
 	cmd_data->type = type;
-	cmd_data->cmd = ft_strdup(cmd);
+	cmd_data->cmd = ft_split(cmd, ' ');
 	cmd_data->next = NULL;
 	return (cmd_data);
 }
@@ -51,7 +51,7 @@ t_cmd	*parse_cmd(char *line)
 	t_cmd	*head;
 	t_cmd	*current;
 
-	cmd = ft_split(line, ' ');
+	cmd = ft_split(line, '&');
 	head = NULL;
 	current = NULL;
 	int i = 0;
@@ -59,7 +59,9 @@ t_cmd	*parse_cmd(char *line)
 	{
 		t_token_type type = TOKEN_WORD;
 
-		if (ft_strcmp(cmd[i], "|") == 0)
+		if (cmd[i][0] == '$')
+			type = TOKEN_ENV;
+		else if (ft_strcmp(cmd[i], "|") == 0)
 			type = TOKEN_PIPE;
 		else if (ft_strcmp(cmd[i], "<") == 0)
 			type = TOKEN_REDIRECT_IN;
