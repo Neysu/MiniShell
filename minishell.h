@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/18 20:02:33 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:12:34 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,42 @@ typedef struct		s_envp
 	struct s_envp	*next;
 }					t_envp;
 
-typedef enum {
-	TOKEN_WORD,			// command or argument
-	TOKEN_PIPE,			// pipe (|)
-	TOKEN_ENV,			// $HOME
-	TOKEN_REDIRECT_IN,	// <
-	TOKEN_REDIRECT_OUT,	// >
-	TOKEN_APPEND,		// <<
-	TOKEN_HEREDOC		// >>
-} t_token_type;
+typedef struct		s_token
+{
+	char			*str;
+	int				type;
+
+}					t_token;
 
 typedef struct		s_cmd
 {
-	t_token_type	type;
 	char			**cmd;
 	int				pipefd[2];
 	struct s_cmd	*next;
 }					t_cmd;
 
-t_cmd	*parse_cmd(char *line);
+typedef struct		s_data
+{
+	char			*user_input;
+	t_envp			*envp;
+	t_token			token;
+	t_cmd			*cmd;
+}					t_data;
+
+
+enum				e_token_type{
+	SPACES,
+	WORD,			// command or argument
+	ENV,			// env $
+	PIPE,			// pipe (|)
+	REDIRECT_IN,	// <
+	REDIRECT_OUT,	// >
+	APPEND,			// <<
+	HEREDOC,		// >>
+	END
+};
+
+t_cmd	*parsing(char *line);
 
 t_envp	*get_env(char **envp);
 t_envp	*ft_lstnew_env(char *envp);

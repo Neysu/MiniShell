@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/09 12:20:22 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:12:47 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		env_data = get_env(envp);
 		line = readline("MINISHELL > ");
-		cmd_data = parse_cmd(line);
+		cmd_data = parsing(line);
 		if (is_builtin(line))
 			exec_buitlins(line, env_data);
 		else

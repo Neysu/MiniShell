@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/18 20:08:29 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:42:00 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,47 +31,69 @@ int	is_builtin(char *line)
 	return (0);
 }
 
-t_cmd	*create_cmd(t_token_type type, char *cmd)
+t_cmd	*create_cmd(int type, char *cmd)
 {
 	t_cmd *cmd_data;
 
 	cmd_data = ft_calloc(sizeof(t_cmd), 1);
 	if (!cmd_data)
 		return (NULL);
-	cmd_data->type = type;
+	//cmd_data->type = type;
 	cmd_data->cmd = ft_split(cmd, ' ');
 	cmd_data->next = NULL;
 	return (cmd_data);
 }
 
-t_cmd	*parse_cmd(char *line)
+int	is_separator(char *str, int i)
+{
+	if ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		return (SPACES);
+	else if (str[i] == '|')
+			return (PIPE);
+	else if (str[i] == '>')
+			return (REDIRECT_IN);
+	else if (str[i] == '<')
+			return (REDIRECT_OUT);
+	else if (str[i] == '>' && str[i + 1] == '>')
+			return (APPEND);
+	else if (str[i] == '<' && str[i + 1] == '<')
+			return (HEREDOC);
+	else if (str[i] == '\0')
+			return (END);
+	return (0);
+}
+
+t_cmd	*parsing(char *line)
 {
 	t_cmd	*cmd_data;
-	char	**cmd;
+	char	**user_input;
 	t_cmd	*head;
 	t_cmd	*current;
+	t_data	*data;
 
-	cmd = ft_split(line, '&');
+	user_input = ft_split(line, '&');
 	head = NULL;
 	current = NULL;
 	int i = 0;
-	while (cmd[i])
+	while (user_input[i])
 	{
-		t_token_type type = TOKEN_WORD;
-
-		if (cmd[i][0] == '$')
-			type = TOKEN_ENV;
-		else if (ft_strcmp(cmd[i], "|") == 0)
-			type = TOKEN_PIPE;
-		else if (ft_strcmp(cmd[i], "<") == 0)
-			type = TOKEN_REDIRECT_IN;
-		else if (ft_strcmp(cmd[i], ">") == 0)
-			type = TOKEN_REDIRECT_OUT;
-		else if (ft_strcmp(cmd[i], "<<") == 0)
-			type = TOKEN_APPEND;
-		else if (ft_strcmp(cmd[i], ">>") == 0)
-			type = TOKEN_HEREDOC;
-		cmd_data = create_cmd(type, cmd[i]);
+		data->user_input = user_input[i];
+		if (parser_user_input(&data) == true)
+			;// execute;
+		int type = WORD;
+		if (user_input[i][0] == '$')
+			type = ENV;
+		else if (ft_strcmp(user_input[i], "|") == 0)
+			type = PIPE;
+		else if (ft_strcmp(user_input[i], "<") == 0)
+			type = REDIRECT_IN;
+		else if (ft_strcmp(user_input[i], ">") == 0)
+			type = REDIRECT_OUT;
+		else if (ft_strcmp(user_input[i], "<<") == 0)
+			type = APPEND;
+		else if (ft_strcmp(user_input[i], ">>") == 0)
+			type = HEREDOC;
+		cmd_data = create_cmd(type, user_input[i]);
 
 		if (!head)
 		{
@@ -86,4 +108,18 @@ t_cmd	*parse_cmd(char *line)
 		i++;
 	}
 	return (head);
+}
+
+bool	parser_user_input(t_data *data)
+{
+	if (ft_strcmp(data->user_input, "\0") == 0)
+		return (false);
+	add_history(data->user_input);
+	tokenizator(data, data->user_input);
+	return (true);
+}
+
+void	tokenizator(t_data *data, char *str)
+{
+	// Create tokens
 }
