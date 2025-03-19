@@ -59,7 +59,7 @@ int		print_env(t_envp *envp);
 int		change_dirs(t_envp *envp, char *line);
 int		ft_unset(char *line, t_envp *envp_data);
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
-int		ft_export(t_envp *envp_data, char *line);
+int		ft_export(char *line, t_envp *envp_data);
 int		exec_buitlins(char *line, t_envp *env_data);
 
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);

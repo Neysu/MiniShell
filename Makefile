@@ -17,6 +17,7 @@ SRC = $(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(BUILTDIR)/env.c \
 		$(SRCDIR)/$(BUILTDIR)/pwd.c \
 		$(SRCDIR)/$(BUILTDIR)/unset.c \
+		$(SRCDIR)/$(BUILTDIR)/export.c \
 		$(SRCDIR)/$(BUILTDIR)/builtins.c \
 		$(SRCDIR)/$(BUILTDIR)/builtins_utils.c \
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
