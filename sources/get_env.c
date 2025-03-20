@@ -40,7 +40,7 @@ t_envp	*ft_lstnew_env(char *envp)
 	return (var);
 }
 
-void	ft_lstadd_back(t_envp **lst, char *envp)
+void	ft_lstadd_back_env(t_envp **lst, char *envp)
 {
 	t_envp	*new;
 	t_envp	*current;
@@ -69,7 +69,7 @@ t_envp	*get_env(char **envp)
 	env = NULL;
 	while (envp[i])
 	{
-		ft_lstadd_back(&env, envp[i]);
+		ft_lstadd_back_env(&env, envp[i]);
 		i++;
 	}
 	return (env);

@@ -67,6 +67,6 @@ char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 char	**env_to_str(t_envp *envp);
 
 void	error_path(char *s);
-void	ft_lstadd_back(t_envp **lst, char *envp);
+void	ft_lstadd_back_env(t_envp **lst, char *envp);
 
 #endif
