@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/19 15:12:34 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/20 18:52:26 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ typedef struct		s_token
 {
 	char			*str;
 	int				type;
-
+	struct s_token	*next;
+	struct s_token	*prev;
 }					t_token;
 
 typedef struct		s_cmd
@@ -56,13 +57,13 @@ typedef struct		s_data
 {
 	char			*user_input;
 	t_envp			*envp;
-	t_token			token;
+	t_token			*token;
 	t_cmd			*cmd;
 }					t_data;
 
 
 enum				e_token_type{
-	SPACES,
+	SPACES = 1,
 	WORD,			// command or argument
 	ENV,			// env $
 	PIPE,			// pipe (|)
@@ -73,10 +74,16 @@ enum				e_token_type{
 	END
 };
 
+enum				e_quoting_status{
+	DEFAULT,
+	SQUOTE,
+	DQUOTE
+};
+
 t_cmd	*parsing(char *line);
 
 t_envp	*get_env(char **envp);
-t_envp	*ft_lstnew_env(char *envp);
+t_envp	*ft_lstnsave_word_or_sepew_env(char *envp);
 
 size_t	ft_envsize(t_envp *env);
 
@@ -94,5 +101,8 @@ char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 char	**env_to_str(t_envp *envp);
 
 void	ft_lstadd_back(t_envp **lst, char *envp);
+
+/*   utils/errors.c   */
+void	error_message(char *text_error);
 
 #endif
