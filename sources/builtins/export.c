@@ -55,13 +55,12 @@ int		modify_var(char *var, t_envp *envp_data)
 	t_envp	*current;
 
 	current = envp_data;
-	while (current->next)
+	while (current)
 	{
-		if (ft_strncmp(current->var, var, (size_t) ft_strchr(var, '=')) == 0)
+		if (!ft_strncmp(current->var, var, 3))
 		{
-			ft_putendl_fd(current->var, 1);
-			printf("%zu\n", (size_t) ft_strchr(var, '='));
 			free(current->var);
+			current->var = NULL;
 			current->var = ft_strdup(var);
 			return (1);
 		}
@@ -73,6 +72,7 @@ int		modify_var(char *var, t_envp *envp_data)
 int	ft_export(char *line, t_envp *envp_data)
 {
 	char    **args;
+	char	*str;
 	char	*var;
 	int		i;
 
@@ -82,17 +82,19 @@ int	ft_export(char *line, t_envp *envp_data)
 	i = 1;
 	while (args[i])
 	{
-		printf("%s\n", args[i]);
-		if (!ft_strpos(args[i], '='))
+		str = ft_strdup(args[i]);
+		printf("%s\n", str);
+		if (!ft_strpos(str, '='))
 			return (ft_putendl_fd("ERROR", 2), 1);
-		if (modify_var(var, envp_data) == 0)
+		if (modify_var(str, envp_data) == 0)
 		{
-			var = get_var(args[i]);
+			var = get_var(str);
 			if (!var)
 				return (1);
 			ft_lstadd_back_env(&envp_data, var);
+			free(var);
 		}
-		free(var);
+		free(str);
 		i++;
 	}
 	return (0);
