@@ -6,7 +6,7 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 16:05:16 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/02/26 22:39:40 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/20 23:31:33 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #  define BUFFER_SIZE	1
 # endif
 
+int		ft_strpos(char *s, char c);
 int		ft_tolower(int c);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
