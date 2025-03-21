@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/20 20:54:59 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:27:50 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,13 @@ enum				e_quoting_status{
 	DQUOTE
 };
 
-t_cmd	*parsing(char *line);
-
 t_envp	*get_env(char **envp);
 t_envp	*ft_lstnsave_word_or_sepew_env(char *envp);
 
 size_t	ft_envsize(t_envp *env);
 
 int		ft_echo(char *line);
-int		is_builtin(char *line);
+
 int		print_pwd(char *line);
 int		print_env(t_envp *envp);
 int		change_dirs(t_envp *envp, char *line);
@@ -105,5 +103,14 @@ void	ft_lstadd_back(t_envp **lst, char *envp);
 
 /*   utils/errors.c   */
 void	error_message(char *text_error);
+
+/*   parsing/lexer.c   */
+int		token_generator(t_data *data, char *str);
+
+/*   parsing/parsing.c   */
+int		is_builtin(char *line);
+t_cmd	*create_cmd(int type, char *cmd);
+t_cmd	*parsing(char *line);
+bool	parser_user_input(t_data *data);
 
 #endif
