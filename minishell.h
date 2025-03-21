@@ -52,6 +52,7 @@ t_envp	*ft_lstnew_env(char *envp);
 
 size_t	ft_envsize(t_envp *env);
 
+int		ft_exit(char *line);
 int		ft_echo(char *line);
 int		is_builtin(char *line);
 int		print_pwd(char *line);

@@ -26,6 +26,8 @@ int	exec_buitlins(char *line, t_envp *env_data)
 		change_dirs(env_data, line);
 	if (!ft_strncmp(line, "export", 6))
 		ft_export(line, env_data);
+	if (!ft_strncmp(line, "exit", 4))
+		ft_exit(line);
 	return (0);
 }
 

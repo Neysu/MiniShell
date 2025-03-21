@@ -39,6 +39,8 @@ int		ft_isprint(int c);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 
+long	ft_atol(const char *s);
+
 size_t	ft_arrlen(char **arr);
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);

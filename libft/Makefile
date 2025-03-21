@@ -47,6 +47,7 @@ SRC = \
 	get_next_line/get_next_line.c \
 	other/ft_split.c \
 	other/ft_atoi.c \
+	other/ft_atol.c \
 	other/ft_calloc.c \
 	other/ft_itoa.c \
 	other/ft_bzero.c \
