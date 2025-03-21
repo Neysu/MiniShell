@@ -6,7 +6,7 @@ int		ft_exit(char *line)
 	int		ret;
 
 	args = ft_split(line, ' ');
-	if (ft_arrlen(args) < 2)
+	if (ft_arrlen(args) > 2)
 	{
 		ft_putendl_fd("minishell: exit: too many args", 2);
 		return (1);
@@ -20,5 +20,7 @@ int		ft_exit(char *line)
 		else
 			exit(ret);
 	}
+	else
+		exit(0);
 	return (0);
 }
