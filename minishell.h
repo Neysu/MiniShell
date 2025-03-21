@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/20 18:52:26 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/20 20:54:59 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct		s_cmd
 typedef struct		s_data
 {
 	char			*user_input;
+	bool			work;
 	t_envp			*envp;
 	t_token			*token;
 	t_cmd			*cmd;

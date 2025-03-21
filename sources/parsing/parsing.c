@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/20 17:00:36 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/20 20:48:35 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmd	*parsing(char *line)
 	t_cmd	*current;
 	t_data	*data;
 
-	user_input = ft_split(line, '&');
+	user_input = ft_split(line, ';');
 	head = NULL;
 	current = NULL;
 	int i = 0;

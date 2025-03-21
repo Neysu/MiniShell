@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/20 18:54:23 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/20 20:55:17 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	while (1)
+	data->work = true;
+	while (data->work)
 	{
 		if (!init_data(data, envp))
 			error_message("Could not initialize data");
