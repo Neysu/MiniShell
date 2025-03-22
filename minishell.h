@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/21 16:27:50 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/22 18:57:16 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ typedef struct		s_data
 
 enum				e_token_type{
 	SPACES = 1,
-	WORD,			// command or argument
-	ENV,			// env $
-	PIPE,			// pipe (|)
-	REDIRECT_IN,	// <
-	REDIRECT_OUT,	// >
-	APPEND,			// <<
-	HEREDOC,		// >>
-	END
+	WORD,			// 2 word
+	ENV,			// 3 $
+	PIPE,			// 4 |
+	REDIRECT_IN,	// 5 <
+	REDIRECT_OUT,	// 6 >
+	APPEND,			// 7 <<
+	HEREDOC,		// 8 >>
+	END				// 9 '\0'
 };
 
 enum				e_quoting_status{
@@ -106,11 +106,19 @@ void	error_message(char *text_error);
 
 /*   parsing/lexer.c   */
 int		token_generator(t_data *data, char *str);
+t_token	*lst_new_token(char *str, int type);
+void	lst_addback_token(t_token **token_list, t_token *new_node);
+int	save_word(t_token **token_list, char *str, int index, int start);
+int	save_separator(t_token **token_list, char *str, int index, int type);
 
 /*   parsing/parsing.c   */
 int		is_builtin(char *line);
 t_cmd	*create_cmd(int type, char *cmd);
-t_cmd	*parsing(char *line);
+void	parsing(char *line, t_data *data);
 bool	parser_user_input(t_data *data);
+
+/*   DELETE THIS   */
+void	show_tokens(t_data *data);
+void	show_lists(t_data *data);
 
 #endif

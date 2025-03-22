@@ -6,13 +6,17 @@ FT_PRINTF = ft_printf/ft_printf.a
 SRCDIR = sources
 EXECDIR = exec
 PARSDIR = parsing
-SRC = $(SRCDIR)/minishell.c \
+UTILS = utils
+SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/get_env.c \
 		$(SRCDIR)/$(EXECDIR)/exec.c \
 		$(SRCDIR)/$(EXECDIR)/builtins.c \
 		$(SRCDIR)/$(EXECDIR)/builtins_utils.c \
 		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
+		$(SRCDIR)/$(PARSDIR)/lexer.c \
+		$(SRCDIR)/$(UTILS)/errors.c \
+		$(SRCDIR)/$(UTILS)/tests.c
 
 OBJ := $(SRC:.c=.o)
 

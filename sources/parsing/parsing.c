@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/21 16:26:30 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/22 18:48:45 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,36 +31,35 @@ int	is_builtin(char *line)
 	return (0);
 }
 
-t_cmd	*create_cmd(int type, char *cmd)
-{
-	t_cmd *cmd_data;
+// t_cmd	*create_cmd(int type, char *cmd)
+// {
+// 	t_cmd *cmd_data;
 
-	cmd_data = ft_calloc(sizeof(t_cmd), 1);
-	if (!cmd_data)
-		return (NULL);
-	//cmd_data->type = type;
-	cmd_data->cmd = ft_split(cmd, ' ');
-	cmd_data->next = NULL;
-	return (cmd_data);
-}
+// 	cmd_data = ft_calloc(sizeof(t_cmd), 1);
+// 	if (!cmd_data)
+// 		return (NULL);
+// 	//cmd_data->type = type;
+// 	cmd_data->cmd = ft_split(cmd, ' ');
+// 	cmd_data->next = NULL;
+// 	return (cmd_data);
+// }
 
-t_cmd	*parsing(char *line)
+void	parsing(char *line, t_data *data)
 {
-	t_cmd	*cmd_data;
 	char	**user_input;
-	t_cmd	*head;
-	t_cmd	*current;
-	t_data	*data;
+
 
 	user_input = ft_split(line, ';');
-	head = NULL;
-	current = NULL;
+	if (!user_input)
+		return ;
+	if (!data)
+		return ;
 	int i = 0;
 	while (user_input[i])
 	{
-		data->user_input = user_input[i];
-		if (parser_user_input(&data) == true)
-			;// execute;
+		data->user_input = ft_strdup(user_input[i]);
+		if (parser_user_input(data) == true)
+			show_lists(data);
 		i++;
 	}
 }

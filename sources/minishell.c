@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/20 20:55:17 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/22 18:46:35 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 bool	init_data(t_data *data, char **envp)
 {
-	if (!get_env(envp))
+	data->envp = get_env(envp);
+	if (!data->envp)
 	{
 		error_message("Could not initialize environment");
 		return (false);
 	}
 	data->user_input = NULL;
+	data->work = true;
 	data->token = NULL;
 	data->cmd = NULL;
 	return (true);
@@ -28,23 +30,23 @@ bool	init_data(t_data *data, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	t_envp	*env_data;
-	t_cmd	*cmd_data;
-	t_data 	*data;
+	// t_envp	*env_data;
+	// t_cmd	*cmd_data = NULL;
+	t_data	data;
 
 	(void)argc;
 	(void)argv;
-	data->work = true;
-	while (data->work)
+	ft_memset(&data, 0, sizeof(t_data));
+	if (!init_data(&data, envp))
+		error_message("Could not initialize data");
+	while (1)
 	{
-		if (!init_data(data, envp))
-			error_message("Could not initialize data");
 		line = readline("MINISHELL > ");
-		cmd_data = parsing(line);
-		if (is_builtin(line))
-			exec_buitlins(line, data->envp);
-		else
-			exec_cmd(cmd_data, data->envp);
+		parsing(line, &data);
+		// if (is_builtin(line))
+		// 	exec_buitlins(line, data->envp);
+		// else
+		// 	exec_cmd(cmd_data, data->envp);
 	}
 	return (0);
 }
