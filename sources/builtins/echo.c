@@ -34,5 +34,6 @@ int		ft_echo(char *line)
 	}
 	if (new_line)
 		ft_putchar_fd('\n', 1);
+	ft_free_arr(tab);
 	return (0);
 }

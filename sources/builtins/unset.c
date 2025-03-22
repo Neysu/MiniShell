@@ -35,5 +35,6 @@ int		ft_unset(char *line, t_envp *envp_data)
 		}
 		i++;
 	}
+	ft_free_arr(args);
 	return (0);
 }

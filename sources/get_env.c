@@ -60,6 +60,18 @@ void	ft_lstadd_back_env(t_envp **lst, char *envp)
 	}
 }
 
+void	ft_free_env(t_envp *envp)
+{
+	t_envp	*tmp;
+
+	while (envp)
+	{
+		tmp = envp->next;
+		free(envp);
+		envp = tmp;
+	}
+}
+
 t_envp	*get_env(char **envp)
 {
 	int		i;

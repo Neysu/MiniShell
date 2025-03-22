@@ -45,6 +45,13 @@ typedef struct		s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+typedef struct		s_data
+{
+	bool			work;
+	t_envp			*env;
+	t_cmd			*cmd;
+}
+
 t_cmd	*parse_cmd(char *line);
 
 t_envp	*get_env(char **envp);
@@ -68,6 +75,7 @@ char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 char	**env_to_str(t_envp *envp);
 
 void	error_path(char *s);
+void	ft_free_env(t_envp *envp);
 void	ft_lstadd_back_env(t_envp **lst, char *envp);
 
 #endif

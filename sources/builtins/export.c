@@ -57,7 +57,7 @@ int		modify_var(char *var, t_envp *envp_data)
 	current = envp_data;
 	while (current)
 	{
-		if (!ft_strncmp(current->var, var, 3))
+		if (!ft_strncmp(current->var, var, ft_strpos(var, '=') - 1))
 		{
 			free(current->var);
 			current->var = NULL;
@@ -83,8 +83,7 @@ int	ft_export(char *line, t_envp *envp_data)
 	while (args[i])
 	{
 		str = ft_strdup(args[i]);
-		printf("%s\n", str);
-		if (!ft_strpos(str, '='))
+		if (!ft_strchr(str, '='))
 			return (ft_putendl_fd("ERROR", 2), 1);
 		if (modify_var(str, envp_data) == 0)
 		{
@@ -97,5 +96,6 @@ int	ft_export(char *line, t_envp *envp_data)
 		free(str);
 		i++;
 	}
+	ft_free_arr(args);
 	return (0);
 }
