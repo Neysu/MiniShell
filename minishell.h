@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/22 18:57:16 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/23 17:52:37 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@
 # define ERRORCMD "minishell : %s: unknown command\n"
 # define UNSETARGS "unset: not enough args"
 # define PATH_MAX_LEN 4096
+
+# define SUCCESS 0
+# define FAILURE 1
 
 typedef struct		s_envp
 {
@@ -68,10 +71,10 @@ enum				e_token_type{
 	WORD,			// 2 word
 	ENV,			// 3 $
 	PIPE,			// 4 |
-	REDIRECT_IN,	// 5 <
-	REDIRECT_OUT,	// 6 >
-	APPEND,			// 7 <<
-	HEREDOC,		// 8 >>
+	REDIRECT_IN,	// 5 >
+	REDIRECT_OUT,	// 6 <
+	APPEND,			// 7 >>
+	HEREDOC,		// 8 <<
 	END				// 9 '\0'
 };
 
@@ -116,6 +119,9 @@ int		is_builtin(char *line);
 t_cmd	*create_cmd(int type, char *cmd);
 void	parsing(char *line, t_data *data);
 bool	parser_user_input(t_data *data);
+
+/*   envp_check.c   */
+int	envp_check(t_token **token_list);
 
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);

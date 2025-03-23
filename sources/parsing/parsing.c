@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/22 18:48:45 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/23 17:53:20 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	parsing(char *line, t_data *data)
 {
 	char	**user_input;
 
-
 	user_input = ft_split(line, ';');
 	if (!user_input)
 		return ;
@@ -69,7 +68,11 @@ bool	parser_user_input(t_data *data)
 	if (ft_strcmp(data->user_input, "\0") == 0)
 		return (false);
 	add_history(data->user_input);
-	if (token_generator(data, data->user_input) == EXIT_FAILURE)
+	if (token_generator(data, data->user_input) == FAILURE)
+		return (false);
+	if (data->token->type == END)
+		return (false);
+	if (envp_check(&data->token) == FAILURE)
 		return (false);
 	return (true);
 }

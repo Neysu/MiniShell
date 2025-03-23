@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:20:56 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/22 18:53:07 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:20:48 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ static int	is_separator(char *str, int i)
 {
 	if ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		return (SPACES);
-	else if (str[i] == '>' && str[i + 1] == '>')
-			return (APPEND);
-	else if (str[i] == '<' && str[i + 1] == '<')
-			return (HEREDOC);
 	else if (str[i] == '|')
-			return (PIPE);
+		return (PIPE);
+	else if (str[i] == '<' && str[i + 1] == '<')
+		return (HEREDOC);
+	else if (str[i] == '>' && str[i + 1] == '>')
+		return (APPEND);
 	else if (str[i] == '>')
-			return (REDIRECT_IN);
+		return (REDIRECT_IN);
 	else if (str[i] == '<')
-			return (REDIRECT_OUT);
+		return (REDIRECT_OUT);
 	else if (str[i] == '\0')
-			return (END);
+		return (END);
 	return (0);
 }
 
