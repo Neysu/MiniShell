@@ -12,6 +12,7 @@ SRC = $(SRCDIR)/minishell.c \
 		$(SRCDIR)/get_env.c \
 		$(SRCDIR)/$(EXECDIR)/exec.c \
 		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
+		$(SRCDIR)/$(EXECDIR)/redirect.c \
 		$(SRCDIR)/$(BUILTDIR)/exit.c \
 		$(SRCDIR)/$(BUILTDIR)/cd.c \
 		$(SRCDIR)/$(BUILTDIR)/echo.c \

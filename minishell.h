@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/18 13:15:09 by elliot           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:09:04 by username         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int		print_pwd(char *line);
 int		print_env(t_envp *envp);
 int		redirect_out(t_cmd *cmd_data);
 int		redirect_inf(t_cmd *cmd_data);
+int		open_out(char *file, t_cmd *cmd_data);
+int		open_inf(char *file, t_cmd *cmd_data);
 int		change_dirs(t_envp *envp, char *line);
 int		ft_unset(char *line, t_envp *envp_data);
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
