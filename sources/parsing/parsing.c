@@ -37,9 +37,17 @@ t_cmd	*parse_cmd(char *line)
 {
 	t_cmd	*cmd_data;
 	char	**cmd;
+	char	**red;
 
 	cmd_data = ft_calloc(sizeof(t_cmd), 1);
-	cmd = ft_split(line, ' ');
-	cmd_data->cmd = cmd;
+	red = ft_split(line, '>');
+	if (ft_arrlen(red) == 2)
+	{
+		cmd_data->file = ft_strndup(red[1], ft_strlen(red[1]));
+		cmd = ft_split(red[0], ' ');
+	}
+	else
+		cmd = ft_split(line, ' ');
+	cmd_data->cmd = ft_arrdup(cmd);
 	return (cmd_data);
 }

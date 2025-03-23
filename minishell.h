@@ -41,7 +41,10 @@ typedef struct		s_envp
 typedef struct		s_cmd
 {
 	char			**cmd;
+	char			*file;
 	int				pipefd[2];
+	int				outfile;
+	int				infile;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -50,7 +53,7 @@ typedef struct		s_data
 	bool			work;
 	t_envp			*env;
 	t_cmd			*cmd;
-}
+}					t_data;
 
 t_cmd	*parse_cmd(char *line);
 
@@ -59,11 +62,14 @@ t_envp	*ft_lstnew_env(char *envp);
 
 size_t	ft_envsize(t_envp *env);
 
+
 int		ft_exit(char *line);
 int		ft_echo(char *line);
 int		is_builtin(char *line);
 int		print_pwd(char *line);
 int		print_env(t_envp *envp);
+int		redirect_out(t_cmd *cmd_data);
+int		redirect_inf(t_cmd *cmd_data);
 int		change_dirs(t_envp *envp, char *line);
 int		ft_unset(char *line, t_envp *envp_data);
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);

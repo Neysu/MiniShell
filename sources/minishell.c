@@ -33,15 +33,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	char	*pos;
-	t_data	*data;
+	//t_data	*data;
 	t_envp	*env_data;
 	t_cmd	*cmd_data;
 
 	(void)argc;
 	(void)argv;
-	data->work = true;
+	//data->work = true;
 	env_data = get_env(envp);
-	while (data->work)
+	while (1)
 	{
 		pos = get_path();
 		line = readline(pos);
@@ -52,6 +52,6 @@ int	main(int argc, char **argv, char **envp)
 			exec_cmd(cmd_data, env_data);
 		free(pos);
 	}
-	ft_free_env(envp_data);
+	ft_free_env(env_data);
 	return (0);
 }

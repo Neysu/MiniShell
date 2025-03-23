@@ -32,6 +32,48 @@ char	**env_to_str(t_envp *envp)
 	return (env);
 }
 
+int		open_out(char *file, t_cmd *cmd_data)
+{
+	cmd_data->outfile = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (cmd_data->outfile == -1)
+		return (1);
+	dup2(cmd_data->outfile, STDOUT_FILENO);
+	close(cmd_data->outfile);
+	return (0);
+}
+
+int		open_inf(char *file, t_cmd *cmd_data)
+{
+	cmd_data->infile = open(file, O_RDONLY);
+	if (cmd_data->infile == -1)
+		return (1);
+	dup2(cmd_data->infile, STDIN_FILENO);
+	close(cmd_data->infile);
+	return (0);
+}
+
+int	redirect_out(t_cmd *cmd_data)
+{
+	if (pipe(cmd_data->pipefd) == -1)
+		return (1);
+	if (open_out(cmd_data->file, cmd_data))
+		return (1);
+	if (dup2(cmd_data->pipefd[0], STDIN_FILENO) == -1)
+		return (1);
+	(close(cmd_data->pipefd[0]), close(cmd_data->pipefd[1]));
+	return (0);
+}
+
+int	redirect_inf(t_cmd *cmd_data)
+{
+	if (open_inf(cmd_data->file, cmd_data) == -1)
+		return (1);
+	if (dup2(cmd_data->pipefd[1], STDOUT_FILENO) == -1)
+		return (1);
+	(close(cmd_data->pipefd[0]), close(cmd_data->pipefd[1]));
+	return (0);
+}
+
 int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 {
 	char	*path;
@@ -44,6 +86,8 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 		exit(0);
 	if (pid == 0)
 	{
+		pipe(cmd_data->pipefd);
+		redirect_out(cmd_data);
 		path = findcmd(cmd_data, envp_data);
 		if (!path)
 			error_path(cmd_data->cmd[0]);
