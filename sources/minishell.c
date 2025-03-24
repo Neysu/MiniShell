@@ -6,7 +6,7 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/21 21:50:30 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:28:02 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,20 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	data = ft_calloc(sizeof(t_data), 1);
 	data->work = true;
+	data->ret = 0;
 	data->env_data = get_env(envp);
 	while (data->work)
 	{
 		pos = get_path();
 		line = readline(pos);
-		cmd_data = parse_cmd(line);
+		data->cmd_data = parse_cmd(line);
 		if (is_builtin(line))
-			exec_buitlins(line, env_data);
+			exec_buitlins(line, data->env_data, data);
 		else
-			exec_cmd(cmd_data, env_data);
+			exec_cmd(data->cmd_data, data->env_data);
 		free(pos);
 	}
-	ft_free_env(env_data);
+	ft_free_env(data->env_data);
 	return (data->ret);
 }
 

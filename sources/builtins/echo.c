@@ -6,7 +6,7 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:15:41 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/24 23:19:27 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:38:20 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@ int	is_env(char	*s, t_envp *envp_data)
 	while (current)
 	{
 		if (!ft_strncmp(current->var, s, ft_strlen(s)))
+		{
 			ft_putstr_fd(current->var, 1);
+			return (0);
+		}
 		current = current->next;
 	}
+	return (1);
 }
 
 int	ft_echo(char *line, t_data *data)
@@ -32,9 +36,10 @@ int	ft_echo(char *line, t_data *data)
 	bool	new_line;
 
 	i = 1;
+	(void)data;
 	new_line = true;
 	tab = ft_split(line, ' ');
-	while (!ft_strncmp(tab[i], "-n", 2) && tab[i])
+	while (tab[i] && !ft_strncmp(tab[0], "-n", 2))
 	{
 		new_line = false;
 		i++;

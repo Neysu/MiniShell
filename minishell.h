@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/24 00:09:04 by username         ###   ########.fr       */
+/*   Updated: 2025/03/24 23:31:16 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,17 @@ enum				e_quoting_status
 {
 	DEFAULT,
 	SQUOTE,
-	SQUOTE
+	DQUOTE
 };
 
-typedef struct		env_data
+typedef struct		s_data
 {
 	char			*user_input;
 	bool			work;
-	t_envp			*envp_data;
+	int				ret;
+	t_envp			*env_data;
 	t_cmd			*cmd_data;
-}					s_data;
+}					t_data;
 
 t_cmd	*parse_cmd(char *line);
 
@@ -92,20 +93,24 @@ t_envp	*ft_lstnew_env(char *envp);
 size_t	ft_envsize(t_envp *env);
 
 
-int		ft_exit(char *line);
-int		ft_echo(char *line);
 int		is_builtin(char *line);
+int		exec_buitlins(char *line, t_data *data);
+
 int		print_pwd(char *line);
 int		print_env(t_envp *envp);
+int		ft_echo(char *line, t_data *data);
+int		ft_exit(char *line, t_data *data);
+int		change_dirs(t_envp *envp, char *line);
+int		ft_unset(char *line, t_envp *envp_data);
+int		ft_export(char *line, t_envp *envp_data);
+
+int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
+
 int		redirect_out(t_cmd *cmd_data);
 int		redirect_inf(t_cmd *cmd_data);
 int		open_out(char *file, t_cmd *cmd_data);
 int		open_inf(char *file, t_cmd *cmd_data);
-int		change_dirs(t_envp *envp, char *line);
-int		ft_unset(char *line, t_envp *envp_data);
-int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
-int		ft_export(char *line, t_envp *envp_data);
-int		exec_buitlins(char *line, t_envp *env_data);
+
 
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 
