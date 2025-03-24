@@ -13,7 +13,9 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(EXECDIR)/builtins.c \
 		$(SRCDIR)/$(EXECDIR)/builtins_utils.c \
 		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
+		$(SRCDIR)/$(PARSDIR)/envp_check.c \
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
+		$(SRCDIR)/$(PARSDIR)/signal.c \
 		$(SRCDIR)/$(PARSDIR)/lexer.c \
 		$(SRCDIR)/$(UTILS)/errors.c \
 		$(SRCDIR)/$(UTILS)/tests.c

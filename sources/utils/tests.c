@@ -13,7 +13,7 @@ void show_tokens(t_data *data)
 	printf("Tokens:\n");
 	while (data->token)
 	{
-		printf("  Token: %s, Type: %d\n", data->token->str, data->token->type);
+		printf("  Token: %s, Type: %d, Status: %d\n", data->token->str, data->token->type, data->token->status);
 		data->token = data->token->next;
 	}
 }

@@ -6,11 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/22 18:46:35 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:14:14 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+t_sig g_sig;
 
 bool	init_data(t_data *data, char **envp)
 {
@@ -41,7 +43,10 @@ int	main(int argc, char **argv, char **envp)
 		error_message("Could not initialize data");
 	while (1)
 	{
-		line = readline("MINISHELL > ");
+		siginit();
+
+		line = readline(PROMPT);
+
 		parsing(line, &data);
 		// if (is_builtin(line))
 		// 	exec_buitlins(line, data->envp);

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/23 17:52:37 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:53:30 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,19 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# define PROMPT "minishell > "
 # define ERRORCMD "minishell : %s: unknown command\n"
 # define UNSETARGS "unset: not enough args"
 # define PATH_MAX_LEN 4096
+
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -45,6 +51,7 @@ typedef struct		s_token
 {
 	char			*str;
 	int				type;
+	int				status;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
@@ -65,6 +72,15 @@ typedef struct		s_data
 	t_cmd			*cmd;
 }					t_data;
 
+typedef struct		s_sig
+{
+	int				sigint;
+	int				sigquit;
+	int 			exit_status;
+	pid_t 			pid;
+}					t_sig;
+
+extern t_sig g_sig;
 
 enum				e_token_type{
 	SPACES = 1,
@@ -109,7 +125,7 @@ void	error_message(char *text_error);
 
 /*   parsing/lexer.c   */
 int		token_generator(t_data *data, char *str);
-t_token	*lst_new_token(char *str, int type);
+t_token	*lst_new_token(char *str, int type, int status);
 void	lst_addback_token(t_token **token_list, t_token *new_node);
 int	save_word(t_token **token_list, char *str, int index, int start);
 int	save_separator(t_token **token_list, char *str, int index, int type);
@@ -122,6 +138,11 @@ bool	parser_user_input(t_data *data);
 
 /*   envp_check.c   */
 int	envp_check(t_token **token_list);
+
+/*   parsing/signal.c   */
+void	sig_int(int code);
+void	sig_quit(int code);
+void	siginit(void);
 
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);

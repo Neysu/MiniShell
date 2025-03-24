@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:20:56 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/23 15:20:48 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/23 19:22:26 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	check_quotes(int status, char *str, int i)
 	return (status);
 }
 
-t_token	*lst_new_token(char *str, int type)
+t_token	*lst_new_token(char *str, int type, int status)
 {
 	t_token	*new_node;
 
@@ -53,6 +53,7 @@ t_token	*lst_new_token(char *str, int type)
 		return (NULL);
 	new_node->str = str;
 	new_node->type = type;
+	new_node->status = status;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
@@ -93,7 +94,7 @@ int	save_word(t_token **token_list, char *str, int index, int start)
 		start++;
 	}
 	word[i] = '\0';
-	lst_addback_token(token_list, lst_new_token(word, WORD));
+	lst_addback_token(token_list, lst_new_token(word, WORD, DEFAULT));
 	return (0);
 }
 
@@ -111,7 +112,7 @@ int	save_separator(t_token **token_list, char *str, int index, int type)
 		while (i < 2)
 			sep[i++] = str[index++];
 		sep[i] = '\0';
-		lst_addback_token(token_list, lst_new_token(sep, type));
+		lst_addback_token(token_list, lst_new_token(sep, type, DEFAULT));
 	}
 	else
 	{
@@ -121,7 +122,7 @@ int	save_separator(t_token **token_list, char *str, int index, int type)
 		while (i < 1)
 			sep[i++] = str[index++];
 		sep[i] = '\0';
-		lst_addback_token(token_list, lst_new_token(sep, type));
+		lst_addback_token(token_list, lst_new_token(sep, type, DEFAULT));
 	}
 	return (0);
 }

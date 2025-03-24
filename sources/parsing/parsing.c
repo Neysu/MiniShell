@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/23 17:53:20 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:14:39 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	parsing(char *line, t_data *data)
 {
 	char	**user_input;
 
+	signal(SIGINT, &sig_int);
+	signal(SIGQUIT, &sig_quit);
 	user_input = ft_split(line, ';');
 	if (!user_input)
 		return ;
