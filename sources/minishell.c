@@ -38,15 +38,14 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	char	*pos;
-	//t_data	*data;
-	t_envp	*env_data;
-	t_cmd	*cmd_data;
+	t_data	*data;
 
 	(void)argc;
 	(void)argv;
-	//data->work = true;
-	env_data = get_env(envp);
-	while (1)
+	data = ft_calloc(sizeof(t_data), 1);
+	data->work = true;
+	data->env_data = get_env(envp);
+	while (data->work)
 	{
 		pos = get_path();
 		line = readline(pos);
@@ -58,5 +57,6 @@ int	main(int argc, char **argv, char **envp)
 		free(pos);
 	}
 	ft_free_env(env_data);
-	return (0);
+	return (data->ret);
 }
+

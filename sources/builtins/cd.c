@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/18 20:14:00 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/21 21:32:09 by egibeaux         ###   ########.fr       */
+/*   Created: 2025/03/24 22:29:50 by egibeaux          #+#    #+#             */
+/*   Updated: 2025/03/24 22:29:51 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*get_dirs(char *s)
 	path = ft_calloc(sizeof(char), PATH_MAX_LEN);
 	getcwd(path, PATH_MAX_LEN);
 	if (!ft_strncmp(s, "/", 1))
-		ret = ft_strndup("/", 1);
+		ret = ft_strndup(s, ft_strlen(s));
 	else
 		ret = ft_strsep(path, s, '/');
 	free(path);

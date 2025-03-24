@@ -48,12 +48,41 @@ typedef struct		s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
-typedef struct		s_data
+typedef struct		s_token
 {
+	char			*str;
+	int				type;
+	struct s_token	*next;
+	struct s_token	*prev;
+}					t_token;
+
+enum				e_token_type
+{
+	SPACES = 1, 
+	WORD,			// 2 WORD
+	ENV,			// 3 $
+	PIPE,			// 4 |
+	REDIRECT_IN,	// 5 <
+	REDIRECT_OUT,	// 6 >
+	APPEND,			// 7 <<
+	HEREDOC,		// 8 >>
+	END				// 9 '\0'
+};
+
+enum				e_quoting_status
+{
+	DEFAULT,
+	SQUOTE,
+	SQUOTE
+};
+
+typedef struct		env_data
+{
+	char			*user_input;
 	bool			work;
-	t_envp			*env;
-	t_cmd			*cmd;
-}					t_data;
+	t_envp			*envp_data;
+	t_cmd			*cmd_data;
+}					s_data;
 
 t_cmd	*parse_cmd(char *line);
 

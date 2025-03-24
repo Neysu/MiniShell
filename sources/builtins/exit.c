@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: egibeaux <egibeaux@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/24 22:29:27 by egibeaux          #+#    #+#             */
+/*   Updated: 2025/03/24 22:29:28 by egibeaux         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
-int		ft_exit(char *line)
+int		ft_exit(char *line, t_data *data)
 {
 	char	**args;
 	int		ret;
@@ -16,11 +28,13 @@ int		ft_exit(char *line)
 		ft_putendl_fd("exit", 1);
 		ret = ft_atol(args[1]);
 		if (ret < 1 || ret > 255)
-			exit(0);
+			data->ret = 0;
 		else
-			exit(ret);
+			data->ret = ret;
+		data->work = false;
 	}
 	else
 		exit(0);
 	return (0);
 }
+

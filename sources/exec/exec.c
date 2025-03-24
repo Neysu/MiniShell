@@ -11,9 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 char	**env_to_str(t_envp *envp)
 {
@@ -48,7 +45,6 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 		exit(0);
 	if (pid == 0)
 	{
-		open_inf(cmd_data->file, cmd_data);
 		path = findcmd(cmd_data, envp_data);
 		if (!path)
 			error_path(cmd_data->cmd[0]);
