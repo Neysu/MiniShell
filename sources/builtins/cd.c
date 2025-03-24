@@ -34,14 +34,27 @@ char	*find_home(t_envp *envp)
 	return (NULL);
 }
 
-int		change_dirs(t_envp *envp, char *line)
+char	*get_dirs(char *s)
 {
-	char	**args;
+	char	*ret;
 	char	*path;
-	char	*home;
 
 	path = ft_calloc(sizeof(char), PATH_MAX_LEN);
 	getcwd(path, PATH_MAX_LEN);
+	if (!ft_strncmp(s, "/", 1))
+		ret = ft_strndup("/", 1);
+	else
+		ret = ft_strsep(path, s, '/');
+	free(path);
+	return (ret);
+}
+
+int		change_dirs(t_envp *envp, char *line)
+{
+	char	**args;
+	char	*dir;
+	char	*home;
+
 	args = ft_split(line, ' ');
 	if (ft_arrlen(args) > 2)
 		return (ft_putendl_fd("Too much args", 2), 1);
@@ -53,11 +66,11 @@ int		change_dirs(t_envp *envp, char *line)
 	}
 	else
 	{
-		path = ft_strsep(path, args[1], '/');
-		if (chdir((const char *)path) == -1)
-			return (perror(path), 1);
+		dir = get_dirs(args[1]);
+		if (chdir((const char *)dir) == -1)
+			return (perror(dir), 1);
+		free(dir);
 	}
-	free(path);
 	ft_free_arr(args);
 	return (0);
 }

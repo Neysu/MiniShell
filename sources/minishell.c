@@ -21,10 +21,15 @@ char	*get_path()
 
 	path = ft_calloc(sizeof(char), PATH_MAX_LEN);
 	getcwd(path, PATH_MAX_LEN);
-	folders = ft_split(path, '/');
-	len = ft_arrlen(folders);
-	pos = ft_strjoin(folders[len - 1], " > ");
-	ft_free_arr(folders);
+	if (!ft_strncmp(path, "/", 1) && ft_strlen(path) == 1)
+		pos = ft_strdup("/ > ");
+	else
+	{
+		folders = ft_split(path, '/');
+		len = ft_arrlen(folders);
+		pos = ft_strjoin(folders[len - 1], " > ");
+		ft_free_arr(folders);
+	}
 	free(path);
 	return (pos);
 }
