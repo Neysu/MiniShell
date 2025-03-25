@@ -6,7 +6,7 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/24 23:28:02 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/25 22:39:19 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readline(pos);
 		data->cmd_data = parse_cmd(line);
 		if (is_builtin(line))
-			exec_buitlins(line, data->env_data, data);
+			exec_buitlins(line, data);
 		else
 			exec_cmd(data->cmd_data, data->env_data);
 		free(pos);
