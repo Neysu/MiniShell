@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/24 19:14:14 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:08:59 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,14 @@ int	main(int argc, char **argv, char **envp)
 		error_message("Could not initialize data");
 	while (1)
 	{
-		siginit();
-
+		set_signal_interactive();
 		line = readline(PROMPT);
-
+		set_signal_noninteractive();
+		// if (line == NULL)
+		// {
+		// 	printf("Ctrl-D\n");
+		// 	break;
+		// }
 		parsing(line, &data);
 		// if (is_builtin(line))
 		// 	exec_buitlins(line, data->envp);

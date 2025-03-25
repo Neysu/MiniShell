@@ -6,50 +6,53 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:47:29 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/24 19:07:36 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:59:52 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	sig_int(int code)
+void	signal_reset_prompt(int signal)
 {
-	(void)code;
-	if (g_sig.pid == 0)
-	{
-		ft_putstr_fd("\n", STDERR);
-		ft_putstr_fd(PROMPT, STDERR);
-		g_sig.exit_status = 1;
-	}
-	else
-	{
-		ft_putstr_fd("\n", STDERR);
-		ft_putstr_fd(PROMPT, STDERR);
-		g_sig.exit_status = 130;
-	}
-	g_sig.sigint = 1;
+	(void)signal;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
-void	sig_quit(int code)
+void	signal_newline(int signal)
 {
-	char	*num;
-
-	num = ft_itoa(code);
-	if (g_sig.pid != 0)
-	{
-		ft_putstr_fd("Quit: ", STDERR);
-		ft_putendl_fd(num, STDERR);
-		g_sig.exit_status = 131;
-		g_sig.sigquit = 1;
-	}
-	else
-		ft_putstr_fd("\b\b \b\b", STDERR);
+	(void)signal;
+	rl_on_new_line();
 }
 
-void	siginit(void)
+void	set_signal_interactive(void)
 {
-	g_sig.exit_status = 0;
-	g_sig.pid = 0;
-	g_sig.sigint = 0;
-	g_sig.sigquit = 0;
+	struct sigaction sig;
+
+	signal_ignore_sigquit();
+	ft_memset(&sig, 0, sizeof(sig));
+	sig.sa_handler = &signal_reset_prompt;
+	sigaction(SIGINT, &sig, NULL);
 }
+
+void	set_signal_noninteractive(void)
+{
+	struct sigaction sig;
+
+	ft_memset(&sig, 0, sizeof(sig));
+	sig.sa_handler = &signal_newline;
+	sigaction(SIGINT, &sig, NULL);
+	sigaction(SIGQUIT, &sig, NULL);
+}
+
+void	signal_ignore_sigquit(void)
+{
+	struct sigaction sig;
+
+	ft_memset(&sig, 0, sizeof(sig));
+	sig.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sig, NULL);
+}
+

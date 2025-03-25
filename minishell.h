@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/24 18:53:30 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:08:48 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define PROMPT "minishell > "
+# define PROMPT "\033[0;36mminishell>\033[0m "
 # define ERRORCMD "minishell : %s: unknown command\n"
 # define UNSETARGS "unset: not enough args"
 # define PATH_MAX_LEN 4096
@@ -140,9 +140,11 @@ bool	parser_user_input(t_data *data);
 int	envp_check(t_token **token_list);
 
 /*   parsing/signal.c   */
-void	sig_int(int code);
-void	sig_quit(int code);
-void	siginit(void);
+void	signal_reset_prompt(int signal);
+void	signal_newline(int signal);
+void	signal_ignore_sigquit(void);
+void	set_signal_interactive(void);
+void	set_signal_noninteractive(void);
 
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);

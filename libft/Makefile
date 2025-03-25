@@ -17,6 +17,7 @@ SRC = \
 	ft_mem/ft_memcpy.c \
 	ft_mem/ft_memmove.c \
 	ft_mem/ft_memset.c \
+	ft_mem/ft_memdel.c \
 	ft_put/ft_putchar_fd.c \
 	ft_put/ft_putendl_fd.c \
 	ft_put/ft_putnbr_fd.c \
