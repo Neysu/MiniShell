@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:20:56 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/23 19:22:26 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:09:22 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_separator(char *str, int i)
 {
-	if ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+	if (((str[i] > 8 && str[i] < 14) || str[i] == 32))
 		return (SPACES);
 	else if (str[i] == '|')
 		return (PIPE);
@@ -22,10 +22,10 @@ static int	is_separator(char *str, int i)
 		return (HEREDOC);
 	else if (str[i] == '>' && str[i + 1] == '>')
 		return (APPEND);
-	else if (str[i] == '>')
-		return (REDIRECT_IN);
 	else if (str[i] == '<')
 		return (REDIRECT_OUT);
+	else if (str[i] == '>')
+		return (REDIRECT_IN);
 	else if (str[i] == '\0')
 		return (END);
 	return (0);
@@ -35,11 +35,11 @@ static int	check_quotes(int status, char *str, int i)
 {
 	if (str[i] == '\'' && status == DEFAULT)
 		status = SQUOTE;
-	if (str[i] == '\"' && status == DEFAULT)
+	else if (str[i] == '\"' && status == DEFAULT)
 		status = DQUOTE;
-	if (str[i] == '\'' && status == SQUOTE)
+	else if (str[i] == '\'' && status == SQUOTE)
 		status = DEFAULT;
-	if (str[i] == '\"' && status == DQUOTE)
+	else if (str[i] == '\"' && status == DQUOTE)
 		status = DEFAULT;
 	return (status);
 }
@@ -127,41 +127,50 @@ int	save_separator(t_token **token_list, char *str, int index, int type)
 	return (0);
 }
 
+int	save_word_or_sep(int *i, char *str, int start, t_data *data)
+{
+	int	type;
+
+	type = is_separator(str, (*i));
+	if (type)
+	{
+		if ((*i) != 0 && is_separator(str, (*i) - 1) == 0)
+			save_word(&data->token, str, (*i), start);
+		if (type == PIPE || type == REDIRECT_IN ||type == REDIRECT_OUT || type == APPEND || type == HEREDOC || type == END)
+		{
+			save_separator(&data->token, str, (*i), type);
+			if (type == APPEND || type == HEREDOC)
+				(*i)++;
+		}
+		start = (*i) + 1;
+	}
+	return (start);
+}
+
 int	token_generator(t_data *data, char *str)
 {
-	int	str_len;
 	int	i;
-	int	type;
-	int	status;
+	int	str_len;
 	int	start;
+	int	status;
 
-	str_len = ft_strlen(str);
 	i = -1;
-	status = DEFAULT;
 	start = 0;
+	str_len = ft_strlen(str);
+	status = DEFAULT;
 	while (++i <= str_len)
 	{
 		status = check_quotes(status, str, i);
 		if (status == DEFAULT)
-		{
-			type = is_separator(str, i);
-			if (type)
-			{
-				if (i != 0 && is_separator(str, i - 1) == 0)
-					save_word(&data->token, str, i, start);
-				if (type == PIPE || type == REDIRECT_IN ||type == REDIRECT_OUT || type == APPEND || type == HEREDOC || type == END)
-				{
-					save_separator(&data->token, str, i, type);
-					if (type == APPEND || type == HEREDOC)
-						i++;
-				}
-				start = i + 1;
-			}
-		}
+			start = save_word_or_sep(&i, str, start, data);
 	}
 	if (status != DEFAULT)
 	{
-		error_message("Unclosed quotation mark detected");
+		if (status == DQUOTE)
+			error_message("Unclosed quotation mark detected", "\"", true);
+		else if (status == SQUOTE)
+			error_message("Unclosed quotation mark detected", "\'", true);
+		//error_message("Unclosed quotation mark detected", NULL, false);
 		return (1);
 	}
 	return (0);

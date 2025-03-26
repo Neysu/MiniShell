@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/25 18:08:48 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:01:53 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,10 @@ char	**env_to_str(t_envp *envp);
 void	ft_lstadd_back(t_envp **lst, char *envp);
 
 /*   utils/errors.c   */
-void	error_message(char *text_error);
+void	error_message(char *text_error, char *detail, int quote);
+
+/*   utils/errors.c   */
+void	free_ptr(void *ptr);
 
 /*   parsing/lexer.c   */
 int		token_generator(t_data *data, char *str);
@@ -145,6 +148,9 @@ void	signal_newline(int signal);
 void	signal_ignore_sigquit(void);
 void	set_signal_interactive(void);
 void	set_signal_noninteractive(void);
+
+/*   parsing/quotes_handler.c   */
+void	quotes_handler(t_data *data);
 
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);

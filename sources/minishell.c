@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/25 18:08:59 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/26 13:05:30 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	init_data(t_data *data, char **envp)
 	data->envp = get_env(envp);
 	if (!data->envp)
 	{
-		error_message("Could not initialize environment");
+		error_message("Could not initialize environment", NULL, false);
 		return (false);
 	}
 	data->user_input = NULL;
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	ft_memset(&data, 0, sizeof(t_data));
 	if (!init_data(&data, envp))
-		error_message("Could not initialize data");
+		error_message("Could not initialize data", NULL, false);
 	while (1)
 	{
 		set_signal_interactive();

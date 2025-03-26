@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/25 18:14:41 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/25 21:00:04 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ bool	parser_user_input(t_data *data)
 		return (false);
 	if (envp_check(&data->token) == FAILURE)
 		return (false);
+	quotes_handler(data);
 	return (true);
 }
 

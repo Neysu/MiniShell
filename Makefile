@@ -15,8 +15,10 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
 		$(SRCDIR)/$(PARSDIR)/envp_check.c \
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
+		$(SRCDIR)/$(PARSDIR)/quotes_handler.c \
 		$(SRCDIR)/$(PARSDIR)/signal.c \
 		$(SRCDIR)/$(PARSDIR)/lexer.c \
+		$(SRCDIR)/$(UTILS)/free.c \
 		$(SRCDIR)/$(UTILS)/errors.c \
 		$(SRCDIR)/$(UTILS)/tests.c
 
