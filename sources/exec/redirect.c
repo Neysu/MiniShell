@@ -26,8 +26,8 @@ int	redirect_out(t_cmd *cmd_data)
 {
 	if (pipe(cmd_data->pipefd) == -1)
 		return (1);
-	if (open_out(cmd_data->file, cmd_data))
-		return (1);
+	//if (open_out(cmd_data->file, cmd_data))
+	//	return (1);
 	if (dup2(cmd_data->pipefd[1], STDOUT_FILENO) == -1)
 		return (1);
 	(close(cmd_data->pipefd[0]), close(cmd_data->pipefd[1]));
@@ -46,8 +46,8 @@ int		open_inf(char *file, t_cmd *cmd_data)
 
 int	redirect_inf(t_cmd *cmd_data)
 {
-	if (open_inf(cmd_data->file, cmd_data))
-		return (1);
+	//if (open_inf(cmd_data->file, cmd_data))
+	//	return (1);
 	if (dup2(cmd_data->pipefd[1], STDOUT_FILENO) == -1)
 		return (1);
 	(close(cmd_data->pipefd[1]), close(cmd_data->pipefd[0]));

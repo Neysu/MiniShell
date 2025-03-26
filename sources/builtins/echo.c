@@ -36,10 +36,10 @@ int	ft_echo(char *line, t_data *data)
 	bool	new_line;
 
 	i = 1;
-	(void)data;
+	(void)line;
 	new_line = true;
-	tab = ft_split(line, ' ');
-	while (tab[i] && !ft_strncmp(tab[0], "-n", 2))
+	tab = data->cmd_data->cmd;
+	while (tab[i] && !ft_strncmp(tab[i], "-n", 2))
 	{
 		new_line = false;
 		i++;

@@ -30,6 +30,18 @@ char	**env_to_str(t_envp *envp)
 	return (env);
 }
 
+int	exec(t_data *data)
+{
+	t_token		*current;
+
+	current = data->token;
+	while (current)
+	{
+		if (current->type == PIPE)
+			redirect_inf(data->cmd_data);
+	}
+}
+
 int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 {
 	char	*path;

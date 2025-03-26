@@ -62,14 +62,13 @@ void	parsing(char *line, t_data *data)
 			show_lists(data);
 		i++;
 	}
-	
 }
 
 bool	parser_user_input(t_data *data)
 {
 	// if (data->user_input == NULL)
 	// 	Ctrl-D
-	if (!ft_strcmp(data->user_input, "\0"))
+	if (!ft_strncmp(data->user_input, "\0", 1))
 		return (false);
 	add_history(data->user_input);
 	if (token_generator(data, data->user_input) == FAILURE)
@@ -78,7 +77,7 @@ bool	parser_user_input(t_data *data)
 		return (false);
 	if (envp_check(&data->token) == FAILURE)
 		return (false);
-
+	data->cmd_data->cmd = get_cmd(data->token, data);
 	return (true);
 }
 
@@ -89,25 +88,22 @@ void show_lists(t_data *data)
 		printf("Data is NULL.\n");
 		return;
 	}
-	printf("User Input: %s\n", data->user_input ? data->user_input : "NULL");
-	printf("Work: %s\n", data->work ? "true" : "false");
+	//printf("User Input: %s\n", data->user_input ? data->user_input : "NULL");
+	//printf("Work: %s\n", data->work ? "true" : "false");
 	show_tokens(data);
 }
 
 void show_tokens(t_data *data)
 {
-	t_token	*current;
-
-	current = data->token;
 	if (!data->token)
 	{
 		printf("No tokens to display.\n");
 		return;
 	}
-	printf("Tokens:\n");
-	while (current)
+	//printf("Tokens:\n");
+	while (data->token)
 	{
-		printf("  Token: %s, Type: %d, Status: %d\n", current->str, current->type, current->status);
-		current = current->next;
+		//printf("  Token: %s, Type: %d, Status: %d\n", data->token->str, data->token->type, data->token->status);
+		data->token = data->token->next;
 	}
 }

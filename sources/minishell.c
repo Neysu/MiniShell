@@ -36,14 +36,15 @@ char	*get_path()
 
 void	ft_free_token(t_token *token)
 {
-	t_token	*tmp;
-
-	while (token)
-	{
-		tmp = token->next;
-		free(token);
-		token = tmp;
-	}
+	if (!token)
+		return ;
+	
+	if (token->str)
+		token->str = NULL;
+    token->type = 0;
+    token->status = 0;
+    token->next = NULL;
+    token->prev = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -64,14 +65,14 @@ int	main(int argc, char **argv, char **envp)
 		pos = get_path();
 		line = readline(pos);
 		parsing(line, data);
-		data->cmd_data->cmd = get_cmd(data->token);
+		//data->cmd_data->cmd = get_cmd(data->token);
 		if (is_builtin(line))
 			exec_buitlins(line, data);
 		else
 			exec_cmd(data->cmd_data, data->envp);
 		free(pos);
-		ft_free_arr(data->cmd_data->cmd);
-		ft_free_token(data->token);
+	//	ft_free_arr(data->cmd_data->cmd);
+	// 	ft_free_token(data->token);
 	}
 	ft_free_env(data->envp);
 	return (data->ret);

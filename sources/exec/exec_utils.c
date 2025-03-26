@@ -49,7 +49,7 @@ size_t	cmd_size(t_token *lst)
 
 	i = 0;
 	current = lst;
-	while (current && current->type == WORD)
+	while (current && (lst->type == WORD || lst ->type == ENV))
 	{
 		current = current->next;
 		i++;
@@ -57,21 +57,42 @@ size_t	cmd_size(t_token *lst)
 	return (i);
 }
 
-char	**get_cmd(t_token *lst)
+char	*get_env_var(char *s, t_envp *envp)
 {
-	t_token	*current;
+	t_envp	*current;
+	char	*var;
+
+	var = NULL;
+	current = envp;
+	while (current)
+	{
+		if (!ft_strncmp(current->var, s, ft_strlen(s)))
+		{
+			var = ft_strdup(current->var + ft_strpos(current->var, '=') + 1);
+			return (var);
+		}
+		current = current->next;
+	}
+	return (var);
+}
+
+char	**get_cmd(t_token *lst, t_data *data)
+{
 	char	**cmd;
 	size_t		i;
 
 	i = 0;
 	cmd = ft_calloc(sizeof(char *), cmd_size(lst) + 1);
-	current = lst;
-	while (current && current->type == WORD)
+	while (lst && (lst->type == WORD || lst ->type == ENV))
 	{
-		cmd[i] = ft_strdup(current->str);
+		if (lst->type == ENV)
+			cmd[i] = get_env_var(lst->str + 1, data->envp);
+		else
+			cmd[i] = ft_strdup(lst->str);
 		i++;
-		current = current->next;
+		lst = lst->next;
 	}
 	cmd[i] = NULL;
 	return (cmd);
 }
+

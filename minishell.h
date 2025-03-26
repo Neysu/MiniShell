@@ -134,7 +134,7 @@ int		open_inf(char *file, t_cmd *cmd_data);
 
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 
-char	**get_cmd(t_token *lst);
+char	**get_cmd(t_token *lst, t_data *data);
 char	**env_to_str(t_envp *envp);
 
 void	error_path(char *s);
