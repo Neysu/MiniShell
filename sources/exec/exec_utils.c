@@ -6,11 +6,12 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/17 22:23:23 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/26 02:30:35 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stddef.h>
 
 char	*findcmd(t_cmd *cmd_data, t_envp *envp)
 {
@@ -41,10 +42,36 @@ char	*findcmd(t_cmd *cmd_data, t_envp *envp)
 	return (ret);
 }
 
-void	error_path(char *s)
+size_t	cmd_size(t_token *lst)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(s, 2);
-	ft_putendl_fd(": No such file or directory", 2);
-	exit(127);
+	t_token	*current;
+	size_t	i;
+
+	i = 0;
+	current = lst;
+	while (current && current->type == WORD)
+	{
+		current = current->next;
+		i++;
+	}
+	return (i);
+}
+
+char	**get_cmd(t_token *lst)
+{
+	t_token	*current;
+	char	**cmd;
+	size_t		i;
+
+	i = 0;
+	cmd = ft_calloc(sizeof(char *), cmd_size(lst) + 1);
+	current = lst;
+	while (current && current->type == WORD)
+	{
+		cmd[i] = ft_strdup(current->str);
+		i++;
+		current = current->next;
+	}
+	cmd[i] = NULL;
+	return (cmd);
 }

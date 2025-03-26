@@ -39,6 +39,7 @@ SRC = \
 	ft_str/ft_substr.c \
 	ft_str/ft_strndup.c \
 	ft_str/ft_strnext.c \
+	ft_str/ft_strcmp.c \
 	ft_to/ft_tolower.c \
 	ft_to/ft_toupper.c \
 	free/ft_free_arr.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/24 00:08:12 by username         ###   ########.fr       */
+/*   Updated: 2025/03/26 00:35:46 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	**env_to_str(t_envp *envp)
 	return (env);
 }
 
-
 int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 {
 	char	*path;
@@ -39,7 +38,6 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 	pid_t	pid;
 
 	pipe(cmd_data->pipefd);
-
 	pid = fork();
 	if (pid == -1)
 		exit(0);
@@ -47,7 +45,7 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 	{
 		path = findcmd(cmd_data, envp_data);
 		if (!path)
-			error_path(cmd_data->cmd[0]);
+			perror(cmd_data->cmd[0]);
 		envp = env_to_str(envp_data);
 		if (execve(path, cmd_data->cmd, envp) == -1)
 			(ft_printf(ERRORCMD, cmd_data->cmd[0]), ft_free_arr(cmd_data->cmd), ft_free_arr(envp), exit(1));

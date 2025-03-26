@@ -1,6 +1,6 @@
 NAME = minishell
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 FLAGS = -lreadline
 LIB = libft/libft.a
 FT_PRINTF = ft_printf/ft_printf.a
@@ -23,6 +23,8 @@ SRC = $(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(BUILTDIR)/builtins.c \
 		$(SRCDIR)/$(BUILTDIR)/builtins_utils.c \
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
+		$(SRCDIR)/$(PARSDIR)/lexer.c \
+		$(SRCDIR)/$(PARSDIR)/envp_check.c \
 
 OBJ := $(SRC:.c=.o)
 

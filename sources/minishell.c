@@ -6,7 +6,7 @@
 /*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/25 22:39:19 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/26 02:32:06 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@ char	*get_path()
 	return (pos);
 }
 
+void	ft_free_token(t_token *token)
+{
+	t_token	*tmp;
+
+	while (token)
+	{
+		tmp = token->next;
+		free(token);
+		token = tmp;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -43,21 +55,25 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(sizeof(t_data), 1);
+	data->cmd_data = ft_calloc(sizeof(t_cmd), 1);
 	data->work = true;
 	data->ret = 0;
-	data->env_data = get_env(envp);
+	data->envp = get_env(envp);
 	while (data->work)
 	{
 		pos = get_path();
 		line = readline(pos);
-		data->cmd_data = parse_cmd(line);
+		parsing(line, data);
+		data->cmd_data->cmd = get_cmd(data->token);
 		if (is_builtin(line))
 			exec_buitlins(line, data);
 		else
-			exec_cmd(data->cmd_data, data->env_data);
+			exec_cmd(data->cmd_data, data->envp);
 		free(pos);
+		ft_free_arr(data->cmd_data->cmd);
+		ft_free_token(data->token);
 	}
-	ft_free_env(data->env_data);
+	ft_free_env(data->envp);
 	return (data->ret);
 }
 
