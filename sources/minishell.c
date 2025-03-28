@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/26 13:05:30 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:26:31 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ bool	init_data(t_data *data, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
 	// t_envp	*env_data;
 	// t_cmd	*cmd_data = NULL;
 	t_data	data;
@@ -44,14 +43,9 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		set_signal_interactive();
-		line = readline(PROMPT);
+		data.user_input = readline(PROMPT);
 		set_signal_noninteractive();
-		// if (line == NULL)
-		// {
-		// 	printf("Ctrl-D\n");
-		// 	break;
-		// }
-		parsing(line, &data);
+		parsing(&data);
 		// if (is_builtin(line))
 		// 	exec_buitlins(line, data->envp);
 		// else

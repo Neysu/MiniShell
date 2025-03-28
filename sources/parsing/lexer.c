@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:20:56 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/26 13:09:22 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:12:49 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	is_separator(char *str, int i)
 		return (REDIRECT_IN);
 	else if (str[i] == '\0')
 		return (END);
-	return (0);
+	else
+		return (0);
 }
 
 static int	check_quotes(int status, char *str, int i)
@@ -54,6 +55,7 @@ t_token	*lst_new_token(char *str, int type, int status)
 	new_node->str = str;
 	new_node->type = type;
 	new_node->status = status;
+	new_node->join = false;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
@@ -170,7 +172,7 @@ int	token_generator(t_data *data, char *str)
 			error_message("Unclosed quotation mark detected", "\"", true);
 		else if (status == SQUOTE)
 			error_message("Unclosed quotation mark detected", "\'", true);
-		//error_message("Unclosed quotation mark detected", NULL, false);
+		error_message("syntax error", "unexpected end of file", false);
 		return (1);
 	}
 	return (0);

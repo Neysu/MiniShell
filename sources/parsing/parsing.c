@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/25 21:00:04 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:20:27 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ int	is_builtin(char *line)
 // 	return (cmd_data);
 // }
 
-void	parsing(char *line, t_data *data)
+void	parsing(t_data *data)
 {
 	char	**user_input;
 
-	user_input = ft_split(line, ';');
+	user_input = ft_split(data->user_input, ';');
 	if (!user_input)
 		return ;
 	if (!data)
@@ -59,6 +59,8 @@ void	parsing(char *line, t_data *data)
 		data->user_input = ft_strdup(user_input[i]);
 		if (parser_user_input(data) == true)
 			show_lists(data);
+		else
+			free_data(data, false);
 		i++;
 	}
 }

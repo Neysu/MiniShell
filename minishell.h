@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/26 13:01:53 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/27 20:38:52 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define PROMPT "\033[0;36mminishell>\033[0m "
+//# define PROMPT "\033[0;36mminishell>\033[0m "
+//# define PROMPT "\033[1;38;5;207m \033[1;35mminishell\033[1;38;5;207m ❯\033[0m "
+# define PROMPT "\033[1;32m┌──(\033[1;34mminishell\033[1;32m)-[\033[0m\033[1;37m~\033[1;32m]\n└─\033[1;31m$\033[0m "
 # define ERRORCMD "minishell : %s: unknown command\n"
 # define UNSETARGS "unset: not enough args"
 # define PATH_MAX_LEN 4096
@@ -52,6 +54,7 @@ typedef struct		s_token
 	char			*str;
 	int				type;
 	int				status;
+	bool			join;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
@@ -126,17 +129,24 @@ void	error_message(char *text_error, char *detail, int quote);
 /*   utils/errors.c   */
 void	free_ptr(void *ptr);
 
+/*   utils/free.c   */
+void	free_data(t_data *data, bool clear_history);
+void	free_ptr(void *ptr);
+void	lst_clear_token(t_token **lst, void (*del)(void *));
+void	lst_delone_token(t_token *lst, void (*del)(void *));
+void	free_str_tab(char **tab);
+
 /*   parsing/lexer.c   */
 int		token_generator(t_data *data, char *str);
 t_token	*lst_new_token(char *str, int type, int status);
 void	lst_addback_token(t_token **token_list, t_token *new_node);
-int	save_word(t_token **token_list, char *str, int index, int start);
-int	save_separator(t_token **token_list, char *str, int index, int type);
+int		save_word(t_token **token_list, char *str, int index, int start);
+int		save_separator(t_token **token_list, char *str, int index, int type);
 
 /*   parsing/parsing.c   */
 int		is_builtin(char *line);
 t_cmd	*create_cmd(int type, char *cmd);
-void	parsing(char *line, t_data *data);
+void	parsing(t_data *data);
 bool	parser_user_input(t_data *data);
 
 /*   envp_check.c   */
@@ -150,7 +160,7 @@ void	set_signal_interactive(void);
 void	set_signal_noninteractive(void);
 
 /*   parsing/quotes_handler.c   */
-void	quotes_handler(t_data *data);
+int		quotes_handler(t_data *data);
 
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);
