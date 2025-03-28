@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/27 20:38:52 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/28 19:23:22 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ typedef struct		s_token
 
 typedef struct		s_cmd
 {
-	char			**cmd;
-	int				pipefd[2];
+	char 			*cmd;
+	char			**args;
+	int				*pipefd;
 	struct s_cmd	*next;
+	struct s_cmd	*prev;
 }					t_cmd;
 
 typedef struct		s_data
@@ -82,8 +84,6 @@ typedef struct		s_sig
 	int 			exit_status;
 	pid_t 			pid;
 }					t_sig;
-
-extern t_sig g_sig;
 
 enum				e_token_type{
 	SPACES = 1,
@@ -142,6 +142,9 @@ t_token	*lst_new_token(char *str, int type, int status);
 void	lst_addback_token(t_token **token_list, t_token *new_node);
 int		save_word(t_token **token_list, char *str, int index, int start);
 int		save_separator(t_token **token_list, char *str, int index, int type);
+
+/*   parsing/expand_variables.c   */
+int		expand_variables(t_data *data, t_token **tokens);
 
 /*   parsing/parsing.c   */
 int		is_builtin(char *line);
