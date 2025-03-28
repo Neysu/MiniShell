@@ -125,6 +125,8 @@ int		change_dirs(t_envp *envp, char *line);
 int		ft_unset(char *line, t_envp *envp_data);
 int		ft_export(char *line, t_envp *envp_data);
 
+
+int		exec(t_data *data);
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
 
 int		redirect_out(t_cmd *cmd_data);
@@ -134,11 +136,11 @@ int		open_inf(char *file, t_cmd *cmd_data);
 
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 
-char	**get_cmd(t_token *lst, t_data *data);
 char	**env_to_str(t_envp *envp);
 
 void	error_path(char *s);
 void	ft_free_env(t_envp *envp);
+void	get_cmd(t_token *lst, t_data *data);
 void	ft_lstadd_back_env(t_envp **lst, char *envp);
 
 /*   utils/errors.c   */

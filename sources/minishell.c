@@ -56,7 +56,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(sizeof(t_data), 1);
-	data->cmd_data = ft_calloc(sizeof(t_cmd), 1);
 	data->work = true;
 	data->ret = 0;
 	data->envp = get_env(envp);
@@ -65,11 +64,10 @@ int	main(int argc, char **argv, char **envp)
 		pos = get_path();
 		line = readline(pos);
 		parsing(line, data);
-		//data->cmd_data->cmd = get_cmd(data->token);
 		if (is_builtin(line))
 			exec_buitlins(line, data);
 		else
-			exec_cmd(data->cmd_data, data->envp);
+			exec(data);
 		free(pos);
 	//	ft_free_arr(data->cmd_data->cmd);
 	// 	ft_free_token(data->token);

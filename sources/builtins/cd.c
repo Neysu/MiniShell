@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <unistd.h>
 
 char	*find_home(t_envp *envp)
 {
@@ -61,7 +60,8 @@ int		change_dirs(t_envp *envp, char *line)
 	if (ft_arrlen(args) == 1)
 	{
 		home = find_home(envp);
-		chdir(home);
+		if (chdir((const char *)home) == -1)
+			return (perror(home), 1);
 		free(home);
 	}
 	else
@@ -74,3 +74,4 @@ int		change_dirs(t_envp *envp, char *line)
 	ft_free_arr(args);
 	return (0);
 }
+

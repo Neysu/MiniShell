@@ -12,22 +12,27 @@
 
 #include "../../minishell.h"
 
-char	**env_to_str(t_envp *envp)
+void	pipe_cmd(t_data	*data, t_cmd *cmd_data)
 {
-	char	**env;
-	t_envp	*current;
-	int		i;
+	pid_t	pid;
+	pid_t	pid2;
 
-	i = 0;
-	env = ft_calloc(sizeof(char *), ft_envsize(envp));
-	current = envp;
-	while (current->next)
+	pipe(cmd_data->pipefd);
+	pid = fork();
+	
+	if (pid == 0)
 	{
-		env[i] = ft_strdup(current->var);
-		i++;
-		current = current->next;
+		redirect_out(cmd_data);
+		exec_cmd(cmd_data, data->envp);
 	}
-	return (env);
+
+	pid2 = fork();
+
+	if (pid2 == 0)
+	{
+		redirect_inf(cmd_data);
+		exec_cmd(cmd_data->next, data->envp);
+	}
 }
 
 int	exec(t_data *data)
@@ -38,31 +43,23 @@ int	exec(t_data *data)
 	while (current)
 	{
 		if (current->type == PIPE)
-			redirect_inf(data->cmd_data);
+			pipe_cmd(data, data->cmd_data);
+		current = current->next;
 	}
+	return (0);
 }
 
 int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 {
 	char	*path;
 	char	**envp;
-	int		status;
-	pid_t	pid;
 
-	pipe(cmd_data->pipefd);
-	pid = fork();
-	if (pid == -1)
-		exit(0);
-	if (pid == 0)
-	{
-		path = findcmd(cmd_data, envp_data);
-		if (!path)
-			perror(cmd_data->cmd[0]);
-		envp = env_to_str(envp_data);
-		if (execve(path, cmd_data->cmd, envp) == -1)
-			(ft_printf(ERRORCMD, cmd_data->cmd[0]), ft_free_arr(cmd_data->cmd), ft_free_arr(envp), exit(1));
-	}
-	else
-		waitpid(pid, &status, 0);
+	path = findcmd(cmd_data, envp_data);
+	if (!path)
+		perror(cmd_data->cmd[0]);
+	envp = env_to_str(envp_data);
+	if (execve(path, cmd_data->cmd, envp) == -1)
+		(ft_printf(ERRORCMD, cmd_data->cmd[0]), ft_free_arr(cmd_data->cmd), ft_free_arr(envp), exit(1));
+	
 	return (0);
 }

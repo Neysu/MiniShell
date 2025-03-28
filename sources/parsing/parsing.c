@@ -77,7 +77,7 @@ bool	parser_user_input(t_data *data)
 		return (false);
 	if (envp_check(&data->token) == FAILURE)
 		return (false);
-	data->cmd_data->cmd = get_cmd(data->token, data);
+	get_cmd(data->token, data);
 	return (true);
 }
 
