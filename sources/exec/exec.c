@@ -41,18 +41,20 @@ void	pipe_cmd(t_data *data, t_cmd *cmd_data)
 	while (waitpid(pid, &status, 0) > 0);
 }
 
-
 int	exec(t_data *data)
 {
 	t_token		*current;
 
 	current = data->token;
+	printf("%d\n", data->token->type);
 	while (current)
 	{
 		if (current->type == PIPE)
 			pipe_cmd(data, data->cmd_data);
 		else if (current->type == REDIRECT_OUT)
-			
+			redirect_out(data->cmd_data, data);
+		else
+			printf("cacaacacaca\n");
 		current = current->next;
 	}
 	return (0);

@@ -53,6 +53,7 @@ typedef struct		s_cmd
 	int				pipefd[2];
 	int				outfile;
 	int				infile;
+	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -130,7 +131,7 @@ int		ft_export(char *line, t_envp *envp_data);
 int		exec(t_data *data);
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
 
-int		redirect_out(t_cmd *cmd_data);
+int		redirect_out(t_cmd *cmd_data, t_data *data);
 int		redirect_inf(t_cmd *cmd_data);
 int		open_out(char *file, t_cmd *cmd_data);
 int		open_inf(char *file, t_cmd *cmd_data);
@@ -151,8 +152,8 @@ void	error_message(char *text_error);
 int		token_generator(t_data *data, char *str);
 t_token	*lst_new_token(char *str, int type, int status);
 void	lst_addback_token(t_token **token_list, t_token *new_node);
-int	save_word(t_token **token_list, char *str, int index, int start);
-int	save_separator(t_token **token_list, char *str, int index, int type);
+int		save_word(t_token **token_list, char *str, int index, int start);
+int		save_separator(t_token **token_list, char *str, int index, int type);
 
 /*   parsing/parsing.c   */
 int		is_builtin(char *line);

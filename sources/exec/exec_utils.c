@@ -114,6 +114,7 @@ static void	lst_back_cmd(t_cmd **head, t_cmd *new)
 void	get_cmd(t_token *lst, t_data *data)
 {
 	t_cmd	*current;
+	t_token *lst;
 	size_t	i;
 
 	data->cmd_data = NULL;

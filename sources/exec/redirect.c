@@ -22,12 +22,40 @@ int		open_out(char *file, t_cmd *cmd_data)
 	return (0);
 }
 
-int	redirect_out(t_cmd *cmd_data)
+static char	*find_file(t_token *token)
 {
-	close(cmd_data->pipefd[0]);
-	if (dup2(cmd_data->pipefd[1], STDOUT_FILENO) == -1)
-		return (1);
-	(close(cmd_data->pipefd[1]));
+	t_token	*current;
+	char	*file;
+
+	current = token;
+	file = NULL;
+	while (current->next)
+	{
+		if (current->type == REDIRECT_OUT && current->next->type == WORD)
+			file = ft_strdup(current->next->str);
+		current = current->next;
+	}
+	return (file);
+}
+
+int	redirect_out(t_cmd *cmd_data, t_data *data)
+{
+	pid_t	pid;
+	int		status;
+	printf("aaaaaaaaaaaaaaaaaaaaaaaaaa\n");
+
+	pipe(cmd_data->pipefd);
+	pid = fork();
+	cmd_data->file = find_file(data->token);
+	printf("%s\n", cmd_data->file);
+	if (pid == 0)
+	{
+		if (open_out(cmd_data->file, cmd_data))
+			return (1);
+		exec_cmd(cmd_data, data->envp);
+	}
+	free(cmd_data->file);
+	waitpid(pid, &status, 0);
 	return (0);
 }
 
