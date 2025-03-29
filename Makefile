@@ -1,6 +1,6 @@
 NAME = minishell
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 FLAGS = -lreadline
 LIB = libft/libft.a
 FT_PRINTF = ft_printf/ft_printf.a

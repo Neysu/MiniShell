@@ -49,12 +49,11 @@ size_t	cmd_size(t_token *lst)
 
 	i = 0;
 	current = lst;
-	while (current && (lst->type == WORD || lst ->type == ENV))
+	while (current && (current->type == WORD || current->type == ENV))
 	{
 		current = current->next;
 		i++;
 	}
-	printf("%zu\n", i);
 	return (i);
 }
 
@@ -95,30 +94,47 @@ char	*get_env_var(char *s, t_envp *envp)
 	return (var);
 }
 
+static void	lst_back_cmd(t_cmd **head, t_cmd *new)
+{
+	t_cmd	*tmp;
+
+	if (!head || !new)
+		return ;
+	if (!*head)
+	{
+		*head = new;
+		return ;
+	}
+	tmp = *head;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
 void	get_cmd(t_token *lst, t_data *data)
 {
 	t_cmd	*current;
-	size_t		i;
+	size_t	i;
 
-	i = 0;
-	current = data->cmd_data;
+	data->cmd_data = NULL;
 	while (lst)
 	{
-		current = ft_calloc(sizeof(t_cmd), 1);
-		if (lst->type == WORD || lst->type == ENV)
-			current->cmd = ft_calloc(sizeof(char *), 5000);
-		while (lst && (lst->type == WORD || lst ->type == ENV))
+		current = ft_calloc(1, sizeof(t_cmd));
+		if (!current)
+			return ;
+		lst_back_cmd(&data->cmd_data, current);
+		if ((lst->type == WORD || lst->type == ENV) && (current->cmd = ft_calloc(cmd_size(lst) + 1, sizeof(char *))))
 		{
-			if (lst->type == ENV)
-				current->cmd[i] = get_env_var(lst->str + 1, data->envp);
-			else
-				current->cmd[i] = ft_strdup(lst->str);
-			i++;
-			lst = lst->next;
+			i = 0;
+			while (lst && (lst->type == WORD || lst->type == ENV))
+			{
+				current->cmd[i++] = (lst->type == ENV) ? get_env_var(lst->str + 1, data->envp) : ft_strdup(lst->str);
+				lst = lst->next;
+			}
+			current->cmd[i] = NULL;
 		}
-		current->cmd[i++] = NULL;
-		current = current->next;
-		lst = lst->next;
+		if (lst)
+			lst = lst->next;
 	}
 }
 

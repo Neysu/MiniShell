@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	data = ft_calloc(sizeof(t_data), 1);
+	data->cmd_data = ft_calloc(sizeof(t_cmd), 1);
 	data->work = true;
 	data->ret = 0;
 	data->envp = get_env(envp);

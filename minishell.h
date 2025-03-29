@@ -58,6 +58,7 @@ typedef struct		s_cmd
 
 typedef struct		s_token
 {
+	char			**cmd;
 	char			*str;
 	int				type;
 	int				status;

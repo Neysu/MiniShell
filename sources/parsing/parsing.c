@@ -58,8 +58,6 @@ void	parsing(char *line, t_data *data)
 	while (user_input[i])
 	{
 		data->user_input = ft_strdup(user_input[i]);
-		if (parser_user_input(data) == true)
-			show_lists(data);
 		i++;
 	}
 }
@@ -81,29 +79,3 @@ bool	parser_user_input(t_data *data)
 	return (true);
 }
 
-void show_lists(t_data *data)
-{
-	if (!data)
-	{
-		printf("Data is NULL.\n");
-		return;
-	}
-	//printf("User Input: %s\n", data->user_input ? data->user_input : "NULL");
-	//printf("Work: %s\n", data->work ? "true" : "false");
-	show_tokens(data);
-}
-
-void show_tokens(t_data *data)
-{
-	if (!data->token)
-	{
-		printf("No tokens to display.\n");
-		return;
-	}
-	//printf("Tokens:\n");
-	while (data->token)
-	{
-		//printf("  Token: %s, Type: %d, Status: %d\n", data->token->str, data->token->type, data->token->status);
-		data->token = data->token->next;
-	}
-}

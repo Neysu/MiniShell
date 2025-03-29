@@ -12,28 +12,35 @@
 
 #include "../../minishell.h"
 
-void	pipe_cmd(t_data	*data, t_cmd *cmd_data)
+void	pipe_cmd(t_data *data, t_cmd *cmd_data)
 {
-	pid_t	pid;
-	pid_t	pid2;
+	pid_t pid;
+	int pipefd[2], status;
 
-	pipe(cmd_data->pipefd);
-	pid = fork();
-	
-	if (pid == 0)
+	if (!cmd_data || !cmd_data->next)
+		return (perror("Invalid input or no pipes"), exit(EXIT_FAILURE));
+	while (cmd_data)
 	{
-		redirect_out(cmd_data);
-		exec_cmd(cmd_data, data->envp);
+		if (pipe(pipefd) == -1)
+			return (perror("pipe failed"), exit(EXIT_FAILURE));
+		if ((pid = fork()) == -1)
+			return (perror("fork failed"), exit(EXIT_FAILURE));
+		if (pid == 0)
+		{
+			if (cmd_data->prev)
+				dup2(pipefd[0], STDIN_FILENO);
+			if (cmd_data->next)
+				dup2(pipefd[1], STDOUT_FILENO);
+			close(pipefd[0]), close(pipefd[1]);
+			exec_cmd(cmd_data, data->envp);
+			perror("exec_cmd failed"), exit(EXIT_FAILURE);
+		}
+		close(pipefd[0]), close(pipefd[1]);
+		cmd_data = cmd_data->next;
 	}
-
-	pid2 = fork();
-
-	if (pid2 == 0)
-	{
-		redirect_inf(cmd_data);
-		exec_cmd(cmd_data->next, data->envp);
-	}
+	while (waitpid(pid, &status, 0) > 0);
 }
+
 
 int	exec(t_data *data)
 {
@@ -44,6 +51,8 @@ int	exec(t_data *data)
 	{
 		if (current->type == PIPE)
 			pipe_cmd(data, data->cmd_data);
+		else if (current->type == REDIRECT_OUT)
+			
 		current = current->next;
 	}
 	return (0);
@@ -60,6 +69,5 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 	envp = env_to_str(envp_data);
 	if (execve(path, cmd_data->cmd, envp) == -1)
 		(ft_printf(ERRORCMD, cmd_data->cmd[0]), ft_free_arr(cmd_data->cmd), ft_free_arr(envp), exit(1));
-	
 	return (0);
 }
