@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/28 19:23:22 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/30 14:31:18 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 # define SUCCESS 0
 # define FAILURE 1
 
+extern int	g_exit_code;
+
 typedef struct		s_envp
 {
 	char			*var;
@@ -55,6 +57,7 @@ typedef struct		s_token
 	int				type;
 	int				status;
 	bool			join;
+	bool			var_exist;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;

@@ -6,12 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/27 17:26:31 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/30 14:39:36 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	g_exit_code;
 t_sig g_sig;
 
 bool	init_data(t_data *data, char **envp)
@@ -26,6 +27,7 @@ bool	init_data(t_data *data, char **envp)
 	data->work = true;
 	data->token = NULL;
 	data->cmd = NULL;
+	g_exit_code = 0;
 	return (true);
 }
 
