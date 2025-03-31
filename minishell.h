@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/30 14:31:18 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/31 17:15:55 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@
 # define SUCCESS 0
 # define FAILURE 1
 
-extern int	g_exit_code;
-
 typedef struct		s_envp
 {
 	char			*var;
@@ -75,6 +73,7 @@ typedef struct		s_data
 {
 	char			*user_input;
 	bool			work;
+	int				exit_code;
 	t_envp			*envp;
 	t_token			*token;
 	t_cmd			*cmd;
@@ -167,6 +166,9 @@ void	set_signal_noninteractive(void);
 
 /*   parsing/quotes_handler.c   */
 int		quotes_handler(t_data *data);
+
+/*   parsing/create_commands.c   */
+void create_commands(t_data *data, t_token *token);
 
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:15:16 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/30 19:32:42 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/31 16:54:04 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ bool	between_quotes(char *str, int i)
 {
 	if (i > 0)
 	{
-		if (str[i - 1] == '\"' || str[i + 1] == '\'')
+		if (str[i - 1] == '\'' || str[i + 1] == '\'' || str[0] == '\'')
 			return (true);
 		else
 			return (false);
@@ -88,7 +88,7 @@ char	*search_name_var(char *str)
 		if (str[i] == '$')
 		{
 			start = i + 1;
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -115,7 +115,6 @@ int	var_exist(t_data *data, char *var)
 			return (0);
 		temp = temp->next;
 	}
-	//data->envp = temp;
 	return (1);
 }
 
@@ -134,7 +133,6 @@ char	*get_env_value(t_data *data, char *var)
 		temp = temp->next;
 	}
 	value = ft_strdup(temp->var + len);
-	//data->envp = temp;
 	return (value);
 }
 
@@ -152,7 +150,7 @@ char	*get_var_value(t_token *token, char *str, t_data *data)
 	}
 	else if (name_var && name_var[0] == '?' && name_var[1] == '=')
 	{
-		value = ft_itoa(g_exit_code);
+		value = ft_itoa(data->exit_code);
 	}
 	else
 		value = NULL;
@@ -212,7 +210,6 @@ char	*get_new_token_str(char *str, char *var_value, int new_str_size, int index)
 	i = 0;
 	j = 0;
 	k = 0;
-	printf("gnt_var_value: %s\n", var_value);
 	new_str = malloc(sizeof(char) * new_str_size);
 	if (!new_str)
 		return (NULL);

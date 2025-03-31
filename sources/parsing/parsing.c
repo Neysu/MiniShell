@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/30 15:22:33 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/31 17:14:45 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	parsing(t_data *data)
 		if (parser_user_input(data) == true)
 			show_lists(data);
 		else
-			free_data(data, false);
+			data->exit_code = 1;
+		free_data(data, false);
 		i++;
 	}
 }
@@ -80,6 +81,7 @@ bool	parser_user_input(t_data *data)
 		return (false);
 	expand_variables(data, &data->token);
 	quotes_handler(data);
+	create_commands(data, data->token);
 	return (true);
 }
 
