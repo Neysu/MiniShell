@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/01 18:00:12 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/01 21:25:17 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,9 @@ void parse_word(t_data *data, t_token **token)
 			}
 			temp = temp->next;
 		}
-		else if (temp->type & (PIPE | REDIRECT_IN | REDIRECT_OUT | APPEND | HEREDOC))
+		else if (temp->type == PIPE || temp->type == REDIRECT_IN
+			|| temp->type == REDIRECT_OUT || temp->type == APPEND
+			|| temp->type == HEREDOC)
 		{
 			new_cmd->type = temp->type;
 			temp = temp->next;
