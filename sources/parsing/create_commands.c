@@ -35,7 +35,7 @@ t_cmd	*lst_add_new_cmd(char *str)
 	if (!new_node)
 		return (NULL);
 	ft_memset(new_node, 0 , sizeof(t_cmd));
-	new_node->cmd = str;
+	new_node->cmd = ft_split(str, ' ');
 	//new_node->args = NULL;
 	new_node->next = NULL;
 	new_node->prev = NULL;

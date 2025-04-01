@@ -62,7 +62,7 @@ typedef struct		s_token
 
 typedef struct		s_cmd
 {
-	char 			*cmd;
+	char 			**cmd;
 //	char			**args;
 	int				type;
 	int				pipefd[2];
