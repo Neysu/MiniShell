@@ -10,11 +10,22 @@ void show_tokens(t_data *data)
 		printf("No tokens to display.\n");
 		return;
 	}
-	printf("Tokens:\n");
+	if (!data->cmd)
+	{
+		printf("Command list is empty.\n");
+		return;
+	}
+	printf("\033[1;32mTokens:\033[0m\n");
 	while (data->token)
 	{
-		printf("  Token: %s, Type: %d, Status: %d\n", data->token->str, data->token->type, data->token->status);
+		printf("   Token:\033[30;32m %s \033[0m, Type: %d, Status: %d\n", data->token->str, data->token->type, data->token->status);
 		data->token = data->token->next;
+	}
+	printf("\033[1;34mCommands:\033[0m\n");
+	while (data->cmd)
+	{
+		printf("   Command:\033[30;34m %s \033[0m, Type: %d\n", data->cmd->cmd, data->cmd->type);
+		data->cmd = data->cmd->next;
 	}
 }
 

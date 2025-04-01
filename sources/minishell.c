@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/31 16:04:26 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:20:15 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+
 	ft_memset(&data, 0, sizeof(t_data));
 	if (!init_data(&data, envp))
 		error_message("Could not initialize data", NULL, false);
 	while (1)
 	{
+
 		set_signal_interactive();
 		data.user_input = readline(PROMPT);
 		set_signal_noninteractive();
