@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/31 20:48:21 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/04 19:39:55 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct		s_token
 typedef struct		s_cmd
 {
 	char 			**cmd;
+	char 			*cmd_name;
 //	char			**args;
 	int				type;
 	int				pipefd[2];
