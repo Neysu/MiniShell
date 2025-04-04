@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 02:27:58 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/20 22:34:33 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/29 23:24:13 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+#include <stddef.h>
 
 void	put_env(t_envp *envp_data)
 {
@@ -57,7 +58,7 @@ int		modify_var(char *var, t_envp *envp_data)
 	current = envp_data;
 	while (current)
 	{
-		if (!ft_strncmp(current->var, var, ft_strpos(var, '=') - 1))
+		if (!ft_strncmp(current->var, var, (size_t) ft_strchr(var, '=') - 1))
 		{
 			free(current->var);
 			current->var = NULL;

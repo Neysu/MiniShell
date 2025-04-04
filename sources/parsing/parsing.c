@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/26 02:10:11 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:50:28 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,24 @@ int	is_builtin(char *line)
 // 	return (cmd_data);
 // }
 
-void	parsing(char *line, t_data *data)
+void	parsing(t_data *data)
 {
 	char	**user_input;
-	int		i;
 
-	user_input = ft_split(line, ';');
+	user_input = ft_split(data->user_input, ';');
 	if (!user_input)
 		return ;
 	if (!data)
 		return ;
-	i = 0;
+	int i = 0;
 	while (user_input[i])
 	{
 		data->user_input = ft_strdup(user_input[i]);
+		if (parser_user_input(data) == true)
+			show_lists(data);
+		else
+			data->exit_code = 1;
+		free_data(data, false);
 		i++;
 	}
 }
@@ -66,7 +70,7 @@ bool	parser_user_input(t_data *data)
 {
 	// if (data->user_input == NULL)
 	// 	Ctrl-D
-	if (!ft_strncmp(data->user_input, "\0", 1))
+	if (ft_strcmp(data->user_input, "\0") == 0)
 		return (false);
 	add_history(data->user_input);
 	if (token_generator(data, data->user_input) == FAILURE)
@@ -75,7 +79,12 @@ bool	parser_user_input(t_data *data)
 		return (false);
 	if (envp_check(&data->token) == FAILURE)
 		return (false);
-	get_cmd(data->token, data);
+	expand_variables(data, &data->token);
+	quotes_handler(data);
+	create_commands(data, data->token);
 	return (true);
 }
+
+
+
 

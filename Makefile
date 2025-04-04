@@ -1,30 +1,28 @@
 NAME = minishell
-CC = clang
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g
 FLAGS = -lreadline
 LIB = libft/libft.a
 FT_PRINTF = ft_printf/ft_printf.a
 SRCDIR = sources
 EXECDIR = exec
 PARSDIR = parsing
-BUILTDIR = builtins
-SRC = $(SRCDIR)/minishell.c \
+UTILS = utils
+SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/get_env.c \
 		$(SRCDIR)/$(EXECDIR)/exec.c \
+		$(SRCDIR)/$(EXECDIR)/builtins.c \
+		$(SRCDIR)/$(EXECDIR)/builtins_utils.c \
 		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
-		$(SRCDIR)/$(EXECDIR)/redirect.c \
-		$(SRCDIR)/$(BUILTDIR)/exit.c \
-		$(SRCDIR)/$(BUILTDIR)/cd.c \
-		$(SRCDIR)/$(BUILTDIR)/echo.c \
-		$(SRCDIR)/$(BUILTDIR)/env.c \
-		$(SRCDIR)/$(BUILTDIR)/pwd.c \
-		$(SRCDIR)/$(BUILTDIR)/unset.c \
-		$(SRCDIR)/$(BUILTDIR)/export.c \
-		$(SRCDIR)/$(BUILTDIR)/builtins.c \
-		$(SRCDIR)/$(BUILTDIR)/builtins_utils.c \
-		$(SRCDIR)/$(PARSDIR)/parsing.c \
-		$(SRCDIR)/$(PARSDIR)/lexer.c \
+		$(SRCDIR)/$(PARSDIR)/create_commands.c \
 		$(SRCDIR)/$(PARSDIR)/envp_check.c \
+		$(SRCDIR)/$(PARSDIR)/expand_variables.c \
+		$(SRCDIR)/$(PARSDIR)/parsing.c \
+		$(SRCDIR)/$(PARSDIR)/quotes_handler.c \
+		$(SRCDIR)/$(PARSDIR)/signal.c \
+		$(SRCDIR)/$(PARSDIR)/lexer.c \
+		$(SRCDIR)/$(UTILS)/free.c \
+		$(SRCDIR)/$(UTILS)/errors.c \
+		$(SRCDIR)/$(UTILS)/tests.c
 
 OBJ := $(SRC:.c=.o)
 

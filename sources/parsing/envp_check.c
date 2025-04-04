@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/25 22:51:50 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/25 22:55:56 by egibeaux         ###   ########.fr       */
+/*   Created: 2025/03/23 17:51:19 by rureshet          #+#    #+#             */
+/*   Updated: 2025/03/26 13:11:56 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	envp_check(t_token **token_list)
 	/* if the pipe is at the beginning of the list */
 	if (temp->type == PIPE)
 	{
-		ft_putendl_fd("syntax error near unexpected token", 2);
+		error_message("syntax error near unexpected token", "|", true);
 		return (FAILURE);
 	}
 	while (temp)

@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/26 01:39:39 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/26 01:40:07 by egibeaux         ###   ########.fr       */
+/*   Created: 2024/07/10 11:32:55 by rureshet          #+#    #+#             */
+/*   Updated: 2025/03/17 20:14:21 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../libft.h"
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -23,3 +21,4 @@ int	ft_strcmp(char *s1, char *s2)
 	}
 	return (s1[i] - s2[i]);
 }
+

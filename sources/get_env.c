@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:33:00 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/25 23:17:34 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:34:47 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_envp	*ft_lstnew_env(char *envp)
 	return (var);
 }
 
-void	ft_lstadd_back_env(t_envp **lst, char *envp)
+void	ft_lstadd_back(t_envp **lst, char *envp)
 {
 	t_envp	*new;
 	t_envp	*current;
@@ -60,18 +60,6 @@ void	ft_lstadd_back_env(t_envp **lst, char *envp)
 	}
 }
 
-void	ft_free_env(t_envp *envp)
-{
-	t_envp	*tmp;
-
-	while (envp)
-	{
-		tmp = envp->next;
-		free(envp);
-		envp = tmp;
-	}
-}
-
 t_envp	*get_env(char **envp)
 {
 	int		i;
@@ -81,7 +69,7 @@ t_envp	*get_env(char **envp)
 	env = NULL;
 	while (envp[i])
 	{
-		ft_lstadd_back_env(&env, envp[i]);
+		ft_lstadd_back(&env, envp[i]);
 		i++;
 	}
 	return (env);

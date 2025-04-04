@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:29:27 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/24 22:29:28 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/03/29 23:21:52 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		ft_exit(char *line, t_data *data)
 	else if (ft_arrlen(args) == 2)
 	{
 		ft_putendl_fd("exit", 1);
-		ret = ft_atol(args[1]);
+		ret = ft_atoi(args[1]);
 		if (ret < 1 || ret > 255)
 			data->ret = 0;
 		else

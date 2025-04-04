@@ -1,5 +1,5 @@
 # Compiler and flags
-CC = clang
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 # Library name
@@ -24,7 +24,7 @@ SRC = \
 	ft_put/ft_putstr_fd.c \
 	ft_put/ft_puttab_fd.c \
 	ft_str/ft_strchr.c \
-	ft_str/ft_strpos.c \
+	ft_str/ft_strcmp.c \
 	ft_str/ft_strdup.c \
 	ft_str/ft_striteri.c \
 	ft_str/ft_strjoin.c \
@@ -40,7 +40,6 @@ SRC = \
 	ft_str/ft_substr.c \
 	ft_str/ft_strndup.c \
 	ft_str/ft_strnext.c \
-	ft_str/ft_strcmp.c \
 	ft_to/ft_tolower.c \
 	ft_to/ft_toupper.c \
 	free/ft_free_arr.c \
@@ -49,8 +48,8 @@ SRC = \
 	get_next_line/get_next_line.c \
 	other/ft_split.c \
 	other/ft_atoi.c \
-	other/ft_atol.c \
 	other/ft_calloc.c \
+	other/ft_realloc.c \
 	other/ft_itoa.c \
 	other/ft_bzero.c \
 

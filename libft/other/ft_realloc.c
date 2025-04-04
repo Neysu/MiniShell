@@ -1,29 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strpos.c                                        :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egibeaux <egibeaux@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 23:29:34 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/20 23:49:28 by egibeaux         ###   ########.fr       */
+/*   Created: 2025/04/03 18:36:19 by egibeaux          #+#    #+#             */
+/*   Updated: 2025/04/03 18:47:27 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-int	ft_strpos(char *s, char c)
+void	*ft_realloc(void *ptr, size_t size)
 {
-	int		i;
-	int		ret;
+	void	*new_ptr;
 
-	i = 0;
-	ret = 0;
-	while (s[i])
+	new_ptr = NULL;
+	if (!ptr)
 	{
-		if (s[i] == c)
-			ret = i;
-		i++;
+		ptr = malloc(size);
+		if (!ptr)
+			return (NULL);
 	}
-	return (ret);
+	else if (size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	else
+	{
+		new_ptr = malloc(size);
+		ft_memcpy(new_ptr, ptr, size);
+	}
+
+	free(ptr);
+	return (new_ptr);
 }

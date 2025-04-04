@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 11:10:43 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/01/19 17:45:10 by elliot           ###   ########.fr       */
+/*   Created: 2025/03/09 12:20:54 by elliot            #+#    #+#             */
+/*   Updated: 2025/03/11 17:52:58 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../../minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, unsigned int n)
+int	exec_buitlins(char *line, t_envp *env_data)
 {
-	unsigned int	i;
-
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (i < n - 1 && s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	if (!ft_strncmp(line, "env", 3))
+		print_env(env_data);
+	if (!ft_strncmp(line, "pwd", 3))
+		print_pwd(line);
+	if (!ft_strncmp(line, "echo", 4))
+		ft_echo(line);
+	if (!ft_strncmp(line, "unset", 5))
+		ft_unset(line, env_data);
+	if (!ft_strncmp(line, "cd", 2))
+		change_dirs(env_data, line);
+	return (0);
 }
