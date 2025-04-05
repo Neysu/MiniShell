@@ -14,7 +14,7 @@ void show_tokens(t_data *data)
 	printf("\033[1;32mTokens:\033[0m\n");
 	while (data->token)
 	{
-		printf("   Token:\033[30;32m %s \033[0m, Type: %d, Status: %d\n", data->token->str, data->token->type, data->token->status);
+		printf("   Token:\033[30;32m %s \033[0m, Type: %d\n", data->token->str, data->token->type);
 		data->token = data->token->next;
 	}
 
@@ -34,14 +34,14 @@ void show_commands(t_data *data)
 
 	while (current)
 	{
-		printf("   Command #%d (Type: %d):\n", cmd_num, current->type);
+		printf("   Command #%d (Type: %d, Name cmd: %s):\n", cmd_num, current->type, current->cmd_name);
 
 		if (current->cmd)
 		{
 			int i = 0;
 			while (current->cmd[i])
 			{
-				printf("      Arg %d: \033[30;34m%s\033[0m\n", i, current->cmd[i] ? current->cmd[i] : "(null)");
+				printf("      cmd[%d] : \033[30;34m%s\033[0m\n", i, current->cmd[i] ? current->cmd[i] : "(null)");
 				i++;
 			}
 		}

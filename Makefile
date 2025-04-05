@@ -26,29 +26,38 @@ SRC =	$(SRCDIR)/minishell.c \
 
 OBJ := $(SRC:.c=.o)
 
+GREEN = \033[0;32m
+RED = \033[0;31m
+NC = \033[0m
+
 all: $(NAME)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
 $(NAME): $(OBJ) $(LIB) $(FT_PRINTF)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(FT_PRINTF) $(LIB) $(FLAGS)
+	@echo "$(GREEN)Linking $(NAME)...$(NC)"
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(FT_PRINTF) $(LIB) $(FLAGS)
+	@echo "$(GREEN)Done!$(NC)"
+
+%.o: %.c
+	@echo "$(GREEN)Compiling $<...$(NC)"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIB):
-	$(MAKE) -C libft
+	@$(MAKE) -s -C libft
 
 $(FT_PRINTF):
-	$(MAKE) -C ft_printf
+	@$(MAKE) -s -C ft_printf
 
 clean:
-	$(MAKE) clean -C libft
-	$(MAKE) clean -C ft_printf
-	rm -f $(OBJ)
+	@echo "$(RED)Cleaning object files...$(NC)"
+	@$(MAKE) clean -s -C libft
+	@$(MAKE) clean -s -C ft_printf
+	@rm -f $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
-	$(MAKE) fclean -C libft
-	$(MAKE) fclean -C ft_printf
+	@echo "$(RED)Full clean...$(NC)"
+	@rm -f $(NAME)
+	@$(MAKE) fclean -s -C libft
+	@$(MAKE) fclean -s -C ft_printf
 
 re: fclean all
 

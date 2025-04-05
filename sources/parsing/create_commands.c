@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/04 21:36:23 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:48:02 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
 
 	i = 0;
 	temp = *token_node;
-	nb_args = args_count(temp);
+	nb_args = 1;
 	last_cmd->cmd = malloc(sizeof(char *) * (nb_args + 2));
 	if (!last_cmd->cmd)
 		return (FAILURE);
@@ -104,6 +104,25 @@ int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
 		temp = temp->next;
 	}
 	last_cmd->cmd[i] = NULL;
+	*token_node = temp;
+	return (SUCCESS);
+}
+
+int	fill_cmd(t_token **token_node, t_cmd *last_cmd)
+{
+	//int i = 0;
+	t_token *temp = *token_node;
+
+	if (!last_cmd->cmd) {
+		last_cmd->cmd = malloc(sizeof(char *) * 2);
+		if (!last_cmd->cmd) return (FAILURE);
+		last_cmd->cmd[0] = ft_strdup(last_cmd->cmd_name);
+		if (!last_cmd->cmd[0]) {
+			free(last_cmd->cmd);
+			return (FAILURE);
+		}
+		last_cmd->cmd[1] = NULL;
+	}
 	*token_node = temp;
 	return (SUCCESS);
 }
@@ -167,7 +186,74 @@ int	fill_args(t_token **token_node, t_cmd *last_cmd)
 	return (SUCCESS);
 }
 
-void parse_word(t_cmd **cmd, t_token **token)
+bool	contains_space(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+void	lstdelone_token(t_token *lst, void (*del)(void *))
+{
+	if (del && lst && lst->str)
+	{
+		(*del)(lst->str);
+		lst->str = NULL;
+	}
+	if (lst->prev)
+		lst->prev->next = lst->next;
+	if (lst->next)
+		lst->next->prev = lst->prev;
+	free_ptr(lst);
+}
+
+void	lstclear_token(t_token **lst, void (*del)(void *))
+{
+	t_token	*tmp;
+
+	tmp = NULL;
+	while (*lst != NULL)
+	{
+		tmp = (*lst)->next;
+		lstdelone_token(*lst, del);
+		*lst = tmp;
+	}
+}
+
+static void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str)
+{
+	t_token		*new_tokens;
+	t_token		*tmp;
+	char		**strs;
+	int			i;
+
+	new_tokens = NULL;
+	strs = ft_split(cmd_str, ' ');
+	if (!strs)
+		return ;
+	last_cmd->cmd_name = ft_strdup(strs[0]);
+	if (strs[1])
+		new_tokens = lst_new_token(ft_strdup(strs[1]), WORD, DEFAULT);
+	tmp = new_tokens;
+	i = 1;
+	while (strs[++i])
+		lst_addback_token(&new_tokens,
+			lst_new_token(ft_strdup(strs[i]), WORD, DEFAULT));
+	lst_addback_token(&new_tokens,
+		lst_new_token(NULL, END, DEFAULT));
+	fill_args(&new_tokens, last_cmd);
+	lstclear_token(&tmp, &free_ptr);
+	free_str_tab(strs);
+}
+
+void	parse_word(t_cmd **cmd, t_token **token)
 {
 	t_token		*temp;
 	t_cmd	*last_cmd;
@@ -176,12 +262,35 @@ void parse_word(t_cmd **cmd, t_token **token)
 	while (temp->type == WORD || temp->type == ENV)
 	{
 		last_cmd = lst_last_cmd(*cmd);
-		fill_args(&temp, last_cmd);
+		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE)
+			|| last_cmd->cmd_name == NULL)
+		{
+			if (temp->type == ENV && contains_space(temp->str))
+				split_var_cmd_token(last_cmd, temp->str);
+			else
+			{
+				last_cmd->cmd_name = ft_strdup(temp->str);
+				fill_cmd(&temp, last_cmd);
+			}
+			temp = temp->next;
+		}
+		else
+			fill_args(&temp, last_cmd);
 	}
 	*token = temp;
 }
 
-void create_commands(t_data *data, t_token *token)
+void	set_cmd_type(t_data *data, t_token **token, int type)
+{
+	t_cmd *last_cmd;
+
+	last_cmd = lst_last_cmd(data->cmd);
+	last_cmd->type = type;
+	*token = (*token)->next;
+	lst_addback_cmd(&data->cmd, lst_new_cmd());
+}
+
+void	create_commands(t_data *data, t_token *token)
 {
 	t_token *temp;
 
@@ -194,5 +303,17 @@ void create_commands(t_data *data, t_token *token)
 			lst_addback_cmd(&data->cmd, lst_new_cmd());
 		if (temp->type == WORD || temp->type == ENV)
 			parse_word(&data->cmd, &temp);
+		if (temp->type == PIPE)
+			set_cmd_type(data, &temp, PIPE);
+		if (temp->type == REDIRECT_IN)
+			set_cmd_type(data, &temp, REDIRECT_IN);
+		if (temp->type == REDIRECT_OUT)
+			set_cmd_type(data, &temp, REDIRECT_OUT);
+		if (temp->type == APPEND)
+			set_cmd_type(data, &temp, APPEND);
+		if (temp->type == HEREDOC)
+			set_cmd_type(data, &temp, HEREDOC);
+		if (temp->type == END)
+			break ;
 	}
 }
