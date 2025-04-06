@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/04 19:39:55 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:10:36 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void	free_ptr(void *ptr);
 void	lst_clear_token(t_token **lst, void (*del)(void *));
 void	lst_delone_token(t_token *lst, void (*del)(void *));
 void	free_str_tab(char **tab);
+void	exit_shell(t_data *data, int exit_code);
 
 /*   parsing/lexer.c   */
 int		token_generator(t_data *data, char *str);

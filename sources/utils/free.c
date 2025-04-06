@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:59:51 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/05 19:39:56 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:09:50 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,11 @@ void	free_data(t_data *data, bool clear_history)
 		// 	free_str_tab(&data->envp);
 		rl_clear_history();
 	}
+}
+
+void	exit_shell(t_data *data, int exit_code)
+{
+	if (data)
+		free_data(data, true);
+	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/02 15:05:24 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:18:58 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ void	parsing(t_data *data)
 	user_input = ft_split(data->user_input, ';');
 	if (!user_input)
 		return ;
-	if (!data)
-		return ;
 	int i = 0;
 	while (user_input[i])
 	{
@@ -68,8 +66,7 @@ void	parsing(t_data *data)
 
 bool	parser_user_input(t_data *data)
 {
-	// if (data->user_input == NULL)
-	// 	Ctrl-D
+	
 	if (ft_strcmp(data->user_input, "\0") == 0)
 		return (false);
 	add_history(data->user_input);

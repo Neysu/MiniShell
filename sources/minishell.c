@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/31 20:20:15 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/06 18:19:41 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	main(int argc, char **argv, char **envp)
 		set_signal_interactive();
 		data.user_input = readline(PROMPT);
 		set_signal_noninteractive();
+		if (data.user_input == NULL)
+			exit_shell(&data, EXIT_SUCCESS);
 		parsing(&data);
 		// if (is_builtin(line))
 		// 	exec_buitlins(line, data->envp);
