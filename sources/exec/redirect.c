@@ -54,6 +54,7 @@ int	redirect_inf(t_cmd *cmd_data, t_data *data)
 		if (open_inf(file, cmd_data))
 			(free(file), exit(1));
 		exec_cmd(cmd_data, data->envp);
+		exit(1);
 	}
 	free(file);
 	waitpid(pid, &status, 0);
@@ -73,6 +74,7 @@ int	redirect_out(t_cmd *cmd_data, t_data *data)
 		if (open_out(file, cmd_data))
 			(free(file), exit(1));
 		exec_cmd(cmd_data, data->envp);
+		exit(1);
 	}
 	free(file);
 	waitpid(pid, &status, 0);

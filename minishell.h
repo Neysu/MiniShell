@@ -98,7 +98,8 @@ enum				e_token_type{
 	REDIRECT_OUT,	// 6 <
 	APPEND,			// 7 >>
 	HEREDOC,		// 8 <<
-	END				// 9 '\0'
+	END,			// 9 '\0'
+	COMMAND = 10	// 10 COMMAND
 };
 
 enum				e_quoting_status{

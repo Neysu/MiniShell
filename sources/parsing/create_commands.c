@@ -245,7 +245,7 @@ static void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str)
 	i = 1;
 	while (strs[++i])
 		lst_addback_token(&new_tokens,
-			lst_new_token(ft_strdup(strs[i]), WORD, DEFAULT));
+			lst_new_token(ft_strdup(strs[i]), WORD, COMMAND));
 	lst_addback_token(&new_tokens,
 		lst_new_token(NULL, END, DEFAULT));
 	fill_args(&new_tokens, last_cmd);

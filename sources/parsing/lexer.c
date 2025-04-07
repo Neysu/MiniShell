@@ -22,9 +22,9 @@ static int	is_separator(char *str, int i)
 		return (HEREDOC);
 	else if (str[i] == '>' && str[i + 1] == '>')
 		return (APPEND);
-	else if (str[i] == '<')
-		return (REDIRECT_OUT);
 	else if (str[i] == '>')
+		return (REDIRECT_OUT);
+	else if (str[i] == '<')
 		return (REDIRECT_IN);
 	else if (str[i] == '\0')
 		return (END);

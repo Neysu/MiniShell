@@ -23,7 +23,6 @@ void	exec_single(t_data *data)
 		exec_cmd(data->cmd, data->envp);
 	}
 	waitpid(pid, &status, 0);
-	printf("%d\n", status);
 }
 
 int		exec(t_data *data)
@@ -71,9 +70,7 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 		return (perror(path), 1);
 	envp = env_to_str(envp_data);
 	execve(path, cmd_data->cmd, envp);
-	ft_putstr_fd("minishell : ", STDERR);
-	ft_putstr_fd(cmd_data->cmd[0], STDERR);
-	ft_putendl_fd(" command not found.", STDERR);
+	perror("execve");
 	ft_free_arr(cmd_data->cmd);
 	ft_free_arr(envp); 
 	exit(127);
