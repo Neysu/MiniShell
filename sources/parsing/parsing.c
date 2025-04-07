@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/07 00:15:09 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 17:10:17 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ int	is_builtin(char *line)
 {
 	if (!line)
 		return (0);
-	if (!ft_strncmp(line, "echo", 4))
+	if (!ft_strncmp(line, "echo", -1))
 		return (1);
-	if (!ft_strncmp(line, "cd", 2))
+	if (!ft_strncmp(line, "cd", -1))
 		return (1);
-	if (!ft_strncmp(line, "pwd", 3))
+	if (!ft_strncmp(line, "pwd", -1))
 		return (1);
-	if (!ft_strncmp(line, "export", 6))
+	if (!ft_strncmp(line, "export", -1))
 		return (1);
-	if (!ft_strncmp(line, "unset", 5))
+	if (!ft_strncmp(line, "unset", -1))
 		return (1);
-	if (!ft_strncmp(line, "env", 3))
+	if (!ft_strncmp(line, "env", -1))
 		return (1);
-	if (!ft_strncmp(line, "exit", 4))
+	if (!ft_strncmp(line, "exit", -1))
 		return (1);
 	return (0);
 }

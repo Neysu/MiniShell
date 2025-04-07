@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:20:54 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/07 01:13:21 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 17:18:00 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		exec_buitlins(char *line, t_data *data)
 	if (!ft_strncmp(line, "unset", 5))
 		ft_unset(line, data->envp);
 	if (!ft_strncmp(line, "cd", 2))
-		change_dirs(data->envp, line);
+		change_dirs(data->envp, data->cmd);
 	if (!ft_strncmp(line, "export", 6))
 		ft_export(line, data->envp);
 	if (!ft_strncmp(line, "exit", 4))

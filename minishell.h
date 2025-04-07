@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/07 03:34:00 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 17:17:37 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int		ft_export(char *line, t_envp *envp_data);
 int		ft_echo(char *line, t_data *data);
 int		print_pwd(char *line);
 int		print_env(t_envp *envp);
-int		change_dirs(t_envp *envp, char *line);
+int		change_dirs(t_envp *envp, t_cmd	*cmd_data);
 int		ft_unset(char *line, t_envp *envp_data);
 
 

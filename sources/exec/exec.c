@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/07 00:47:18 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:36:29 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,13 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 
 	path = findcmd(cmd_data, envp_data);
 	if (!path)
-		exit (1);
+		return (perror(path), 1);
 	envp = env_to_str(envp_data);
-	if (execve(path, cmd_data->cmd, envp) == -1)
-		(ft_printf(ERRORCMD, cmd_data->cmd[0]), ft_free_arr(cmd_data->cmd), ft_free_arr(envp), exit(1));
-	return (0);
+	execve(path, cmd_data->cmd, envp);
+	ft_putstr_fd("minishell : ", STDERR);
+	ft_putstr_fd(cmd_data->cmd[0], STDERR);
+	ft_putendl_fd(" command not found.", STDERR);
+	ft_free_arr(cmd_data->cmd);
+	ft_free_arr(envp); 
+	exit(1);
 }

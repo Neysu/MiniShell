@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/07 03:38:26 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 17:07:27 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 		if (data.user_input == NULL)
 			exit_shell(&data, EXIT_SUCCESS);
 		parsing(&data);
-		if (is_builtin(data.user_input))
+		if (is_builtin(data.cmd->cmd[0]))
 		 	exec_buitlins(data.user_input, &data);
 		else
 			exec(&data);
