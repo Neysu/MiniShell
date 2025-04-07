@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:15:41 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/29 23:22:18 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/04/07 01:09:49 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_echo(char *line, t_data *data)
 	i = 1;
 	(void)line;
 	new_line = true;
-	tab = data->cmd->args;
+	tab = data->cmd->cmd;
 	while (tab[i] && !ft_strncmp(tab[i], "-n", 2))
 	{
 		new_line = false;

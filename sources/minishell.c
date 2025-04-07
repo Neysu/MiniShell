@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/31 20:20:15 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/07 03:38:26 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,28 @@ bool	init_data(t_data *data, char **envp)
 	return (true);
 }
 
+char	*get_path()
+{
+	char	**folders;
+	char	*path;
+	char	*pos;
+	int		len;
+
+	path = ft_calloc(sizeof(char), PATH_MAX_LEN);
+	getcwd(path, PATH_MAX_LEN);
+	folders = ft_split(path, '/');
+	len = ft_arrlen(folders);
+	pos = ft_strjoin(PROMPT1, folders[len - 1]);
+	pos = ft_strjoin(pos, PROMPT2);
+	ft_free_arr(folders);
+	free(path);
+	return (pos);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	// t_envp	*env_data;
-	// t_cmd	*cmd_data = NULL;
 	t_data	data;
+	char	*path;
 
 	(void)argc;
 	(void)argv;
@@ -42,17 +59,20 @@ int	main(int argc, char **argv, char **envp)
 	ft_memset(&data, 0, sizeof(t_data));
 	if (!init_data(&data, envp))
 		error_message("Could not initialize data", NULL, false);
-	while (1)
+	while (data.work)
 	{
-
+		path = get_path();
 		set_signal_interactive();
-		data.user_input = readline(PROMPT);
+		data.user_input = readline(path);
 		set_signal_noninteractive();
+		if (data.user_input == NULL)
+			exit_shell(&data, EXIT_SUCCESS);
 		parsing(&data);
-		// if (is_builtin(line))
-		// 	exec_buitlins(line, data->envp);
-		// else
-		// 	exec_cmd(cmd_data, data->envp);
+		if (is_builtin(data.user_input))
+		 	exec_buitlins(data.user_input, &data);
+		else
+			exec(&data);
+		free_data(&data, false);
 	}
 	return (0);
 }

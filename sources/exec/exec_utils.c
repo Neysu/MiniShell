@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/28 18:43:57 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/07 00:21:12 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,10 @@ char	*findcmd(t_cmd *cmd_data, t_envp *envp)
 	}
 	ft_free_arr(path);
 	return (ret);
+}
+
+void	closepipe(t_cmd *cmd_data)
+{
+	close(cmd_data->pipefd[0]);
+	close(cmd_data->pipefd[1]);
 }

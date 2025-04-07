@@ -49,7 +49,6 @@ SRC = \
 	other/ft_split.c \
 	other/ft_atoi.c \
 	other/ft_calloc.c \
-	other/ft_realloc.c \
 	other/ft_itoa.c \
 	other/ft_bzero.c \
 

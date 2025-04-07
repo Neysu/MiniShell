@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/31 20:48:21 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/07 03:34:00 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 
 //# define PROMPT "\033[0;36mminishell>\033[0m "
 //# define PROMPT "\033[1;38;5;207m \033[1;35mminishell\033[1;38;5;207m ❯\033[0m "
-# define PROMPT "\033[1;32m┌──(\033[1;34mminishell\033[1;32m)-[\033[0m\033[1;37m~\033[1;32m]\n└─\033[1;31m$\033[0m "
+# define PROMPT1 "\033[1;32m┌──(\033[1;34mminishell\033[1;32m)-[\033[0m\033[1;37m"
+# define PROMPT2 "\033[1;32m]\n└─\033[1;31m$\033[0m "
 # define ERRORCMD "minishell : %s: unknown command\n"
 # define UNSETARGS "unset: not enough args"
 # define PATH_MAX_LEN 4096
@@ -63,6 +64,7 @@ typedef struct		s_token
 typedef struct		s_cmd
 {
 	char 			**cmd;
+	char 			*cmd_name;
 	int				type;
 	int				pipefd[2];
 	struct s_cmd	*next;
@@ -109,19 +111,28 @@ t_envp	*get_env(char **envp);
 t_envp	*ft_lstnsave_word_or_sepew_env(char *envp);
 
 size_t	ft_envsize(t_envp *env);
-
-int		ft_echo(char *line);
-
+int		ft_exit(char *line, t_data *data);
+int		ft_export(char *line, t_envp *envp_data);
+int		ft_echo(char *line, t_data *data);
 int		print_pwd(char *line);
 int		print_env(t_envp *envp);
 int		change_dirs(t_envp *envp, char *line);
 int		ft_unset(char *line, t_envp *envp_data);
+
+
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
-int		exec_buitlins(char *line, t_envp *env_data);
+int		exec_buitlins(char *line, t_data *data);
+
+int		exec(t_data *data);
+
+int		redirect_inf(t_cmd *cmd_data, t_data *data);
+int		redirect_out(t_cmd *cmd_data, t_data *data);
 
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 
 char	**env_to_str(t_envp *envp);
+
+void	closepipe(t_cmd *cmd_data);
 
 void	ft_lstadd_back(t_envp **lst, char *envp);
 
@@ -137,6 +148,7 @@ void	free_ptr(void *ptr);
 void	lst_clear_token(t_token **lst, void (*del)(void *));
 void	lst_delone_token(t_token *lst, void (*del)(void *));
 void	free_str_tab(char **tab);
+void	exit_shell(t_data *data, int exit_code);
 
 /*   parsing/lexer.c   */
 int		token_generator(t_data *data, char *str);
@@ -173,5 +185,7 @@ void create_commands(t_data *data, t_token *token);
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);
 void	show_lists(t_data *data);
+
+t_cmd	*lst_last_cmd(t_cmd *cmd);
 
 #endif

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:20:54 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/26 01:41:20 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/04/07 01:13:21 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	exec_buitlins(char *line, t_data *data)
+int		exec_buitlins(char *line, t_data *data)
 {
 	if (!ft_strncmp(line, "env", 3))
 		print_env(data->envp);

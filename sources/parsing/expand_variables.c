@@ -204,12 +204,10 @@ char	*get_new_token_str(char *str, char *var_value, int new_str_size, int index)
 {
 	int		i;
 	int		j;
-	//int		k;
 	char	*new_str;
 
 	i = 0;
 	j = 0;
-	//k = 0;
 	new_str = malloc(sizeof(char) * new_str_size);
 	if (!new_str)
 		return (NULL);

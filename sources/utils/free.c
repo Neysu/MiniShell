@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:59:51 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/27 18:12:14 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/07 03:30:38 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,29 @@ void	lst_clear_token(t_token **lst, void (*del)(void *))
 	}
 }
 
+void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
+{
+	if (lst->cmd_name)
+		(*del)(lst->cmd_name);
+	if (lst->cmd)
+		free_str_tab(lst->cmd);
+	//(*del)(lst->pipefd);
+	(*del)(lst);
+}
+
+void	lst_clear_cmd(t_cmd **lst, void (*del)(void *))
+{
+	t_cmd	*temp;
+
+	temp = NULL;
+	while (*lst)
+	{
+		temp = (*lst)->next;
+		lst_delone_cmd(*lst, del);
+		*lst = temp;
+	}
+}
+
 void	free_ptr(void *ptr)
 {
 	if (ptr != NULL)
@@ -68,6 +91,7 @@ void	free_ptr(void *ptr)
 		ptr = NULL;
 	}
 }
+
 void	free_data(t_data *data, bool clear_history)
 {
 	if (data && data->user_input)
@@ -77,10 +101,19 @@ void	free_data(t_data *data, bool clear_history)
 	}
 	if (data && data->token)
 		lst_clear_token(&data->token, &free_ptr);
+	if (data && data->cmd)
+		lst_clear_cmd(&data->cmd, &free_ptr);
 	if (clear_history == true)
 	{
 		// if (data && data->envp)
 		// 	free_str_tab(&data->envp);
 		rl_clear_history();
 	}
+}
+
+void	exit_shell(t_data *data, int exit_code)
+{
+	if (data)
+		free_data(data, true);
+	exit(exit_code);
 }

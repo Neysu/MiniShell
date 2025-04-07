@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/01 21:25:17 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/05 19:48:02 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,27 @@ t_cmd	*lst_new_cmd(void)
 {
 	t_cmd	*new_node;
 
-	new_node = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+	new_node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_node)
 		return (NULL);
-	ft_memset(new_node, 0 , sizeof(t_cmd));
+	//ft_memset(new_node, 0 , sizeof(t_cmd));
 	new_node->cmd = NULL;
-	//new_node->args = NULL;
+	new_node->type = 0;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
 }
 
-t_cmd	*lst_add_new_cmd(char *str)
+t_cmd	*lst_add_new_cmd(void)
 {
 	t_cmd	*new_node;
 
-	new_node = (t_cmd *)malloc(sizeof(t_cmd) * 1);
+	new_node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_node)
 		return (NULL);
 	ft_memset(new_node, 0 , sizeof(t_cmd));
-	new_node->cmd = ft_strdup(str);
-	//new_node->args = NULL;
+	new_node->cmd = NULL;
+	new_node->cmd_name = NULL;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
@@ -68,122 +68,252 @@ t_cmd	*lst_last_cmd(t_cmd *cmd)
 	return (cmd);
 }
 
-void parse_word(t_data *data, t_token **token)
+int	args_count(t_token *token)
 {
-	t_token	*temp;
-	t_cmd	*new_cmd;
-	char	*space;
-	char	*tmp_str;
+	int	i;
 
-	temp = *token;
-	new_cmd = lst_new_cmd(); // Создаем новую команду
-
-	while (temp && temp->type != END)
+	i = 0;
+	while(token && (token->type == WORD || token->type == ENV))
 	{
-		if (temp->type == WORD || temp->type == ENV)
-		{
-			if (new_cmd->cmd == NULL)
-				new_cmd->cmd = ft_strdup(temp->str);
-			else
-			{
-				space = " ";
-				tmp_str = new_cmd->cmd;
-				new_cmd->cmd = ft_strjoin(tmp_str, space);
-				free(tmp_str);
-				tmp_str = new_cmd->cmd;
-				new_cmd->cmd = ft_strjoin(tmp_str, temp->str);
-				free(tmp_str);
-			}
-			temp = temp->next;
-		}
-		else if (temp->type == PIPE || temp->type == REDIRECT_IN
-			|| temp->type == REDIRECT_OUT || temp->type == APPEND
-			|| temp->type == HEREDOC)
-		{
-			new_cmd->type = temp->type;
-			temp = temp->next;
-			break ;
-		}
-		else
-		{
-			break ;
-		}
+		token = token->next;
+		i++;
 	}
-	if (new_cmd->cmd != NULL)
-		lst_addback_cmd(&data->cmd, new_cmd);
+	return(i);
+}
+
+int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
+{
+	int		i;
+	int		nb_args;
+	t_token	*temp;
+
+	i = 0;
+	temp = *token_node;
+	nb_args = 1;
+	last_cmd->cmd = malloc(sizeof(char *) * (nb_args + 2));
+	if (!last_cmd->cmd)
+		return (FAILURE);
+	temp = *token_node;
+	i = 0;
+	last_cmd->cmd[i] = ft_strdup(last_cmd->cmd_name);
+	i++;
+	while (temp->type == WORD || temp->type == ENV)
+	{
+		last_cmd->cmd[i] = ft_strdup(temp->str);
+		i++;
+		temp = temp->next;
+	}
+	last_cmd->cmd[i] = NULL;
+	*token_node = temp;
+	return (SUCCESS);
+}
+
+int	fill_cmd(t_token **token_node, t_cmd *last_cmd)
+{
+	//int i = 0;
+	t_token *temp = *token_node;
+
+	if (!last_cmd->cmd) {
+		last_cmd->cmd = malloc(sizeof(char *) * 2);
+		if (!last_cmd->cmd) return (FAILURE);
+		last_cmd->cmd[0] = ft_strdup(last_cmd->cmd_name);
+		if (!last_cmd->cmd[0]) {
+			free(last_cmd->cmd);
+			return (FAILURE);
+		}
+		last_cmd->cmd[1] = NULL;
+	}
+	*token_node = temp;
+	return (SUCCESS);
+}
+
+static char	**copy_default_in_new_tab(
+	int len, char **new_tab, t_cmd *last_cmd, t_token **tk_node)
+{
+	int		i;
+	t_token	*temp;
+
+	i = 0;
+	temp = *tk_node;
+	while (i < len)
+	{
+		new_tab[i] = last_cmd->cmd[i];
+		i++;
+	}
+	while (temp->type == WORD || temp->type == ENV)
+	{
+		new_tab[i] = ft_strdup(temp->str);
+		i++;
+		temp = temp->next;
+	}
+	new_tab[i] = NULL;
+	return (new_tab);
+}
+
+int	add_args_default_mode(t_token **token_node, t_cmd *last_cmd)
+{
+	int		i;
+	int		len;
+	char	**new_tab;
+	t_token	*temp;
+
+	i = 0;
+	temp = *token_node;
+	while (temp->type == WORD || temp->type == ENV)
+	{
+		i++;
+		temp = temp->next;
+	}
+	len = 0;
+	while (last_cmd->cmd[len])
+		len++;
+	new_tab = malloc(sizeof(char *) * (i + len + 1));
+	if (!new_tab)
+		return (FAILURE);
+	new_tab = copy_default_in_new_tab(len, new_tab, last_cmd, token_node);
+	free(last_cmd->cmd);
+	last_cmd->cmd = new_tab;
+	*token_node = temp;
+	return (SUCCESS);
+}
+
+int	fill_args(t_token **token_node, t_cmd *last_cmd)
+{
+	if (last_cmd && !(last_cmd->cmd))
+		return (create_args_default_mode(token_node, last_cmd));
 	else
-		free(new_cmd);
-	*token = temp;
+		return (add_args_default_mode(token_node, last_cmd));
+	return (SUCCESS);
 }
 
-void create_commands(t_data *data, t_token *token)
+bool	contains_space(char *str)
 {
-	t_token *temp;
+	int	i;
 
-	temp = token;
-	while (temp && temp->type != END)
+	i = 0;
+	while (str[i])
 	{
-		parse_word(data, &temp);
+		if (str[i] == ' ')
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
+void	lstdelone_token(t_token *lst, void (*del)(void *))
+{
+	if (del && lst && lst->str)
+	{
+		(*del)(lst->str);
+		lst->str = NULL;
+	}
+	if (lst->prev)
+		lst->prev->next = lst->next;
+	if (lst->next)
+		lst->next->prev = lst->prev;
+	free_ptr(lst);
+}
+
+void	lstclear_token(t_token **lst, void (*del)(void *))
+{
+	t_token	*tmp;
+
+	tmp = NULL;
+	while (*lst != NULL)
+	{
+		tmp = (*lst)->next;
+		lstdelone_token(*lst, del);
+		*lst = tmp;
 	}
 }
 
-/*void parse_word(t_cmd **cmd, t_token **token)
+static void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str)
 {
-	t_token	*temp;
+	t_token		*new_tokens;
+	t_token		*tmp;
+	char		**strs;
+	int			i;
+
+	new_tokens = NULL;
+	strs = ft_split(cmd_str, ' ');
+	if (!strs)
+		return ;
+	last_cmd->cmd_name = ft_strdup(strs[0]);
+	if (strs[1])
+		new_tokens = lst_new_token(ft_strdup(strs[1]), WORD, DEFAULT);
+	tmp = new_tokens;
+	i = 1;
+	while (strs[++i])
+		lst_addback_token(&new_tokens,
+			lst_new_token(ft_strdup(strs[i]), WORD, DEFAULT));
+	lst_addback_token(&new_tokens,
+		lst_new_token(NULL, END, DEFAULT));
+	fill_args(&new_tokens, last_cmd);
+	lstclear_token(&tmp, &free_ptr);
+	free_str_tab(strs);
+}
+
+void	parse_word(t_cmd **cmd, t_token **token)
+{
+	t_token		*temp;
 	t_cmd	*last_cmd;
 
 	temp = *token;
-	printf("temp->str: %s", temp->str);
-	while(temp)
+	while (temp->type == WORD || temp->type == ENV)
 	{
 		last_cmd = lst_last_cmd(*cmd);
-		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE) || last_cmd->cmd == NULL)
+		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE)
+			|| last_cmd->cmd_name == NULL)
 		{
-			last_cmd->cmd = ft_strdup(temp->str);
+			if (temp->type == ENV && contains_space(temp->str))
+				split_var_cmd_token(last_cmd, temp->str);
+			else
+			{
+				last_cmd->cmd_name = ft_strdup(temp->str);
+				fill_cmd(&temp, last_cmd);
+			}
 			temp = temp->next;
 		}
-		temp = temp->next;
+		else
+			fill_args(&temp, last_cmd);
 	}
 	*token = temp;
 }
 
-void create_commands(t_data *data, t_token *token)
+void	set_cmd_type(t_data *data, t_token **token, int type)
+{
+	t_cmd *last_cmd;
+
+	last_cmd = lst_last_cmd(data->cmd);
+	last_cmd->type = type;
+	*token = (*token)->next;
+	lst_addback_cmd(&data->cmd, lst_new_cmd());
+}
+
+void	create_commands(t_data *data, t_token *token)
 {
 	t_token *temp;
-	t_cmd *new_cmd = NULL;
 
 	temp = token;
-	printf("<cc>\n");
-	if (temp->type == END)
+	if ( temp->type == END)
 		return ;
-	if (temp)
-    {
-        new_cmd = lst_new_cmd(); // Создаем пустую команду
-        lst_addback_cmd(&data->cmd, new_cmd);
-    }
-
-    while (temp)
-    {
-        printf("temp->str: %s\n", temp->str);
-
-        // Получаем последнюю команду
-        t_cmd *last_cmd = lst_last_cmd(data->cmd);
-
-        // Если это первая команда и она пустая, заполняем ее
-        if (last_cmd->cmd == NULL)
-        {
-            last_cmd->cmd = ft_strdup(temp->str);
-        }
-        // Иначе создаем новую команду для нового токена
-        else if (temp->type == WORD || temp->type == ENV)
-        {
-            new_cmd = lst_new_cmd();
-            new_cmd->cmd = ft_strdup(temp->str);
-            lst_addback_cmd(&data->cmd, new_cmd);
-        }
-
-        printf("data->cmd->cmd: %s\n", data->cmd->cmd);
-        temp = temp->next;
-    }
-
-}*/
+	while (temp->next != NULL)
+	{
+		if (temp == token)
+			lst_addback_cmd(&data->cmd, lst_new_cmd());
+		if (temp->type == WORD || temp->type == ENV)
+			parse_word(&data->cmd, &temp);
+		if (temp->type == PIPE)
+			set_cmd_type(data, &temp, PIPE);
+		if (temp->type == REDIRECT_IN)
+			set_cmd_type(data, &temp, REDIRECT_IN);
+		if (temp->type == REDIRECT_OUT)
+			set_cmd_type(data, &temp, REDIRECT_OUT);
+		if (temp->type == APPEND)
+			set_cmd_type(data, &temp, APPEND);
+		if (temp->type == HEREDOC)
+			set_cmd_type(data, &temp, HEREDOC);
+		if (temp->type == END)
+			break ;
+	}
+}

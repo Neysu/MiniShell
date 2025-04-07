@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 02:27:58 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/29 23:24:13 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/04/07 01:09:13 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	ft_export(char *line, t_envp *envp_data)
 			var = get_var(str);
 			if (!var)
 				return (1);
-			ft_lstadd_back_env(&envp_data, var);
+			ft_lstadd_back(&envp_data, var);
 			free(var);
 		}
 		free(str);
