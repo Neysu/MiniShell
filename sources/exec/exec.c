@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/07 16:36:29 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/08 00:14:20 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		exec(t_data *data)
 			redirect_out(current, data);
 		if (current->type == REDIRECT_IN)
 			redirect_inf(current, data);
-		if (!current->type)
+		if (current->type == COMMAND)
 			exec_single(data);
 		current = current->next;
 	}

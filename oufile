@@ -1,9 +1,0 @@
-total 100
-drwxr-xr-x  2 egibeaux 2024_le-havre   220 Apr  4 20:30 ft_printf
--rw-r--r--  1 egibeaux 2024_le-havre    29 Apr  7 22:30 infile
-drwxr-xr-x 11 egibeaux 2024_le-havre   179 Apr  7 22:18 libft
--rw-r--r--  1 egibeaux 2024_le-havre  1733 Apr  7 22:18 Makefile
--rwxr-xr-x  1 egibeaux 2024_le-havre 84864 Apr  7 22:35 minishell
--rw-r--r--  1 egibeaux 2024_le-havre  5098 Apr  7 22:18 minishell.h
--rw-r--r--  1 egibeaux 2024_le-havre     0 Apr  7 22:35 oufile
-drwxr-xr-x  6 egibeaux 2024_le-havre   134 Apr  7 22:18 sources
