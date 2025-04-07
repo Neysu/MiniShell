@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:29:27 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/07 03:23:02 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 17:24:05 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,11 @@ int		ft_exit(char *line, t_data *data)
 	{
 		ft_putendl_fd("exit", 1);
 		ret = ft_atoi(args[1]);
-		if (ret < 1 || ret > 255)
-			data->exit_code = 0;
-		else
-			data->exit_code = ret;
+		data->exit_code = (ret % 256);
 		data->work = false;
 	}
 	else
 		data->work = false;
-	return (0);
+	exit(0);
 }
 

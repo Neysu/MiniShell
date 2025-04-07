@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/07 17:17:37 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 17:30:42 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void	error_message(char *text_error, char *detail, int quote);
 void	free_ptr(void *ptr);
 
 /*   utils/free.c   */
+void	lst_clear_cmd(t_cmd **lst, void (*del)(void *));
 void	free_data(t_data *data, bool clear_history);
 void	free_ptr(void *ptr);
 void	lst_clear_token(t_token **lst, void (*del)(void *));
@@ -161,7 +162,7 @@ int		save_separator(t_token **token_list, char *str, int index, int type);
 int		expand_variables(t_data *data, t_token **tokens);
 
 /*   parsing/parsing.c   */
-int		is_builtin(char *line);
+int		is_builtin(t_cmd *cmd_data);
 t_cmd	*create_cmd(int type, char *cmd);
 void	parsing(t_data *data);
 bool	parser_user_input(t_data *data);

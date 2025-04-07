@@ -6,29 +6,29 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/07 17:10:17 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 17:42:46 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	is_builtin(char *line)
+int	is_builtin(t_cmd *cmd_data)
 {
-	if (!line)
+	if (!cmd_data)
 		return (0);
-	if (!ft_strncmp(line, "echo", -1))
+	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))
 		return (1);
-	if (!ft_strncmp(line, "cd", -1))
+	if (!ft_strncmp(cmd_data->cmd[0], "cd", -1))
 		return (1);
-	if (!ft_strncmp(line, "pwd", -1))
+	if (!ft_strncmp(cmd_data->cmd[0], "pwd", -1))
 		return (1);
-	if (!ft_strncmp(line, "export", -1))
+	if (!ft_strncmp(cmd_data->cmd[0], "export", -1))
 		return (1);
-	if (!ft_strncmp(line, "unset", -1))
+	if (!ft_strncmp(cmd_data->cmd[0], "unset", -1))
 		return (1);
-	if (!ft_strncmp(line, "env", -1))
+	if (!ft_strncmp(cmd_data->cmd[0], "env", -1))
 		return (1);
-	if (!ft_strncmp(line, "exit", -1))
+	if (!ft_strncmp(cmd_data->cmd[0], "exit", -1))
 		return (1);
 	return (0);
 }

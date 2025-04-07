@@ -6,28 +6,11 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:15:41 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/07 17:20:22 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 17:21:35 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	is_env(char	*s, t_envp *envp_data)
-{
-	t_envp	*current;
-
-	current = envp_data;
-	while (current)
-	{
-		if (!ft_strncmp(current->var, s, ft_strlen(s)))
-		{
-			ft_putstr_fd(current->var, 1);
-			return (0);
-		}
-		current = current->next;
-	}
-	return (1);
-}
 
 int	ft_echo(char *line, t_data *data)
 {

@@ -23,6 +23,7 @@ void	exec_single(t_data *data)
 		exec_cmd(data->cmd, data->envp);
 	}
 	waitpid(pid, &status, 0);
+	printf("%d\n", status);
 }
 
 int		exec(t_data *data)
@@ -75,5 +76,5 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 	ft_putendl_fd(" command not found.", STDERR);
 	ft_free_arr(cmd_data->cmd);
 	ft_free_arr(envp); 
-	exit(1);
+	exit(127);
 }

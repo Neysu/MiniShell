@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/07 17:07:27 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/07 17:56:34 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-
 	ft_memset(&data, 0, sizeof(t_data));
 	if (!init_data(&data, envp))
 		error_message("Could not initialize data", NULL, false);
@@ -68,11 +67,12 @@ int	main(int argc, char **argv, char **envp)
 		if (data.user_input == NULL)
 			exit_shell(&data, EXIT_SUCCESS);
 		parsing(&data);
-		if (is_builtin(data.cmd->cmd[0]))
+		if (is_builtin(data.cmd))
 		 	exec_buitlins(data.user_input, &data);
 		else
 			exec(&data);
-		free_data(&data, false);
+		lst_clear_cmd(&data.cmd, &free_ptr);
+		lst_clear_token(&data.token, &free_ptr);
 	}
-	return (0);
+	return (data.exit_code);
 }
