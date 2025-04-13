@@ -3,15 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 02:27:58 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/29 23:24:13 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:30:20 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 #include <stddef.h>
+#include <stdlib.h>
+
+size_t	ft_strpos(char *s, char c)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (i);
+}
 
 void	put_env(t_envp *envp_data)
 {
@@ -58,7 +73,7 @@ int		modify_var(char *var, t_envp *envp_data)
 	current = envp_data;
 	while (current)
 	{
-		if (!ft_strncmp(current->var, var, (size_t) ft_strchr(var, '=') - 1))
+		if (!ft_strncmp(current->var, var, ft_strpos(var, '=')))
 		{
 			free(current->var);
 			current->var = NULL;
@@ -85,13 +100,13 @@ int	ft_export(char *line, t_envp *envp_data)
 	{
 		str = ft_strdup(args[i]);
 		if (!ft_strchr(str, '='))
-			return (ft_putendl_fd("ERROR", 2), 1);
-		if (modify_var(str, envp_data) == 0)
+			return (ft_putendl_fd("ERROR", STDERR), 1);
+		if (!modify_var(str, envp_data))
 		{
 			var = get_var(str);
 			if (!var)
 				return (1);
-			ft_lstadd_back_env(&envp_data, var);
+			ft_lstadd_back(&envp_data, var);
 			free(var);
 		}
 		free(str);

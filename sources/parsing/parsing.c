@@ -6,43 +6,32 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/06 18:18:58 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:34:14 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	is_builtin(char *line)
+int	is_builtin(t_cmd *cmd_data)
 {
-	if (!ft_strncmp(line, "echo", 4))
+	if (!cmd_data)
+		return (0);
+	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))
 		return (1);
-	if (!ft_strncmp(line, "cd", 2))
+	if (!ft_strncmp(cmd_data->cmd[0], "cd", -1))
 		return (1);
-	if (!ft_strncmp(line, "pwd", 3))
+	if (!ft_strncmp(cmd_data->cmd[0], "pwd", -1))
 		return (1);
-	if (!ft_strncmp(line, "export", 6))
+	if (!ft_strncmp(cmd_data->cmd[0], "export", -1))
 		return (1);
-	if (!ft_strncmp(line, "unset", 5))
+	if (!ft_strncmp(cmd_data->cmd[0], "unset", -1))
 		return (1);
-	if (!ft_strncmp(line, "env", 3))
+	if (!ft_strncmp(cmd_data->cmd[0], "env", -1))
 		return (1);
-	if (!ft_strncmp(line, "exit", 4))
+	if (!ft_strncmp(cmd_data->cmd[0], "exit", -1))
 		return (1);
 	return (0);
 }
-
-// t_cmd	*create_cmd(int type, char *cmd)
-// {
-// 	t_cmd *cmd_data;
-
-// 	cmd_data = ft_calloc(sizeof(t_cmd), 1);
-// 	if (!cmd_data)
-// 		return (NULL);
-// 	//cmd_data->type = type;
-// 	cmd_data->cmd = ft_split(cmd, ' ');
-// 	cmd_data->next = NULL;
-// 	return (cmd_data);
-// }
 
 void	parsing(t_data *data)
 {
@@ -56,17 +45,15 @@ void	parsing(t_data *data)
 	{
 		data->user_input = ft_strdup(user_input[i]);
 		if (parser_user_input(data) == true)
-			show_lists(data);
+			data->exit_code = 0;
 		else
 			data->exit_code = 1;
-		free_data(data, false);
 		i++;
 	}
 }
 
 bool	parser_user_input(t_data *data)
 {
-	
 	if (ft_strcmp(data->user_input, "\0") == 0)
 		return (false);
 	add_history(data->user_input);
@@ -81,7 +68,3 @@ bool	parser_user_input(t_data *data)
 	create_commands(data, data->token);
 	return (true);
 }
-
-
-
-

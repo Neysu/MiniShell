@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/06 18:10:36 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:27:23 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 
 //# define PROMPT "\033[0;36mminishell>\033[0m "
 //# define PROMPT "\033[1;38;5;207m \033[1;35mminishell\033[1;38;5;207m ❯\033[0m "
-# define PROMPT "\033[1;32m┌──(\033[1;34mminishell\033[1;32m)-[\033[0m\033[1;37m~\033[1;32m]\n└─\033[1;31m$\033[0m "
+# define PROMPT1 "\033[1;32m┌──(\033[1;34mminishell\033[1;32m)-[\033[0m\033[1;37m"
+# define PROMPT2 "\033[1;32m]\n└─\033[1;31m$\033[0m "
 # define ERRORCMD "minishell : %s: unknown command\n"
 # define UNSETARGS "unset: not enough args"
 # define PATH_MAX_LEN 4096
@@ -64,7 +65,6 @@ typedef struct		s_cmd
 {
 	char 			**cmd;
 	char 			*cmd_name;
-//	char			**args;
 	int				type;
 	int				pipefd[2];
 	struct s_cmd	*next;
@@ -98,7 +98,8 @@ enum				e_token_type{
 	REDIRECT_OUT,	// 6 <
 	APPEND,			// 7 >>
 	HEREDOC,		// 8 <<
-	END				// 9 '\0'
+	END,			// 9 '\0'
+	COMMAND = 10	// 10 COMMAND
 };
 
 enum				e_quoting_status{
@@ -111,19 +112,28 @@ t_envp	*get_env(char **envp);
 t_envp	*ft_lstnsave_word_or_sepew_env(char *envp);
 
 size_t	ft_envsize(t_envp *env);
-
-int		ft_echo(char *line);
-
+int		ft_exit(char *line, t_data *data);
+int		ft_export(char *line, t_envp *envp_data);
+int		ft_echo(char *line, t_data *data);
 int		print_pwd(char *line);
 int		print_env(t_envp *envp);
-int		change_dirs(t_envp *envp, char *line);
+int		change_dirs(t_envp *envp, t_cmd	*cmd_data);
 int		ft_unset(char *line, t_envp *envp_data);
+
+
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
-int		exec_buitlins(char *line, t_envp *env_data);
+int		exec_buitlins(char *line, t_data *data);
+
+int		exec(t_data *data);
+
+int		redirect_inf(t_cmd *cmd_data, t_data *data);
+int		redirect_out(t_cmd *cmd_data, t_data *data);
 
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 
 char	**env_to_str(t_envp *envp);
+
+void	closepipe(t_cmd *cmd_data);
 
 void	ft_lstadd_back(t_envp **lst, char *envp);
 
@@ -134,6 +144,7 @@ void	error_message(char *text_error, char *detail, int quote);
 void	free_ptr(void *ptr);
 
 /*   utils/free.c   */
+void	lst_clear_cmd(t_cmd **lst, void (*del)(void *));
 void	free_data(t_data *data, bool clear_history);
 void	free_ptr(void *ptr);
 void	lst_clear_token(t_token **lst, void (*del)(void *));
@@ -152,7 +163,7 @@ int		save_separator(t_token **token_list, char *str, int index, int type);
 int		expand_variables(t_data *data, t_token **tokens);
 
 /*   parsing/parsing.c   */
-int		is_builtin(char *line);
+int		is_builtin(t_cmd *cmd_data);
 t_cmd	*create_cmd(int type, char *cmd);
 void	parsing(t_data *data);
 bool	parser_user_input(t_data *data);
@@ -176,5 +187,7 @@ void create_commands(t_data *data, t_token *token);
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);
 void	show_lists(t_data *data);
+
+t_cmd	*lst_last_cmd(t_cmd *cmd);
 
 #endif

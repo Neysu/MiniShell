@@ -1,0 +1,9 @@
+total 116
+-rw-r--r--. 1 elliot elliot    89  8 avril 00:37 @"%2
+drwxr-xr-x. 1 elliot elliot   252  8 avril 00:37 ft_printf
+drwxr-xr-x. 1 elliot elliot   154  8 avril 00:37 libft
+-rw-r--r--. 1 elliot elliot  1733  7 avril 03:43 Makefile
+-rwxr-xr-x. 1 elliot elliot 99544  8 avril 01:07 minishell
+-rw-r--r--. 1 elliot elliot  5126  8 avril 00:33 minishell.h
+-rw-r--r--. 1 elliot elliot     0  8 avril 01:07 outfile
+drwxr-xr-x. 1 elliot elliot   128  8 avril 01:07 sources

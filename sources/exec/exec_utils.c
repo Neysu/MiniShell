@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/02 11:55:53 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:30:36 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,10 @@ char	*findcmd(t_cmd *cmd_data, t_envp *envp)
 	}
 	ft_free_arr(path);
 	return (ret);
+}
+
+void	closepipe(t_cmd *cmd_data)
+{
+	close(cmd_data->pipefd[0]);
+	close(cmd_data->pipefd[1]);
 }

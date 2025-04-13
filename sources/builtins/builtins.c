@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:20:54 by elliot            #+#    #+#             */
-/*   Updated: 2025/03/26 01:41:20 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:24:29 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	exec_buitlins(char *line, t_data *data)
+int		exec_buitlins(char *line, t_data *data)
 {
 	if (!ft_strncmp(line, "env", 3))
 		print_env(data->envp);
@@ -23,7 +23,7 @@ int	exec_buitlins(char *line, t_data *data)
 	if (!ft_strncmp(line, "unset", 5))
 		ft_unset(line, data->envp);
 	if (!ft_strncmp(line, "cd", 2))
-		change_dirs(data->envp, line);
+		change_dirs(data->envp, data->cmd);
 	if (!ft_strncmp(line, "export", 6))
 		ft_export(line, data->envp);
 	if (!ft_strncmp(line, "exit", 4))

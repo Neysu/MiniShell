@@ -7,12 +7,21 @@ SRCDIR = sources
 EXECDIR = exec
 PARSDIR = parsing
 UTILS = utils
+BUILDIR = builtins
 SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/get_env.c \
 		$(SRCDIR)/$(EXECDIR)/exec.c \
-		$(SRCDIR)/$(EXECDIR)/builtins.c \
-		$(SRCDIR)/$(EXECDIR)/builtins_utils.c \
+		$(SRCDIR)/$(BUILDIR)/builtins.c \
+		$(SRCDIR)/$(BUILDIR)/builtins_utils.c \
+		$(SRCDIR)/$(BUILDIR)/cd.c \
+		$(SRCDIR)/$(BUILDIR)/echo.c \
+		$(SRCDIR)/$(BUILDIR)/env.c \
+		$(SRCDIR)/$(BUILDIR)/exit.c \
+		$(SRCDIR)/$(BUILDIR)/export.c \
+		$(SRCDIR)/$(BUILDIR)/pwd.c \
+		$(SRCDIR)/$(BUILDIR)/unset.c \
 		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
+		$(SRCDIR)/$(EXECDIR)/redirect.c \
 		$(SRCDIR)/$(PARSDIR)/create_commands.c \
 		$(SRCDIR)/$(PARSDIR)/envp_check.c \
 		$(SRCDIR)/$(PARSDIR)/expand_variables.c \

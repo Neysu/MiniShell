@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:15:16 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/31 16:54:04 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:32:50 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,12 +204,10 @@ char	*get_new_token_str(char *str, char *var_value, int new_str_size, int index)
 {
 	int		i;
 	int		j;
-	int k;
 	char	*new_str;
 
 	i = 0;
 	j = 0;
-	k = 0;
 	new_str = malloc(sizeof(char) * new_str_size);
 	if (!new_str)
 		return (NULL);

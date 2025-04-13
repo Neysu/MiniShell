@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/05 19:48:02 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:32:18 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_cmd	*lst_new_cmd(void)
 		return (NULL);
 	//ft_memset(new_node, 0 , sizeof(t_cmd));
 	new_node->cmd = NULL;
-	new_node->type = 0;
+	new_node->type = 10;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);

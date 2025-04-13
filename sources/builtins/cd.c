@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:29:50 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/24 22:29:51 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/04/13 18:25:44 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,30 +48,28 @@ char	*get_dirs(char *s)
 	return (ret);
 }
 
-int		change_dirs(t_envp *envp, char *line)
+int		change_dirs(t_envp *envp, t_cmd	*cmd_data)
 {
-	char	**args;
 	char	*dir;
 	char	*home;
 
-	args = ft_split(line, ' ');
-	if (ft_arrlen(args) > 2)
+	if (ft_arrlen(cmd_data->cmd) > 2)
 		return (ft_putendl_fd("Too much args", 2), 1);
-	if (ft_arrlen(args) == 1)
+	if (ft_arrlen(cmd_data->cmd) == 1)
 	{
 		home = find_home(envp);
+		if (!home)
+			return (ft_putendl_fd("no HOME set", 2), 1);
 		if (chdir((const char *)home) == -1)
 			return (perror(home), 1);
 		free(home);
 	}
 	else
 	{
-		dir = get_dirs(args[1]);
+		dir = get_dirs(cmd_data->cmd[1]);
 		if (chdir((const char *)dir) == -1)
 			return (perror(dir), 1);
 		free(dir);
 	}
-	ft_free_arr(args);
 	return (0);
 }
-
