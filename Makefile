@@ -1,13 +1,18 @@
 NAME = minishell
+
 CFLAGS = -Wall -Wextra -Werror -g
 FLAGS = -lreadline
+
 LIB = libft/libft.a
 FT_PRINTF = ft_printf/ft_printf.a
+
 SRCDIR = sources
 EXECDIR = exec
 PARSDIR = parsing
 UTILS = utils
 BUILDIR = builtins
+OBJDIR = objects
+
 SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/get_env.c \
 		$(SRCDIR)/$(EXECDIR)/exec.c \
@@ -33,7 +38,7 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(UTILS)/errors.c \
 		$(SRCDIR)/$(UTILS)/tests.c
 
-OBJ := $(SRC:.c=.o)
+OBJ := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRC))
 
 GREEN = \033[0;32m
 RED = \033[0;31m
@@ -46,9 +51,13 @@ $(NAME): $(OBJ) $(LIB) $(FT_PRINTF)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(FT_PRINTF) $(LIB) $(FLAGS)
 	@echo "$(GREEN)Done!$(NC)"
 
-%.o: %.c
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+	@mkdir -p  $(@D)
 	@echo "$(GREEN)Compiling $<...$(NC)"
 	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
 
 $(LIB):
 	@$(MAKE) -s -C libft
@@ -60,7 +69,7 @@ clean:
 	@echo "$(RED)Cleaning object files...$(NC)"
 	@$(MAKE) clean -s -C libft
 	@$(MAKE) clean -s -C ft_printf
-	@rm -f $(OBJ)
+	@rm -rf $(OBJDIR)
 
 fclean: clean
 	@echo "$(RED)Full clean...$(NC)"
