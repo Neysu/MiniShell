@@ -39,6 +39,13 @@ char	*findcmd(t_cmd *cmd_data, t_envp *envp)
 	return (ret);
 }
 
+void	ft_puterror(char *cmd)
+{
+	ft_putstr_fd("minishell: ", STDERR);
+	ft_putstr_fd(cmd, STDERR);
+	ft_putendl_fd(": command not found", STDERR);
+}
+
 void	closepipe(t_cmd *cmd_data)
 {
 	close(cmd_data->pipefd[0]);

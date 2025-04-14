@@ -50,4 +50,11 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+#other
 minishell
+out
+outfile
+test
+test2
+infile
