@@ -6,7 +6,7 @@
 /*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/07 17:30:42 by elliot           ###   ########.fr       */
+/*   Updated: 2025/04/10 23:41:40 by egibeaux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct		s_cmd
 {
 	char 			**cmd;
 	char 			*cmd_name;
+	int				fd;
 	int				type;
 	int				pipefd[2];
 	struct s_cmd	*next;
@@ -94,8 +95,8 @@ enum				e_token_type{
 	WORD,			// 2 word
 	ENV,			// 3 $
 	PIPE,			// 4 |
-	REDIRECT_IN,	// 5 >
-	REDIRECT_OUT,	// 6 <
+	REDIRECT_IN,	// 5 <
+	REDIRECT_OUT,	// 6 >
 	APPEND,			// 7 >>
 	HEREDOC,		// 8 <<
 	END,			// 9 '\0'
@@ -126,9 +127,12 @@ int		exec_buitlins(char *line, t_data *data);
 
 int		exec(t_data *data);
 
-int		redirect_inf(t_cmd *cmd_data, t_data *data);
-int		redirect_out(t_cmd *cmd_data, t_data *data);
+int		get_redirect(t_cmd *cmd_data);
+int		open_files(t_cmd *cmd_data, t_data *data);
+int		redirect(t_cmd *cmd_data, t_data *data);
 
+void	ft_puterror(char *cmd);
+void	ft_closefds(t_cmd *cmd_data);
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 
 char	**env_to_str(t_envp *envp);

@@ -29,12 +29,11 @@ int		exec(t_data *data)
 {
 	t_cmd *current = data->cmd;
 
-	while (current)
+	if (current)
 	{
-		if (current->type == REDIRECT_OUT)
-			redirect_out(current, data);
-		if (current->type == REDIRECT_IN)
-			redirect_inf(current, data);
+		if (current->type == REDIRECT_OUT || current->type == REDIRECT_IN
+			|| current->type == APPEND)
+			redirect(current, data);
 		if (current->type == COMMAND)
 			exec_single(data);
 		current = current->next;
@@ -67,7 +66,7 @@ int	exec_cmd(t_cmd *cmd_data, t_envp *envp_data)
 
 	path = findcmd(cmd_data, envp_data);
 	if (!path)
-		return (perror(path), 1);
+		return (ft_puterror(cmd_data->cmd[0]), 1);
 	envp = env_to_str(envp_data);
 	execve(path, cmd_data->cmd, envp);
 	perror("execve");

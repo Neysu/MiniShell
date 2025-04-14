@@ -11,6 +11,7 @@ BUILDIR = builtins
 SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/get_env.c \
 		$(SRCDIR)/$(EXECDIR)/exec.c \
+		$(SRCDIR)/$(EXECDIR)/open_files.c \
 		$(SRCDIR)/$(BUILDIR)/builtins.c \
 		$(SRCDIR)/$(BUILDIR)/builtins_utils.c \
 		$(SRCDIR)/$(BUILDIR)/cd.c \
