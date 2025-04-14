@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:59:51 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/13 18:34:51 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:08:23 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,7 @@ void	exit_shell(t_data *data, int exit_code)
 {
 	if (data)
 		free_data(data, true);
+	ft_putstr_fd("exit\n", SUCCESS);
+	rl_clear_history();
 	exit(exit_code);
 }

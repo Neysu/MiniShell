@@ -34,20 +34,20 @@ void show_commands(t_data *data)
 
 	while (current)
 	{
-		printf("   Command #%d (Type: %d, Name cmd: %s):\n", cmd_num, current->type, current->cmd_name);
+		printf("	Command #%d (Type: %d, Name cmd: %s):\n", cmd_num, current->type, current->cmd_name);
 
 		if (current->cmd)
 		{
 			int i = 0;
 			while (current->cmd[i])
 			{
-				printf("      cmd[%d] : \033[30;34m%s\033[0m\n", i, current->cmd[i] ? current->cmd[i] : "(null)");
+				printf("		cmd[%d] : \033[30;34m%s\033[0m\n", i, current->cmd[i] ? current->cmd[i] : "(null)");
 				i++;
 			}
 		}
 		else
 		{
-			printf("      (No command arguments)\n");
+			printf("		(No command arguments)\n");
 		}
 
 		current = current->next;

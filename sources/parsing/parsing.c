@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/13 18:34:14 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/14 20:09:04 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_builtin(t_cmd *cmd_data)
 {
-	if (!cmd_data)
+	if (!cmd_data || !cmd_data->cmd || !cmd_data->cmd[0])
 		return (0);
 	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))
 		return (1);
@@ -45,7 +45,11 @@ void	parsing(t_data *data)
 	{
 		data->user_input = ft_strdup(user_input[i]);
 		if (parser_user_input(data) == true)
+		{
+			show_lists(data);
 			data->exit_code = 0;
+		}
+
 		else
 			data->exit_code = 1;
 		i++;

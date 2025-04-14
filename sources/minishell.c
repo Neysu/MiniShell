@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/13 18:35:39 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/14 19:17:47 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,16 @@ char	*get_path()
 	char	**folders;
 	char	*path;
 	char	*pos;
+	char	*tmp;
 	int		len;
 
 	path = ft_calloc(sizeof(char), PATH_MAX_LEN);
 	getcwd(path, PATH_MAX_LEN);
 	folders = ft_split(path, '/');
 	len = ft_arrlen(folders);
-	pos = ft_strjoin(PROMPT1, folders[len - 1]);
-	pos = ft_strjoin(pos, PROMPT2);
+	tmp = ft_strjoin(PROMPT1, folders[len - 1]);
+	pos = ft_strjoin(tmp, PROMPT2);
+	free(tmp);
 	ft_free_arr(folders);
 	free(path);
 	return (pos);
@@ -67,12 +69,15 @@ int	main(int argc, char **argv, char **envp)
 		if (data.user_input == NULL)
 			exit_shell(&data, EXIT_SUCCESS);
 		parsing(&data);
-		if (is_builtin(data.cmd))
-		 	exec_buitlins(data.user_input, &data);
+		if (data.cmd && is_builtin(data.cmd))
+			exec_buitlins(data.user_input, &data);
 		else
 			exec(&data);
 		lst_clear_cmd(&data.cmd, &free_ptr);
 		lst_clear_token(&data.token, &free_ptr);
+		free(data.user_input);
+		free(path);
 	}
+	rl_clear_history();
 	return (data.exit_code);
 }
