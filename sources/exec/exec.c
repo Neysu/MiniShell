@@ -20,7 +20,10 @@ void	exec_single(t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
-		exec_cmd(data->cmd, data->envp);
+		if (is_builtin(data->cmd))
+		 	exec_buitlins(data->user_input, data);
+		else
+			exec_cmd(data->cmd, data->envp);
 	}
 	waitpid(pid, &status, 0);
 }

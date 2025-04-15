@@ -68,10 +68,7 @@ int	main(int argc, char **argv, char **envp)
 			exit_shell(&data, EXIT_SUCCESS);
 		parsing(&data);
 		//show_lists(&data);
-		if (is_builtin(data.cmd))
-		 	exec_buitlins(data.user_input, &data);
-		else
-			exec(&data);
+		exec(&data);
 		lst_clear_cmd(&data.cmd, &free_ptr);
 		lst_clear_token(&data.token, &free_ptr);
 	}

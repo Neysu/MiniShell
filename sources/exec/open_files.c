@@ -14,7 +14,6 @@
 
 static int	open_file(char *file, t_cmd *cmd_data)
 {
-	printf("that shit is -> %s and his type is : %d\n", file, cmd_data->type);
 	if (!file)
 		return (1);
 	if (cmd_data->type == REDIRECT_OUT)
@@ -23,7 +22,6 @@ static int	open_file(char *file, t_cmd *cmd_data)
 		cmd_data->fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (cmd_data->type == REDIRECT_IN)
 		cmd_data->fd = open(file, O_RDONLY);
-	printf("%d\n", cmd_data->fd);
 	if (cmd_data->fd <= -1)
 		return (1);
 	return (0);
@@ -58,7 +56,6 @@ int	get_redirect(t_cmd *cmd_data)
 			}
 			if (current->type == REDIRECT_OUT || current->type == APPEND)
 			{
-				printf("that shit is -> %d and his type is : %d\n", current->fd, current->type);
 				if (dup2(current->fd, STDOUT_FILENO) == -1)
 					return (perror("dup2"), 1);
 			}

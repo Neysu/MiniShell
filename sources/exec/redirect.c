@@ -26,7 +26,10 @@ int	redirect(t_cmd *cmd_data, t_data *data)
 		current = cmd_data;
 		if (get_redirect(cmd_data))
 			exit(1);
-		exec_cmd(current, data->envp);
+		if (is_builtin(cmd_data))
+		 	exec_buitlins(data->user_input, data);
+		else
+			exec_cmd(current, data->envp);
 		exit(1);
 	}
 	ft_closefds(cmd_data);
