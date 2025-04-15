@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:45:57 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/27 14:11:03 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:58:10 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	error_message(char *text_error, char *detail, int quote)
 	messsage = ft_strdup("minishell: ");
 	messsage = str_join(messsage, text_error);
 	if (quote)
-		messsage = str_join(messsage, " ` ");
+		messsage = str_join(messsage, " `");
 	else
 		messsage = str_join(messsage, " : ");
 	messsage = str_join(messsage, detail);
 	if (quote)
-		messsage = str_join(messsage, " '");
+		messsage = str_join(messsage, "'");
 	messsage = str_join(messsage, "\n");
 	ft_putstr_fd(messsage, STDERR);
 	free_ptr(messsage);
