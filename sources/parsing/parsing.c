@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/14 20:09:04 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:20:33 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	parsing(t_data *data)
 			show_lists(data);
 			data->exit_code = 0;
 		}
-
 		else
 			data->exit_code = 1;
 		i++;

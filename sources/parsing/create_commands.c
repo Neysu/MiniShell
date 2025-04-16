@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/14 21:07:52 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/16 20:33:04 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,17 +305,17 @@ void	create_commands(t_data *data, t_token *token)
 			lst_addback_cmd(&data->cmd, lst_new_cmd());
 		if (temp->type == WORD || temp->type == ENV)
 			parse_word(&data->cmd, &temp);
-		if (temp->type == PIPE)
-			set_cmd_type(data, &temp, PIPE);
-		if (temp->type == REDIRECT_IN)
+		else if (temp->type == REDIRECT_IN)
 			set_cmd_type(data, &temp, REDIRECT_IN);
-		if (temp->type == REDIRECT_OUT)
+		else if (temp->type == REDIRECT_OUT)
 			set_cmd_type(data, &temp, REDIRECT_OUT);
-		if (temp->type == APPEND)
+		else if (temp->type == PIPE)
+			set_cmd_type(data, &temp, PIPE);
+		else if (temp->type == APPEND)
 			set_cmd_type(data, &temp, APPEND);
-		if (temp->type == HEREDOC)
+		else if (temp->type == HEREDOC)
 			set_cmd_type(data, &temp, HEREDOC);
-		if (temp->type == END)
+		else if (temp->type == END)
 			break ;
 	}
 }
