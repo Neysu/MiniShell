@@ -22,6 +22,8 @@ t_cmd	*lst_new_cmd(void)
 	//ft_memset(new_node, 0 , sizeof(t_cmd));
 	new_node->cmd = NULL;
 	new_node->type = 0;
+	new_node->infile = NULL;
+	new_node->outfile = NULL;
 	new_node->fd = -1;
 	new_node->next = NULL;
 	new_node->prev = NULL;
@@ -37,6 +39,8 @@ t_cmd	*lst_add_new_cmd(void)
 		return (NULL);
 	ft_memset(new_node, 0 , sizeof(t_cmd));
 	new_node->cmd = NULL;
+	new_node->infile = NULL;
+	new_node->outfile = NULL;
 	new_node->fd = -1;
 	new_node->cmd_name = NULL;
 	new_node->next = NULL;
@@ -261,7 +265,7 @@ void	parse_word(t_cmd **cmd, t_token **token)
 	t_cmd	*last_cmd;
 
 	temp = *token;
-	while (temp->type == WORD || temp->type == ENV)
+while (temp->type == WORD || temp->type == ENV)
 	{
 		last_cmd = lst_last_cmd(*cmd);
 		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE)
@@ -292,6 +296,31 @@ void	set_cmd_type(t_data *data, t_token **token, int type)
 	lst_addback_cmd(&data->cmd, lst_new_cmd());
 }
 
+void	set_outfile(t_token **token, t_data *data, int type)
+{
+	if (type == REDIRECT_OUT && (*token)->next->type == WORD)
+	{
+		data->cmd->outfile = ft_strdup((*token)->next->str);
+		*token = (*token)->next;
+	}
+	else if (type == APPEND && (*token)->next->type == WORD)
+	{
+		data->cmd->outfile = ft_strdup((*token)->next->str);
+		*token = (*token)->next;
+	}
+	set_cmd_type(data, token, type);
+}
+
+void	set_infile(t_token **token, t_data *data)
+{
+	if ((*token)->type == REDIRECT_IN && (*token)->next->type == WORD)
+	{
+		data->cmd->infile = ft_strdup((*token)->next->str);
+		*token = (*token)->next;
+	}
+	set_cmd_type(data, token, REDIRECT_IN);
+}
+
 void	create_commands(t_data *data, t_token *token)
 {
 	t_token *temp;
@@ -308,11 +337,11 @@ void	create_commands(t_data *data, t_token *token)
 		if (temp->type == PIPE)
 			set_cmd_type(data, &temp, PIPE);
 		if (temp->type == REDIRECT_IN)
-			set_cmd_type(data, &temp, REDIRECT_IN);
+			set_infile(&temp, data);
 		if (temp->type == REDIRECT_OUT)
-			set_cmd_type(data, &temp, REDIRECT_OUT);
+			set_outfile(&temp, data, temp->type);
 		if (temp->type == APPEND)
-			set_cmd_type(data, &temp, APPEND);
+			set_outfile(&temp, data, temp->type);
 		if (temp->type == HEREDOC)
 			set_cmd_type(data, &temp, HEREDOC);
 		if (temp->type == END && data->cmd->type == DEFAULT)

@@ -12,18 +12,16 @@
 
 #include "../../minishell.h"
 
-static int	open_file(char *file, t_cmd *cmd_data)
+static int	open_file(t_cmd *cmd_data)
 {
-	if (!file)
-		return (1);
 	if (cmd_data->type == REDIRECT_OUT)
-		cmd_data->fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		cmd_data->fd = open(cmd_data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (cmd_data->type == APPEND)
-		cmd_data->fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		cmd_data->fd = open(cmd_data->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (cmd_data->type == REDIRECT_IN)
-		cmd_data->fd = open(file, O_RDONLY);
+		cmd_data->fd = open(cmd_data->infile, O_RDONLY);
 	if (cmd_data->fd <= -1)
-		return (1);
+		return (ft_putendl_fd("error opening file", STDERR), 1);
 	return (0);
 }
 
@@ -77,7 +75,7 @@ int	open_files(t_cmd *cmd_data, t_data *data)
 		if (current->next && (current->type == REDIRECT_OUT || current->type == APPEND
 			|| current->type == REDIRECT_IN))
 		{
-			if (open_file(current->next->cmd[ft_arrlen(current->next->cmd) - 1], current))
+			if (open_file(current))
 				return (ft_putendl_fd("caca", STDERR), 1);
 		}
 		current = current->next;

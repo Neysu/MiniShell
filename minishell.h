@@ -28,8 +28,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-//# define PROMPT "\033[0;36mminishell>\033[0m "
-//# define PROMPT "\033[1;38;5;207m \033[1;35mminishell\033[1;38;5;207m ❯\033[0m "
 # define PROMPT1 "\033[1;32m┌──(\033[1;34mminishell\033[1;32m)-[\033[0m\033[1;37m"
 # define PROMPT2 "\033[1;32m]\n└─\033[1;31m$\033[0m "
 # define ERRORCMD "minishell : %s: unknown command\n"
@@ -68,6 +66,8 @@ typedef struct		s_cmd
 	int				fd;
 	int				type;
 	int				pipefd[2];
+	char			*infile;
+	char			*outfile;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }					t_cmd;
