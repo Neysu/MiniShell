@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/17 17:08:36 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:00:30 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,50 @@ void	lst_addback_token(t_token **token_list, t_token *new_node);
 int		save_word(t_token **token_list, char *str, int index, int start);
 int		save_separator(t_token **token_list, char *str, int index, int type);
 
+/*   parsing/cmd_list_utils.c   */
+t_cmd	*lst_new_cmd(void);
+t_cmd	*lst_add_new_cmd(void);
+void	lst_addback_cmd(t_cmd **cmd_list, t_cmd *new_node);
+t_cmd	*lst_last_cmd(t_cmd *cmd);
+
+/*   parsing/token_utils.c   */
+bool	contains_space(char *str);
+void	lstdelone_token(t_token *lst, void (*del)(void *));
+void	lstclear_token(t_token **lst, void (*del)(void *));
+
+/*   parsing/args_handling.c   */
+int		args_count(t_token *token);
+int		create_args_default_mode(t_token **token_node, t_cmd *last_cmd);
+char	**copy_default_in_new_tab(int len, char **new_tab, t_cmd *last_cmd, t_token **tk_node);
+int		add_args_default_mode(t_token **token_node, t_cmd *last_cmd);
+
+/*   parsing/create_commands.c   */
+int		fill_cmd(t_token **token_node, t_cmd *last_cmd, char *str);
+int		fill_args(t_token **token_node, t_cmd *last_cmd);
+void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str);
+void	parse_word(t_cmd **cmd, t_token **token);
+void	set_cmd_type(t_data *data, t_token **token, int type);
+void	create_commands(t_data *data, t_token *token);
+
+/*   parsing/var_validation.c   */
+bool	char_is_sep(char c);
+bool	between_quotes(char *str, int i);
+bool	is_var_valid(char c);
+int		var_len(char *str);
+char	*search_name_var(char *str);
+
+/*   parsing/env_var_handling.c   */
+void	update_status(t_token **token, char c);
+int		var_exist(t_data *data, char *var);
+char	*get_env_value(t_data *data, char *var);
+char	*get_var_value(t_token *token, char *str, t_data *data);
+int		exchange_var(t_token **token, char *var_value, int index);
+
 /*   parsing/expand_variables.c   */
+int		erase_var(t_token **token, char *str, int index);
+void	copy_var_value(char *new_str, char *var_value, int *j);
+char	*get_new_token_str(char *str, char *var_value, int new_str_size, int index);
+char	*erase_and_replace(t_token **token, char *str, char *var_value, int index);
 int		expand_variables(t_data *data, t_token **tokens);
 
 /*   parsing/parsing.c   */
@@ -184,8 +227,7 @@ void	set_signal_noninteractive(void);
 /*   parsing/quotes_handler.c   */
 int		quotes_handler(t_data *data);
 
-/*   parsing/create_commands.c   */
-void create_commands(t_data *data, t_token *token);
+
 
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);

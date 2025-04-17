@@ -28,13 +28,18 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(BUILDIR)/unset.c \
 		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
 		$(SRCDIR)/$(EXECDIR)/redirect.c \
+		$(SRCDIR)/$(PARSDIR)/args_handling.c \
+		$(SRCDIR)/$(PARSDIR)/cmd_list_utils.c \
 		$(SRCDIR)/$(PARSDIR)/create_commands.c \
+		$(SRCDIR)/$(PARSDIR)/env_var_handling.c \
 		$(SRCDIR)/$(PARSDIR)/envp_check.c \
 		$(SRCDIR)/$(PARSDIR)/expand_variables.c \
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
 		$(SRCDIR)/$(PARSDIR)/quotes_handler.c \
 		$(SRCDIR)/$(PARSDIR)/signal.c \
 		$(SRCDIR)/$(PARSDIR)/lexer.c \
+		$(SRCDIR)/$(PARSDIR)/token_utils.c \
+		$(SRCDIR)/$(PARSDIR)/var_validation.c \
 		$(SRCDIR)/$(UTILS)/free.c \
 		$(SRCDIR)/$(UTILS)/errors.c \
 		$(SRCDIR)/$(UTILS)/tests.c
