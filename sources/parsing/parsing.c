@@ -14,10 +14,11 @@
 
 int	is_builtin(t_cmd *cmd_data)
 {
+	printf("%s\n", cmd_data->cmd[0]);
 	if (!cmd_data)
 		return (0);
 	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))
-		return (1);
+		return (ft_putendl_fd("echo is on", STDERR), 1);
 	if (!ft_strncmp(cmd_data->cmd[0], "cd", -1))
 		return (1);
 	if (!ft_strncmp(cmd_data->cmd[0], "pwd", -1))

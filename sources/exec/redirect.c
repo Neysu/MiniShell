@@ -12,6 +12,19 @@
 
 #include "../../minishell.h"
 
+static t_cmd	*find_cmd(t_cmd *cmd_data)
+{
+	t_cmd	*current;
+
+	current = cmd_data;
+	while (current)
+	{
+		if (current->cmd && current->cmd[0])
+			return (current);
+	}
+	return (cmd_data);
+}
+
 int	redirect(t_cmd *cmd_data, t_data *data)
 {
 	pid_t	pid;
@@ -23,10 +36,10 @@ int	redirect(t_cmd *cmd_data, t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
-		current = cmd_data;
 		if (get_redirect(cmd_data))
 			exit(1);
-		if (is_builtin(cmd_data))
+		current = find_cmd(cmd_data);
+		if (is_builtin(current))
 		 	exec_buitlins(data->user_input, data);
 		else
 			exec_cmd(current, data->envp);
