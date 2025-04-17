@@ -34,8 +34,7 @@ void show_commands(t_data *data)
 
 	while (current)
 	{
-		printf("   Command #%d (Type: %d, Name cmd: %s):\n", cmd_num, current->type, current->cmd_name);
-
+		printf("cmd number -> %d, type is -> %d\n", cmd_num, current->type);
 		if (current->cmd)
 		{
 			int i = 0;
@@ -44,6 +43,14 @@ void show_commands(t_data *data)
 				printf("      cmd[%d] : \033[30;34m%s\033[0m\n", i, current->cmd[i] ? current->cmd[i] : "(null)");
 				i++;
 			}
+		}
+		if (current->infile)
+		{
+				printf("      infile : \033[30;34m%s\033[0m\n", current->infile ? current->infile : "(null)");
+		}
+		if (current->outfile)
+		{
+				printf("      outfile : \033[30;34m%s\033[0m\n", current->outfile ? current->outfile : "(null)");
 		}
 		else
 		{

@@ -15,13 +15,23 @@
 static int	open_file(t_cmd *cmd_data)
 {
 	if (cmd_data->type == REDIRECT_OUT)
+	{
 		cmd_data->fd = open(cmd_data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (cmd_data->fd == -1)
+			return (perror("outfile"), 1);
+	}
 	else if (cmd_data->type == APPEND)
+	{
 		cmd_data->fd = open(cmd_data->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (cmd_data->fd == -1)
+			return (perror("outfile"), 1);
+	}
 	else if (cmd_data->type == REDIRECT_IN)
+	{
 		cmd_data->fd = open(cmd_data->infile, O_RDONLY);
-	if (cmd_data->fd <= -1)
-		return (ft_putendl_fd("error opening file", STDERR), 1);
+		if (cmd_data->fd == -1)
+			return (perror("infile"), 1);
+	}
 	return (0);
 }
 
@@ -76,7 +86,7 @@ int	open_files(t_cmd *cmd_data, t_data *data)
 			|| current->type == REDIRECT_IN))
 		{
 			if (open_file(current))
-				return (ft_putendl_fd("caca", STDERR), 1);
+				return (ft_putendl_fd("error file opening", STDERR), 1);
 		}
 		current = current->next;
 	}

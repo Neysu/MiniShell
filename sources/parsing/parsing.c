@@ -14,7 +14,6 @@
 
 int	is_builtin(t_cmd *cmd_data)
 {
-	printf("%s\n", cmd_data->cmd[0]);
 	if (!cmd_data)
 		return (0);
 	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))

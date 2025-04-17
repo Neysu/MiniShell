@@ -21,6 +21,7 @@ static t_cmd	*find_cmd(t_cmd *cmd_data)
 	{
 		if (current->cmd && current->cmd[0])
 			return (current);
+		current = current->next;
 	}
 	return (cmd_data);
 }

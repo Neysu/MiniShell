@@ -62,11 +62,12 @@ void	lst_clear_token(t_token **lst, void (*del)(void *))
 
 void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
 {
-	if (lst->cmd_name)
-		//(*del)(lst->cmd_name);
 	if (lst->cmd)
 		free_str_tab(lst->cmd);
-	//(*del)(lst->pipefd);
+	if (lst->infile)
+		(*del)(lst->infile);
+	if (lst->outfile)
+		(*del)(lst->outfile);
 	(*del)(lst);
 }
 
