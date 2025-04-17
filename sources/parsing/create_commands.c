@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/16 20:33:04 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:07:49 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_cmd	*lst_add_new_cmd(void)
 	ft_memset(new_node, 0 , sizeof(t_cmd));
 	new_node->cmd = NULL;
 	new_node->fd = -1;
-	new_node->cmd_name = NULL;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
@@ -92,13 +91,16 @@ int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
 	i = 0;
 	temp = *token_node;
 	nb_args = 1;
-	last_cmd->cmd = malloc(sizeof(char *) * (nb_args + 2));
+	while (temp->type == WORD || temp->type == ENV)
+	{
+		nb_args++;
+		temp = temp->next;
+	}
+	temp = *token_node;
+	last_cmd->cmd = malloc(sizeof(char *) * (nb_args + 1));
 	if (!last_cmd->cmd)
 		return (FAILURE);
-	temp = *token_node;
-	i = 0;
-	last_cmd->cmd[i] = ft_strdup(last_cmd->cmd_name);
-	i++;
+	i = 1;
 	while (temp->type == WORD || temp->type == ENV)
 	{
 		last_cmd->cmd[i] = ft_strdup(temp->str);
@@ -110,22 +112,29 @@ int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
 	return (SUCCESS);
 }
 
-int	fill_cmd(t_token **token_node, t_cmd *last_cmd)
+int	fill_cmd(t_token **token_node, t_cmd *last_cmd, char *str)
 {
-	//int i = 0;
 	t_token *temp = *token_node;
 
 	if (!last_cmd->cmd) {
 		last_cmd->cmd = malloc(sizeof(char *) * 2);
 		if (!last_cmd->cmd) return (FAILURE);
-		last_cmd->cmd[0] = ft_strdup(last_cmd->cmd_name);
+		last_cmd->cmd[0] = ft_strdup(str);
 		if (!last_cmd->cmd[0]) {
 			free(last_cmd->cmd);
 			return (FAILURE);
 		}
 		last_cmd->cmd[1] = NULL;
 	}
-	*token_node = temp;
+	else if (last_cmd->cmd[0] == NULL) {
+		last_cmd->cmd[0] = ft_strdup(str);
+		if (!last_cmd->cmd[0]) {
+			return (FAILURE);
+		}
+	}
+
+	if (token_node)
+		*token_node = temp;
 	return (SUCCESS);
 }
 
@@ -240,7 +249,7 @@ static void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str)
 	strs = ft_split(cmd_str, ' ');
 	if (!strs)
 		return ;
-	last_cmd->cmd_name = ft_strdup(strs[0]);
+	fill_cmd(NULL, last_cmd, strs[0]);
 	if (strs[1])
 		new_tokens = lst_new_token(ft_strdup(strs[1]), WORD, DEFAULT);
 	tmp = new_tokens;
@@ -265,14 +274,13 @@ void	parse_word(t_cmd **cmd, t_token **token)
 	{
 		last_cmd = lst_last_cmd(*cmd);
 		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE)
-			|| last_cmd->cmd_name == NULL)
+			|| last_cmd->cmd == NULL || last_cmd->cmd[0] == NULL)
 		{
 			if (temp->type == ENV && contains_space(temp->str))
 				split_var_cmd_token(last_cmd, temp->str);
 			else
 			{
-				last_cmd->cmd_name = ft_strdup(temp->str);
-				fill_cmd(&temp, last_cmd);
+				fill_cmd(&temp, last_cmd, temp->str);
 			}
 			temp = temp->next;
 		}

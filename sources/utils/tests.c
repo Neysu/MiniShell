@@ -34,7 +34,7 @@ void show_commands(t_data *data)
 
 	while (current)
 	{
-		printf("   Command #%d (Type: %d, Name cmd: %s):\n", cmd_num, current->type, current->cmd_name);
+		printf("   Command #%d (Type: %d):\n", cmd_num, current->type);
 
 		if (current->cmd)
 		{

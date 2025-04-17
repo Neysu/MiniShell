@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:59:51 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/14 16:08:23 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:08:00 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void	lst_clear_token(t_token **lst, void (*del)(void *))
 
 void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
 {
-	if (lst->cmd_name)
-		//(*del)(lst->cmd_name);
 	if (lst->cmd)
 		free_str_tab(lst->cmd);
 	//(*del)(lst->pipefd);
