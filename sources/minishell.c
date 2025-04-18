@@ -69,10 +69,12 @@ int	main(int argc, char **argv, char **envp)
 		if (data.user_input == NULL)
 			exit_shell(&data, EXIT_SUCCESS);
 		parsing(&data);
+		//show_lists(&data);
 		exec(&data);
 		lst_clear_cmd(&data.cmd, &free_ptr);
 		lst_clear_token(&data.token, &free_ptr);
 		free(path);
+		free(data.user_input);
 	}
 	return (data.exit_code);
 }

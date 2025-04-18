@@ -44,7 +44,6 @@
 typedef struct		s_envp
 {
 	char			*var;
-	int				index;
 	struct s_envp	*next;
 }					t_envp;
 
@@ -108,9 +107,13 @@ enum				e_quoting_status{
 	DQUOTE
 };
 
+/* env related*/
 t_envp	*get_env(char **envp);
 t_envp	*ft_lstnsave_word_or_sepew_env(char *envp);
+void	ft_lstadd_back(t_envp **lst, char *envp);
+char	**env_to_str(t_envp *envp);
 
+/* builtins */
 size_t	ft_envsize(t_envp *env);
 int		ft_exit(char *line, t_data *data);
 int		ft_export(char *line, t_envp *envp_data);
@@ -121,26 +124,22 @@ int		change_dirs(t_envp *envp, t_cmd	*cmd_data);
 int		ft_unset(char *line, t_envp *envp_data);
 
 
+/* executions */
 int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
+char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 int		exec_buitlins(char *line, t_data *data);
-
 int		exec(t_data *data);
 
+/* redirections*/
+void	closepipe(t_cmd *cmd_data);
+void	ft_closefds(t_cmd *cmd_data);
 int		get_redirect(t_cmd *cmd_data);
+int		is_redirect(t_cmd	*cmd_data);
 int		open_files(t_cmd *cmd_data, t_data *data);
 int		redirect(t_cmd *cmd_data, t_data *data);
 
-void	ft_puterror(char *cmd);
-void	ft_closefds(t_cmd *cmd_data);
-char	*findcmd(t_cmd *cmd_data, t_envp *envp);
-
-char	**env_to_str(t_envp *envp);
-
-void	closepipe(t_cmd *cmd_data);
-
-void	ft_lstadd_back(t_envp **lst, char *envp);
-
 /*   utils/errors.c   */
+void	ft_puterror(char *cmd);
 void	error_message(char *text_error, char *detail, int quote);
 
 /*   utils/errors.c   */

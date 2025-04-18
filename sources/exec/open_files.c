@@ -12,6 +12,29 @@
 
 #include "../../minishell.h"
 
+char	**add_args(char **cmd, char **new_args)
+{
+	char	**new;
+	int		i;
+	int		j;
+
+	new = ft_calloc(sizeof(char *), ft_arrlen(cmd) + ft_arrlen(new_args));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (cmd[i])
+		new[i] = ft_strdup(cmd[i]);
+	j = 1;
+	while (new_args[j])
+	{
+		new[i] = new_args[j];
+		i++;
+		j++;
+	}
+	ft_free_arr(cmd);
+	return (new);
+}
+
 static int	open_file(t_cmd *cmd_data)
 {
 	if (cmd_data->type == REDIRECT_OUT)

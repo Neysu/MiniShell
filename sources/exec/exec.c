@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-void	exec_single(t_data *data)
+void	exec_single(t_data *data, t_cmd *cmd_data)
 {
 	pid_t	pid;
 	int		status;
@@ -20,10 +20,10 @@ void	exec_single(t_data *data)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (is_builtin(data->cmd))
+		if (is_builtin(cmd_data))
 		 	exec_buitlins(data->user_input, data);
 		else
-			exec_cmd(data->cmd, data->envp);
+			exec_cmd(cmd_data, data->envp);
 	}
 	waitpid(pid, &status, 0);
 }
@@ -32,13 +32,13 @@ int		exec(t_data *data)
 {
 	t_cmd *current = data->cmd;
 
-	if (current)
+	while (current)
 	{
 		if (current->type == REDIRECT_OUT || current->type == REDIRECT_IN
 			|| current->type == APPEND)
 			redirect(current, data);
-		if (current->type == COMMAND)
-			exec_single(data);
+		else if (current->type == COMMAND && current->cmd && current->cmd[0])
+			exec_single(data, current);
 		current = current->next;
 	}
 	return (1);

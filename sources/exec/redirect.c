@@ -26,6 +26,22 @@ static t_cmd	*find_cmd(t_cmd *cmd_data)
 	return (cmd_data);
 }
 
+t_cmd	*last_redirect(t_cmd *cmd_data)
+{
+	bool	cmd_end;
+
+	cmd_end = true;
+	while (cmd_data && is_redirect(cmd_data))
+	{
+		if (cmd_data->cmd && cmd_data->cmd[0])
+			cmd_end = false;
+		cmd_data = cmd_data->next;
+	}
+	if (cmd_end)
+		cmd_data = cmd_data->next;
+	return (cmd_data);
+}
+
 int	redirect(t_cmd *cmd_data, t_data *data)
 {
 	pid_t	pid;
@@ -44,8 +60,9 @@ int	redirect(t_cmd *cmd_data, t_data *data)
 		 	exec_buitlins(data->user_input, data);
 		else
 			exec_cmd(current, data->envp);
-		exit(1);
+		exit(127);
 	}
+	cmd_data = last_redirect(cmd_data);
 	ft_closefds(cmd_data);
 	waitpid(pid, &status, 0);
 	return (0);

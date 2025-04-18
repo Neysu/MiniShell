@@ -14,7 +14,7 @@
 
 int	is_builtin(t_cmd *cmd_data)
 {
-	if (!cmd_data)
+	if (!cmd_data || !cmd_data->cmd || !cmd_data->cmd[0])
 		return (0);
 	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))
 		return (ft_putendl_fd("echo is on", STDERR), 1);
@@ -50,6 +50,7 @@ void	parsing(t_data *data)
 			data->exit_code = 1;
 		i++;
 	}
+	ft_free_arr(user_input);
 }
 
 bool	parser_user_input(t_data *data)
