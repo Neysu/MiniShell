@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/17 19:00:30 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:11:51 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-//# define PROMPT "\033[0;36mminishell>\033[0m "
+# define PROMPT "\033[1;37mminishell >>\033[0m "
 //# define PROMPT "\033[1;38;5;207m \033[1;35mminishell\033[1;38;5;207m ❯\033[0m "
-# define PROMPT1 "\033[1;32m┌──(\033[1;34mminishell\033[1;32m)-[\033[0m\033[1;37m"
-# define PROMPT2 "\033[1;32m]\n└─\033[1;31m$\033[0m "
+// # define PROMPT1 "\033[1;32m┌──(\033[1;34mminishell\033[1;32m)-[\033[0m\033[1;37m"
+// # define PROMPT2 "\033[1;32m]\n└─\033[1;31m$\033[0m "
 # define ERRORCMD "minishell : %s: unknown command\n"
 # define UNSETARGS "unset: not enough args"
 # define PATH_MAX_LEN 4096
@@ -143,8 +143,9 @@ void	ft_lstadd_back(t_envp **lst, char *envp);
 /*   utils/errors.c   */
 void	error_message(char *text_error, char *detail, int quote);
 
-/*   utils/errors.c   */
+/*   utils/free.c   */
 void	free_ptr(void *ptr);
+void	free_tokens(t_token *head);
 
 /*   utils/free.c   */
 void	lst_clear_cmd(t_cmd **lst, void (*del)(void *));
@@ -154,6 +155,7 @@ void	lst_clear_token(t_token **lst, void (*del)(void *));
 void	lst_delone_token(t_token *lst, void (*del)(void *));
 void	free_str_tab(char **tab);
 void	exit_shell(t_data *data, int exit_code);
+void	print_exit_shell(t_data *data, int exit_code);
 
 /*   parsing/lexer.c   */
 int		token_generator(t_data *data, char *str);
@@ -228,10 +230,10 @@ void	set_signal_noninteractive(void);
 int		quotes_handler(t_data *data);
 
 
-
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);
 void	show_lists(t_data *data);
+/*   DELETE THIS   */
 
 t_cmd	*lst_last_cmd(t_cmd *cmd);
 

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:59:51 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/17 17:08:00 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:41:46 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ void	free_data(t_data *data, bool clear_history)
 		lst_clear_cmd(&data->cmd, &free_ptr);
 	if (clear_history == true)
 	{
-		// if (data && data->envp)
-		// 	free_str_tab(&data->envp);
 		rl_clear_history();
 	}
 }
@@ -113,7 +111,26 @@ void	exit_shell(t_data *data, int exit_code)
 {
 	if (data)
 		free_data(data, true);
-	ft_putstr_fd("exit\n", SUCCESS);
-	rl_clear_history();
 	exit(exit_code);
+}
+
+void	print_exit_shell(t_data *data, int exit_code)
+{
+	write(STDERR_FILENO, "exit\n", 5);
+	free_tokens(data->token);
+	exit_shell(data, exit_code);
+}
+
+void	free_tokens(t_token *head)
+{
+	t_token *tmp;
+
+	while (head)
+	{
+		tmp = head->next;
+		if (head->str)
+			free(head->str);
+		free(head);
+		head = tmp;
+	}
 }

@@ -42,7 +42,7 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(PARSDIR)/var_validation.c \
 		$(SRCDIR)/$(UTILS)/free.c \
 		$(SRCDIR)/$(UTILS)/errors.c \
-		$(SRCDIR)/$(UTILS)/tests.c
+		$(SRCDIR)/delete_this/tests.c
 
 OBJ := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRC))
 

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/16 19:20:33 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:40:15 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,39 @@ int	is_builtin(t_cmd *cmd_data)
 	return (0);
 }
 
+int	ft_isspace(int c)
+{
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\r'
+		|| c == '\v' || c == '\f')
+		return (c);
+	return (0);
+}
+
+static bool	input_is_space(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (!ft_isspace(input[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
 void	parsing(t_data *data)
 {
 	char	**user_input;
+	int		i;
 
+	if (data->user_input == NULL)
+		print_exit_shell(data, data->exit_code);
 	user_input = ft_split(data->user_input, ';');
 	if (!user_input)
-		return ;
-	int i = 0;
+		exit_shell(data, EXIT_FAILURE);
+	i = 0;
 	while (user_input[i])
 	{
 		data->user_input = ft_strdup(user_input[i]);
@@ -48,17 +73,26 @@ void	parsing(t_data *data)
 		{
 			show_lists(data);
 			data->exit_code = 0;
+			if (data->cmd && is_builtin(data->cmd))
+				exec_buitlins(data->user_input, data);
+			else
+				exec(data);
 		}
 		else
 			data->exit_code = 1;
 		i++;
+		free_data(data, false);
 	}
+	free_str_tab(user_input);
 }
 
 bool	parser_user_input(t_data *data)
 {
+
 	if (ft_strcmp(data->user_input, "\0") == 0)
 		return (false);
+	else if (input_is_space(data->user_input))
+		return (true);
 	add_history(data->user_input);
 	if (token_generator(data, data->user_input) == FAILURE)
 		return (false);

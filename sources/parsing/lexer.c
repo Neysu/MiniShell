@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:20:56 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/13 18:33:07 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/19 13:02:51 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_token	*lst_new_token(char *str, int type, int status)
 {
 	t_token	*new_node;
 
-	new_node = (t_token *)malloc(sizeof(t_token) * 1);
+	new_node = malloc(sizeof(t_token) * 1);
 	if (!new_node)
 		return (NULL);
 	new_node->str = str;

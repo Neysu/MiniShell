@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/18 19:49:57 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/18 18:51:48 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,15 @@ void	minishell(t_data *data)
 		set_signal_interactive();
 		data->user_input = readline(PROMPT);
 		set_signal_noninteractive();
-		parsing(data);
+		if (data->user_input == NULL)
+			exit_shell(&data, EXIT_SUCCESS, true);
+		parsing(&data);
+		if (data->cmd && is_builtin(data->cmd))
+			exec_buitlins(data->user_input, &data);
+		else
+			exec(&data);
+		lst_clear_cmd(&data->cmd, &free_ptr);
+		lst_clear_token(&data->token, &free_ptr);
 		free(data->user_input);
 	}
 }
@@ -59,8 +67,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	ft_memset(&data, 0, sizeof(t_data));
 	if (!start_check(argc) || !init_data(&data, envp))
-		exit_shell(NULL, EXIT_FAILURE);
+		exit_shell(NULL, EXIT_FAILURE, false);
 	minishell(&data);
-	exit_shell(&data, EXIT_SUCCESS);
+	exit_shell(&data, EXIT_SUCCESS, false);
 	return (0);
 }
