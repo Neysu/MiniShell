@@ -14,19 +14,19 @@
 
 int		exec_buitlins(char *line, t_data *data)
 {
-	if (!ft_strncmp(line, "env", 3))
+	if (!ft_strncmp(line, "env", -1))
 		print_env(data->envp);
-	if (!ft_strncmp(line, "pwd", 3))
+	if (!ft_strncmp(line, "pwd", -1))
 		print_pwd(line);
-	if (!ft_strncmp(line, "echo", 4))
+	if (!ft_strncmp(line, "echo", -1))
 		ft_echo(line, data);
-	if (!ft_strncmp(line, "unset", 5))
+	if (!ft_strncmp(line, "unset", -1))
 		ft_unset(line, data->envp);
-	if (!ft_strncmp(line, "cd", 2))
+	if (!ft_strncmp(line, "cd", -1))
 		change_dirs(data->envp, data->cmd);
-	if (!ft_strncmp(line, "export", 6))
+	if (!ft_strncmp(line, "export", -1))
 		ft_export(line, data->envp);
-	if (!ft_strncmp(line, "exit", 4))
+	if (!ft_strncmp(line, "exit", -1))
 		ft_exit(line, data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/19 13:40:15 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:14:32 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_builtin(t_cmd *cmd_data)
 	if (!cmd_data || !cmd_data->cmd || !cmd_data->cmd[0])
 		return (0);
 	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))
-		return (1);
+		return (ft_putendl_fd("echo is on", STDERR), 1);
 	if (!ft_strncmp(cmd_data->cmd[0], "cd", -1))
 		return (1);
 	if (!ft_strncmp(cmd_data->cmd[0], "pwd", -1))

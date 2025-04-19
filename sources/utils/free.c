@@ -64,7 +64,10 @@ void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
 {
 	if (lst->cmd)
 		free_str_tab(lst->cmd);
-	//(*del)(lst->pipefd);
+	if (lst->infile)
+		(*del)(lst->infile);
+	if (lst->outfile)
+		(*del)(lst->outfile);
 	(*del)(lst);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/18 15:41:19 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/19 15:13:37 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,32 @@ void	set_cmd_type(t_data *data, t_token **token, int type)
 	lst_addback_cmd(&data->cmd, lst_new_cmd());
 }
 
+void	set_outfile(t_token **token, t_data *data, int type)
+{
+	t_cmd *last;
+
+	last = lst_last_cmd(data->cmd);
+	if (type == REDIRECT_OUT && (*token)->next->type == WORD)
+		last->outfile = ft_strdup((*token)->next->str);
+	else if (type == APPEND && (*token)->next->type == WORD)
+		last->outfile = ft_strdup((*token)->next->str);
+	*token = (*token)->next;
+	set_cmd_type(data, token, type);
+}
+
+void	set_infile(t_token **token, t_data *data)
+{
+	t_cmd *last;
+
+	last = lst_last_cmd(data->cmd);
+	if ((*token)->type == REDIRECT_IN && (*token)->next->type == WORD)
+	{
+		last->infile = ft_strdup((*token)->next->str);
+		*token = (*token)->next;
+	}
+	set_cmd_type(data, token, REDIRECT_IN);
+}
+
 void	create_commands(t_data *data, t_token *token)
 {
 	t_token *temp;
@@ -124,3 +150,4 @@ void	create_commands(t_data *data, t_token *token)
 			break ;
 	}
 }
+

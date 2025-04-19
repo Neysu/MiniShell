@@ -12,20 +12,49 @@
 
 #include "../../minishell.h"
 
-static int	open_file(char *file, t_cmd *cmd_data)
+char	**add_args(char **cmd, char **new_args)
 {
-	printf("that shit is -> %s and his type is : %d\n", file, cmd_data->type);
-	if (!file)
-		return (1);
+	char	**new;
+	int		i;
+	int		j;
+
+	new = ft_calloc(sizeof(char *), ft_arrlen(cmd) + ft_arrlen(new_args));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (cmd[i])
+		new[i] = ft_strdup(cmd[i]);
+	j = 1;
+	while (new_args[j])
+	{
+		new[i] = new_args[j];
+		i++;
+		j++;
+	}
+	ft_free_arr(cmd);
+	return (new);
+}
+
+static int	open_file(t_cmd *cmd_data)
+{
 	if (cmd_data->type == REDIRECT_OUT)
-		cmd_data->fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	{
+		cmd_data->fd = open(cmd_data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (cmd_data->fd == -1)
+			return (perror("outfile"), 1);
+	}
 	else if (cmd_data->type == APPEND)
-		cmd_data->fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	{
+		cmd_data->fd = open(cmd_data->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (cmd_data->fd == -1)
+			return (perror("outfile"), 1);
+	}
 	else if (cmd_data->type == REDIRECT_IN)
-		cmd_data->fd = open(file, O_RDONLY);
-	printf("%d\n", cmd_data->fd);
-	if (cmd_data->fd <= -1)
-		return (1);
+	{
+		cmd_data->fd = open(cmd_data->infile, O_RDONLY);
+		if (cmd_data->fd == -1)
+			return (perror("infile"), 1);
+	}
 	return (0);
 }
 
@@ -58,7 +87,6 @@ int	get_redirect(t_cmd *cmd_data)
 			}
 			if (current->type == REDIRECT_OUT || current->type == APPEND)
 			{
-				printf("that shit is -> %d and his type is : %d\n", current->fd, current->type);
 				if (dup2(current->fd, STDOUT_FILENO) == -1)
 					return (perror("dup2"), 1);
 			}
@@ -80,8 +108,8 @@ int	open_files(t_cmd *cmd_data, t_data *data)
 		if (current->next && (current->type == REDIRECT_OUT || current->type == APPEND
 			|| current->type == REDIRECT_IN))
 		{
-			if (open_file(current->next->cmd[ft_arrlen(current->next->cmd) - 1], current))
-				return (ft_putendl_fd("caca", STDERR), 1);
+			if (open_file(current))
+				return (ft_putendl_fd("error file opening", STDERR), 1);
 		}
 		current = current->next;
 	}

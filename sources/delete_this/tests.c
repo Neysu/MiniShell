@@ -45,6 +45,14 @@ void show_commands(t_data *data)
 				i++;
 			}
 		}
+		if (current->infile)
+		{
+				printf("      infile : \033[30;34m%s\033[0m\n", current->infile ? current->infile : "(null)");
+		}
+		if (current->outfile)
+		{
+				printf("      outfile : \033[30;34m%s\033[0m\n", current->outfile ? current->outfile : "(null)");
+		}
 		else
 		{
 			printf("   (No command arguments)\n");

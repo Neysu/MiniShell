@@ -51,3 +51,17 @@ void	closepipe(t_cmd *cmd_data)
 	close(cmd_data->pipefd[0]);
 	close(cmd_data->pipefd[1]);
 }
+
+int		is_redirect(t_cmd	*cmd_data)
+{
+	if (cmd_data->type == REDIRECT_IN)
+		return (1);
+	if (cmd_data->type == REDIRECT_OUT)
+		return (1);
+	if (cmd_data->type == APPEND)
+		return (1);
+	if (cmd_data->type == HEREDOC)
+		return (1);
+	return (0);
+}
+

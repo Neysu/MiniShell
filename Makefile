@@ -1,6 +1,5 @@
 NAME = minishell
-
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 FLAGS = -lreadline
 
 LIB = libft/libft.a
