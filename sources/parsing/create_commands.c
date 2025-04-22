@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/19 15:13:37 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/22 21:55:50 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,26 @@ void	parse_word(t_cmd **cmd, t_token **token)
 	*token = temp;
 }
 
+static void	prep_no_arg_commands(t_data *data)
+{
+	t_cmd	*cmd;
+
+	if (!data || !data->cmd)
+		return ;
+	cmd = data->cmd;
+	while (cmd && cmd->cmd[0])
+	{
+		if (!cmd->cmd)
+		{
+			cmd->cmd = malloc(sizeof * cmd->cmd * 2);
+			cmd->cmd[0] = ft_strdup(cmd->cmd[0]);
+			cmd->cmd[1] = NULL;
+		}
+		cmd = cmd->next;
+	}
+	cmd = lst_last_cmd(data->cmd);
+}
+
 void	set_cmd_type(t_data *data, t_token **token, int type)
 {
 	t_cmd *last_cmd;
@@ -97,30 +117,83 @@ void	set_cmd_type(t_data *data, t_token **token, int type)
 	lst_addback_cmd(&data->cmd, lst_new_cmd());
 }
 
-void	set_outfile(t_token **token, t_data *data, int type)
+bool	remove_old_file_ref(t_cmd *cmd, bool infile)
 {
-	t_cmd *last;
-
-	last = lst_last_cmd(data->cmd);
-	if (type == REDIRECT_OUT && (*token)->next->type == WORD)
-		last->outfile = ft_strdup((*token)->next->str);
-	else if (type == APPEND && (*token)->next->type == WORD)
-		last->outfile = ft_strdup((*token)->next->str);
-	*token = (*token)->next;
-	set_cmd_type(data, token, type);
+	if (infile == true && cmd->infile)
+	{
+		if (cmd->fd_in == -1 || (cmd->outfile && cmd->fd_out == -1))
+			return (false);
+		free_ptr(cmd->infile);
+		close(cmd->fd_in);
+	}
+	else if (infile == false && cmd->outfile)
+	{
+		if (cmd->fd_out == -1 || (cmd->infile && cmd->fd_in == -1))
+			return (false);
+		free_ptr(cmd->outfile);
+		close(cmd->fd_out);
+	}
+	return (true);
 }
 
-void	set_infile(t_token **token, t_data *data)
+void	open_infile(t_cmd *cmd, char *file)
 {
-	t_cmd *last;
-
-	last = lst_last_cmd(data->cmd);
-	if ((*token)->type == REDIRECT_IN && (*token)->next->type == WORD)
+	if (!remove_old_file_ref(cmd, true))
+		return ;
+	cmd->infile = ft_strdup(file);
+	if (cmd->infile && cmd->infile[0] == '\0')
 	{
-		last->infile = ft_strdup((*token)->next->str);
-		*token = (*token)->next;
+		error_message(cmd->infile,"ambiguous redirect", false);
+		return ;
 	}
-	set_cmd_type(data, token, REDIRECT_IN);
+	cmd->fd_in = open(cmd->infile, O_RDONLY);
+	if (cmd->fd_in == -1)
+		printf("File dont opened: %d\n", cmd->fd_in);
+}
+
+static void	open_outfile(t_cmd *cmd, char *file)
+{
+	if (!remove_old_file_ref(cmd, false))
+		return ;
+	cmd->outfile = ft_strdup(file);
+	if (cmd->outfile && cmd->outfile[0] == '\0')
+	{
+		error_message(cmd->infile,"ambiguous redirect", false);
+		return ;
+	}
+	cmd->fd_out = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (cmd->fd_out == -1)
+		printf("File dont opened: %d\n", cmd->fd_in);
+}
+
+void	set_outfile(t_token **token, t_cmd **last_cmd)
+{
+	t_token		*temp;
+	t_cmd	*cmd;
+
+	temp = *token;
+	cmd = lst_last_cmd(*last_cmd);
+	open_outfile(cmd, temp->next->str);
+	if (temp->next->next)
+		temp = temp->next->next;
+	else
+		temp = temp->next;
+	*token = temp;
+}
+
+void	set_infile(t_token **token, t_cmd **last_cmd)
+{
+	t_cmd	*last;
+	t_token	*temp;
+
+	last = lst_last_cmd(*last_cmd);
+	temp = *token;
+	open_infile(last, temp->next->str);
+	if (temp->next->next)
+		temp = temp->next->next;
+	else
+		temp = temp->next;
+	*token = temp;
 }
 
 void	create_commands(t_data *data, t_token *token)
@@ -137,9 +210,12 @@ void	create_commands(t_data *data, t_token *token)
 		if (temp->type == WORD || temp->type == ENV)
 			parse_word(&data->cmd, &temp);
 		else if (temp->type == REDIRECT_IN)
-			set_cmd_type(data, &temp, REDIRECT_IN);
+		{
+			set_infile(&temp, &data->cmd);
+			//set_cmd_type(data, &temp, REDIRECT_IN);
+		}
 		else if (temp->type == REDIRECT_OUT)
-			set_cmd_type(data, &temp, REDIRECT_OUT);
+			set_outfile(&temp, &data->cmd);
 		else if (temp->type == PIPE)
 			set_cmd_type(data, &temp, PIPE);
 		else if (temp->type == APPEND)
@@ -149,5 +225,6 @@ void	create_commands(t_data *data, t_token *token)
 		else if (temp->type == END)
 			break ;
 	}
+	prep_no_arg_commands(data);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:37:50 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/19 15:42:00 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:07:28 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_cmd	*lst_new_cmd(void)
 	new_node->cmd = NULL;
 	new_node->type = 10;
 	new_node->fd = -1;
+	new_node->fd_in = -1;
+	new_node->fd_out = -1;
 	new_node->infile = NULL;
 	new_node->outfile = NULL;
 	new_node->next = NULL;

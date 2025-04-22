@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/19 15:21:00 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:52:42 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	parsing(t_data *data)
 		data->user_input = ft_strdup(user_input[i]);
 		if (parser_user_input(data) == true)
 		{
-			//show_lists(data);
+			show_lists(data);
 			data->exit_code = 0;
 			if (data->cmd && is_builtin(data->cmd))
 				exec_buitlins(data->user_input, data);

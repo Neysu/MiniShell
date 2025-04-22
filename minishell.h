@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/19 15:16:00 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:48:09 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct		s_cmd
 {
 	char 			**cmd;
 	int				fd;
+	int				fd_in;
+	int				fd_out;
 	int				type;
 	int				pipefd[2];
 	char			*infile;

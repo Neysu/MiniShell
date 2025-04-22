@@ -43,20 +43,29 @@ void show_commands(t_data *data)
 			{
 				printf("      cmd[%d] : \033[30;34m%s\033[0m\n", i, current->cmd[i] ? current->cmd[i] : "(null)");
 				i++;
+				if (current->infile)
+				{
+						printf("      infile : \033[30;34m%s\033[0m\n", current->infile ? current->infile : "(null)");
+				}
+				if (current->fd_in)
+				{
+						printf("      fd_in : \033[30;34m%d\033[0m\n", current->fd_in ? current->fd_in : 0);
+				}
+				if (current->outfile)
+				{
+						printf("      outfile : \033[30;34m%s\033[0m\n", current->outfile ? current->outfile : "(null)");
+				}
+				if (current->fd_out)
+				{
+						printf("      fd_out : \033[30;34m%d\033[0m\n", current->fd_out ? current->fd_out : 0);
+				}
+				else
+				{
+					printf("   (No command arguments)\n");
+				}
 			}
 		}
-		if (current->infile)
-		{
-				printf("      infile : \033[30;34m%s\033[0m\n", current->infile ? current->infile : "(null)");
-		}
-		if (current->outfile)
-		{
-				printf("      outfile : \033[30;34m%s\033[0m\n", current->outfile ? current->outfile : "(null)");
-		}
-		else
-		{
-			printf("   (No command arguments)\n");
-		}
+
 
 		current = current->next;
 		cmd_num++;
