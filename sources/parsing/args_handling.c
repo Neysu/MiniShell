@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:05 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/17 18:43:38 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:24:01 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	add_args_default_mode(t_token **token_node, t_cmd *last_cmd)
 
 int	fill_args(t_token **token_node, t_cmd *last_cmd)
 {
+
 	if (last_cmd && !(last_cmd->cmd))
 		return (create_args_default_mode(token_node, last_cmd));
 	else

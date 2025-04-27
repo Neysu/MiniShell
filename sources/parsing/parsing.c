@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/22 14:52:42 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/27 15:14:59 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,145 @@ static bool	input_is_space(char *input)
 	}
 	return (true);
 }
+/*    exec START     */
+void	close_pipe_fds(t_cmd *cmds, t_cmd *skip_cmd)
+{
+	while (cmds)
+	{
+		if (cmds != skip_cmd && cmds->pipefd)
+		{
+			close(cmds->pipefd[0]);
+			close(cmds->pipefd[1]);
+		}
+		cmds = cmds->next;
+	}
+}
+
+bool	create_pipes(t_data *data)
+{
+	int			*fd;
+	t_cmd		*tmp;
+
+	tmp = data->cmd;
+	while (tmp)
+	{
+		if (tmp->pipe_output || (tmp->prev && tmp->prev->pipe_output))
+		{
+			fd = malloc(sizeof * fd * 2);
+			if (!fd || pipe(fd) != 0)
+			{
+				free_data(data, false);
+				return (false);
+			}
+			tmp->pipefd = fd;
+		}
+		tmp = tmp->next;
+	}
+	return (true);
+}
+
+void	close_fds(t_cmd *cmds, bool close_backups)
+{
+	if (cmds)
+	{
+		if (cmds->fd_in != -1)
+			close(cmds->fd_in);
+		if (cmds->fd_out != -1)
+			close(cmds->fd_out);
+		if (close_backups)
+			restore_io(cmds);
+	}
+	close_pipe_fds(cmds, NULL);
+}
+
+static int	get_children(t_data *data)
+{
+	pid_t	wpid;
+	int		status;
+	int		save_status;
+
+	close_fds(data->cmd, false);
+	save_status = 0;
+	wpid = 0;
+	while (wpid != -1 || errno != ECHILD)
+	{
+		wpid = waitpid(-1, &status, 0);
+		if (wpid == data->pid)
+			save_status = status;
+		continue ;
+	}
+	if (WIFSIGNALED(save_status))
+		status = 128 + WTERMSIG(save_status);
+	else if (WIFEXITED(save_status))
+		status = WEXITSTATUS(save_status);
+	else
+		status = save_status;
+	return (status);
+}
+
+static int	create_children(t_data *data)
+{
+	t_cmd	*cmd;
+
+	cmd = data->cmd;
+	while (data->pid != 0 && cmd)
+	{
+		data->pid = fork();
+		if (data->pid == -1)
+			return (errmsg_cmd("fork", NULL, strerror(errno), EXIT_FAILURE));
+		else if (data->pid == 0)
+			exec_cmd(data, cmd);
+		cmd = cmd->next;
+	}
+	return (get_children(data));
+}
+
+bool	check_infile_outfile(t_cmd *cmd)
+{
+	if (!cmd || (!cmd->infile && !cmd->outfile))
+		return (true);
+	if ((cmd->infile && cmd->fd_in == -1)
+		|| (cmd->outfile && cmd->fd_out == -1))
+		return (false);
+	return (true);
+}
+
+static int	prep_for_exec(t_data *data)
+{
+	if (!data || !data->cmd)
+		return (EXIT_SUCCESS);
+	if (!data->cmd->cmd[0])
+	{
+		if ((data->cmd->infile || data->cmd->outfile || data->cmd->heredoc_delimiter)
+			&& !check_infile_outfile(data->cmd))
+			return (EXIT_FAILURE);
+		return (EXIT_SUCCESS);
+	}
+	if (!create_pipes(data))
+		return (EXIT_FAILURE);
+	return (CMD_NOT_FOUND);
+}
+
+int	execute(t_data *data)
+{
+	int	ret;
+
+	ret = prep_for_exec(data);
+	if (ret != CMD_NOT_FOUND)
+		return (ret);
+	if (!data->cmd->pipe_output && !data->cmd->prev
+		&& check_infile_outfile(data->cmd))
+	{
+		redirect_io(data->cmd);
+		ret = exec_buitlins(data, data->cmd);
+		restore_io(data->cmd);
+	}
+	if (ret != CMD_NOT_FOUND)
+		return (ret);
+	return (create_children(data));
+}
+
+/*    exec END     */
 
 void	parsing(t_data *data)
 {
@@ -72,11 +211,7 @@ void	parsing(t_data *data)
 		if (parser_user_input(data) == true)
 		{
 			show_lists(data);
-			data->exit_code = 0;
-			if (data->cmd && is_builtin(data->cmd))
-				exec_buitlins(data->user_input, data);
-			else
-				exec(data);
+			data->exit_code = execute(data);
 		}
 		else
 			data->exit_code = 1;

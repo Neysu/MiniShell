@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/22 14:48:09 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/27 17:21:13 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 # include <stdio.h>
 # include <string.h>
 # include <stddef.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <errno.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
@@ -33,8 +35,12 @@
 // # define PROMPT1 "\033[1;32m┌──(\033[1;34mminishell\033[1;32m)-[\033[0m\033[1;37m"
 // # define PROMPT2 "\033[1;32m]\n└─\033[1;31m$\033[0m "
 # define ERRORCMD "minishell : %s: unknown command\n"
+# define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 # define UNSETARGS "unset: not enough args"
-# define PATH_MAX_LEN 4096
+
+# ifndef PATH_MAX_LEN
+#  define PATH_MAX_LEN 4096
+# endif
 
 # define STDIN 0
 # define STDOUT 1
@@ -42,6 +48,9 @@
 
 # define SUCCESS 0
 # define FAILURE 1
+
+# define CMD_NOT_FOUND 127
+# define CMD_NOT_EXECUTABLE 126
 
 typedef struct		s_envp
 {
@@ -52,6 +61,7 @@ typedef struct		s_envp
 typedef struct		s_token
 {
 	char			*str;
+	char			*str_backup;
 	int				type;
 	int				status;
 	bool			join;
@@ -62,14 +72,20 @@ typedef struct		s_token
 
 typedef struct		s_cmd
 {
-	char 			**cmd;
+	char			**cmd;
+	char			*path;
+	bool			pipe_output;
+	int				*pipefd;
+	int				type;
 	int				fd;
 	int				fd_in;
 	int				fd_out;
-	int				type;
-	int				pipefd[2];
 	char			*infile;
 	char			*outfile;
+	int				stdin_backup;
+	int				stdout_backup;
+	char			*heredoc_delimiter;
+	bool			heredoc_quotes;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }					t_cmd;
@@ -79,9 +95,13 @@ typedef struct		s_data
 	char			*user_input;
 	bool			work;
 	int				exit_code;
+	char			*working_dir;
+	char			*old_working_dir;
+	char 			**env_list;
 	t_envp			*envp;
 	t_token			*token;
 	t_cmd			*cmd;
+	pid_t 			pid;
 }					t_data;
 
 typedef struct		s_sig
@@ -89,7 +109,6 @@ typedef struct		s_sig
 	int				sigint;
 	int				sigquit;
 	int 			exit_status;
-	pid_t 			pid;
 }					t_sig;
 
 enum				e_token_type{
@@ -127,11 +146,12 @@ int		print_env(t_envp *envp);
 int		change_dirs(t_envp *envp, t_cmd	*cmd_data);
 int		ft_unset(char *line, t_envp *envp_data);
 
+int		print_env2(char **envp);
 
 /* executions */
-int		exec_cmd(t_cmd *cmd_data, t_envp *envp);
+int		exec_cmd(t_data *data, t_cmd *cmd);
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);
-int		exec_buitlins(char *line, t_data *data);
+int		exec_buitlins(t_data *data, t_cmd *cmd);
 int		exec(t_data *data);
 
 /* redirections*/
@@ -144,6 +164,7 @@ int		redirect(t_cmd *cmd_data, t_data *data);
 
 /*   utils/errors.c   */
 void	ft_puterror(char *cmd);
+int		errmsg_cmd(char *command, char *detail, char *error_message, int error_nb);
 void	error_message(char *text_error, char *detail, int quote);
 
 /*   utils/free.c   */
@@ -159,16 +180,18 @@ void	lst_delone_token(t_token *lst, void (*del)(void *));
 void	free_str_tab(char **tab);
 void	exit_shell(t_data *data, int exit_code);
 void	print_exit_shell(t_data *data, int exit_code);
+void	free_env_array(char **env_array);
 
 /*   parsing/lexer.c   */
+
 int		token_generator(t_data *data, char *str);
-t_token	*lst_new_token(char *str, int type, int status);
+t_token	*lst_new_token(char *str, char *str_backup, int type, int status);
 void	lst_addback_token(t_token **token_list, t_token *new_node);
 int		save_word(t_token **token_list, char *str, int index, int start);
 int		save_separator(t_token **token_list, char *str, int index, int type);
 
 /*   parsing/cmd_list_utils.c   */
-t_cmd	*lst_new_cmd(void);
+t_cmd	*lst_new_cmd(bool value);
 t_cmd	*lst_add_new_cmd(void);
 void	lst_addback_cmd(t_cmd **cmd_list, t_cmd *new_node);
 t_cmd	*lst_last_cmd(t_cmd *cmd);
@@ -191,6 +214,7 @@ void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str);
 void	parse_word(t_cmd **cmd, t_token **token);
 void	set_cmd_type(t_data *data, t_token **token, int type);
 void	create_commands(t_data *data, t_token *token);
+bool	remove_old_file_ref(t_cmd *cmd, bool infile);
 
 /*   parsing/var_validation.c   */
 bool	char_is_sep(char c);
@@ -205,22 +229,47 @@ int		var_exist(t_data *data, char *var);
 char	*get_env_value(t_data *data, char *var);
 char	*get_var_value(t_token *token, char *str, t_data *data);
 int		exchange_var(t_token **token, char *var_value, int index);
+int		get_env_var_index(char **env, char *var);
+char	*get_env_var_value(char **env, char *var);
 
 /*   parsing/expand_variables.c   */
+
 int		erase_var(t_token **token, char *str, int index);
 void	copy_var_value(char *new_str, char *var_value, int *j);
 char	*get_new_token_str(char *str, char *var_value, int new_str_size, int index);
 char	*erase_and_replace(t_token **token, char *str, char *var_value, int index);
 int		expand_variables(t_data *data, t_token **tokens);
 
+
+/*   parsing/file_io.c   */
+void	init_io(t_cmd *cmd);
+bool	restore_io(t_cmd *cmd);
+bool	redirect_io(t_cmd *cmd);
+
+/*   parsing/parse_path.c   */
+char	*get_cmd_path(t_data *data, char *name);
+
+/*   parsing/parse_pipe.c   */
+void	parse_pipe(t_cmd **cmd, t_token **token_lst);
+
+/*   parsing/parse_append.c   */
+void	parse_append(t_cmd **last_cmd, t_token **token_lst);
+
+/*   parsing/parse_append.c   */
+void	parse_heredoc(t_data *data, t_cmd **last_cmd, t_token **token_lst);
+
 /*   parsing/parsing.c   */
 int		is_builtin(t_cmd *cmd_data);
 t_cmd	*create_cmd(int type, char *cmd);
 void	parsing(t_data *data);
 bool	parser_user_input(t_data *data);
+bool	check_infile_outfile(t_cmd *cmd);
+void	close_fds(t_cmd *cmds, bool close_backups);
+void	close_pipe_fds(t_cmd *cmds, t_cmd *skip_cmd);
+bool	create_pipes(t_data *data);
 
 /*   envp_check.c   */
-int	envp_check(t_token **token_list);
+int		envp_check(t_token **token_list);
 
 /*   parsing/signal.c   */
 void	signal_reset_prompt(int signal);
@@ -232,6 +281,9 @@ void	set_signal_noninteractive(void);
 /*   parsing/quotes_handler.c   */
 int		quotes_handler(t_data *data);
 
+/*   parsing/quotes_handler.c   */
+int	create_args_echo_mode(t_token **token_node, t_cmd *last_cmd);
+int	add_args_echo_mode(t_token **token_node, t_cmd *last_cmd);
 
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);

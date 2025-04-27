@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:56:52 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/17 18:58:44 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/27 14:03:43 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,35 @@ void	update_status(t_token **token, char c)
 
 int	var_exist(t_data *data, char *var)
 {
-	t_envp *temp;
+	int	i;
 	int	len;
 
+	i = 0;
 	len = ft_strlen(var);
-	temp = data->envp;
-	while(temp)
+	while(data->env_list[i])
 	{
-		if (ft_strncmp(temp->var, var, len) == 0)
+		if (ft_strncmp(data->env_list[i], var, len) == 0)
 			return (0);
-		temp = temp->next;
+		i++;
 	}
 	return (1);
 }
 
 char	*get_env_value(t_data *data, char *var)
 {
-	t_envp	*temp;
+	int		i;
 	char	*value;
 	int		len;
 
+	i = 0;
 	len = ft_strlen(var);
-	temp = data->envp;
-	while(temp)
+	while(data->env_list[i])
 	{
-		if (ft_strncmp(temp->var, var, len) == 0)
+		if (ft_strncmp(data->env_list[i], var, len) == 0)
 			break ;
-		temp = temp->next;
+		i++;
 	}
-	value = ft_strdup(temp->var + len);
+	value = ft_strdup(data->env_list[i] + len);
 	return (value);
 }
 
@@ -100,4 +100,22 @@ int	exchange_var(t_token **token, char *var_value, int index)
 	}
 	free_ptr(var_value);
 	return (0);
+}
+
+int	get_env_var_index(char **env, char *var)
+{
+	int		i;
+	size_t	len;
+
+	if (!var || !env)
+		return (-1);
+	len = ft_strlen(var);
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], var, len) == 0 && env[i][len] == '=')
+			return (i);
+		i++;
+	}
+	return (-1);
 }

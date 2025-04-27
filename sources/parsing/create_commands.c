@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/22 21:55:50 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/27 16:37:12 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str)
 		return ;
 	fill_cmd(NULL, last_cmd, strs[0]);
 	if (strs[1])
-		new_tokens = lst_new_token(ft_strdup(strs[1]), WORD, DEFAULT);
+		new_tokens = lst_new_token(ft_strdup(strs[1]), NULL, WORD, DEFAULT);
 	tmp = new_tokens;
 	i = 1;
 	while (strs[++i])
 		lst_addback_token(&new_tokens,
-			lst_new_token(ft_strdup(strs[i]), WORD, DEFAULT));
+			lst_new_token(ft_strdup(strs[i]), NULL, WORD, DEFAULT));
 	lst_addback_token(&new_tokens,
-		lst_new_token(NULL, END, DEFAULT));
+		lst_new_token(NULL, NULL, END, DEFAULT));
 	fill_args(&new_tokens, last_cmd);
 	lstclear_token(&tmp, &free_ptr);
 	free_str_tab(strs);
@@ -72,13 +72,19 @@ void	parse_word(t_cmd **cmd, t_token **token)
 	while (temp->type == WORD || temp->type == ENV)
 	{
 		last_cmd = lst_last_cmd(*cmd);
+		if (!last_cmd->cmd) {
+			last_cmd->cmd = malloc(sizeof(char *) * 2);
+			if (!last_cmd->cmd) return;
+			last_cmd->cmd[0] = NULL;
+			last_cmd->cmd[1] = NULL;
+		}
 		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE)
-			|| last_cmd->cmd == NULL || last_cmd->cmd[0] == NULL)
+			|| last_cmd->cmd[0] == NULL)
 		{
 			if (temp->type == ENV && contains_space(temp->str))
 				split_var_cmd_token(last_cmd, temp->str);
-			else
-				fill_cmd(&temp, last_cmd, temp->str);
+			else if (temp->str)
+				last_cmd->cmd[0] = ft_strdup(temp->str);
 			temp = temp->next;
 		}
 		else
@@ -94,12 +100,14 @@ static void	prep_no_arg_commands(t_data *data)
 	if (!data || !data->cmd)
 		return ;
 	cmd = data->cmd;
-	while (cmd && cmd->cmd[0])
+	while (cmd && cmd->cmd)
 	{
-		if (!cmd->cmd)
+		if (!cmd->cmd[0])
 		{
-			cmd->cmd = malloc(sizeof * cmd->cmd * 2);
-			cmd->cmd[0] = ft_strdup(cmd->cmd[0]);
+			cmd->cmd = malloc(sizeof(char *) * 2);
+			if (!cmd->cmd)
+				return ;
+			cmd->cmd[0] = cmd->cmd[0] ? ft_strdup(cmd->cmd[0]) : NULL;
 			cmd->cmd[1] = NULL;
 		}
 		cmd = cmd->next;
@@ -114,7 +122,7 @@ void	set_cmd_type(t_data *data, t_token **token, int type)
 	last_cmd = lst_last_cmd(data->cmd);
 	last_cmd->type = type;
 	*token = (*token)->next;
-	lst_addback_cmd(&data->cmd, lst_new_cmd());
+	lst_addback_cmd(&data->cmd, lst_new_cmd(false));
 }
 
 bool	remove_old_file_ref(t_cmd *cmd, bool infile)
@@ -123,6 +131,12 @@ bool	remove_old_file_ref(t_cmd *cmd, bool infile)
 	{
 		if (cmd->fd_in == -1 || (cmd->outfile && cmd->fd_out == -1))
 			return (false);
+		if (cmd->heredoc_delimiter != NULL)
+		{
+			free_ptr(cmd->heredoc_delimiter);
+			cmd->heredoc_delimiter = NULL;
+			unlink(cmd->infile);
+		}
 		free_ptr(cmd->infile);
 		close(cmd->fd_in);
 	}
@@ -206,22 +220,19 @@ void	create_commands(t_data *data, t_token *token)
 	while (temp->next != NULL)
 	{
 		if (temp == token)
-			lst_addback_cmd(&data->cmd, lst_new_cmd());
+			lst_addback_cmd(&data->cmd, lst_new_cmd(false));
 		if (temp->type == WORD || temp->type == ENV)
 			parse_word(&data->cmd, &temp);
 		else if (temp->type == REDIRECT_IN)
-		{
 			set_infile(&temp, &data->cmd);
-			//set_cmd_type(data, &temp, REDIRECT_IN);
-		}
 		else if (temp->type == REDIRECT_OUT)
 			set_outfile(&temp, &data->cmd);
-		else if (temp->type == PIPE)
-			set_cmd_type(data, &temp, PIPE);
-		else if (temp->type == APPEND)
-			set_cmd_type(data, &temp, APPEND);
 		else if (temp->type == HEREDOC)
-			set_cmd_type(data, &temp, HEREDOC);
+			parse_heredoc(data, &data->cmd, &temp);
+		else if (temp->type == APPEND)
+			parse_append(&data->cmd, &temp);
+		else if (temp->type == PIPE)
+			parse_pipe(&data->cmd, &temp);
 		else if (temp->type == END)
 			break ;
 	}

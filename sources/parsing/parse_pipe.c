@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   parse_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 11:10:16 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/26 18:13:36 by rureshet         ###   ########.fr       */
+/*   Created: 2025/04/25 11:50:38 by rureshet          #+#    #+#             */
+/*   Updated: 2025/04/25 11:54:31 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../../minishell.h"
 
-char	*ft_strchr(const char *str, int c)
+void	parse_pipe(t_cmd **cmd, t_token **token_lst)
 {
-	int				i;
-	unsigned char	ch;
+	t_cmd	*last_cmd;
 
-	i = 0;
-	ch = c;
-	if (ch == '\0')
-	{
-		i = ft_strlen(str);
-		return ((char *)str + i++);
-	}
-	while (str[i])
-	{
-		if (str[i] == ch)
-			return ((char *)str + i);
-		i++;
-	}
-	return (NULL);
+	last_cmd = lst_last_cmd(*cmd);
+	last_cmd->pipe_output = true;
+	lst_addback_cmd(&last_cmd, lst_new_cmd(false));
+	*token_lst = (*token_lst)->next;
 }

@@ -6,29 +6,42 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:37:50 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/22 15:07:28 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/26 19:16:44 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-t_cmd	*lst_new_cmd(void)
+void	init_cmd(t_cmd **cmd)
+{
+	(*cmd)->cmd = NULL;
+	(*cmd)->path = NULL;
+	(*cmd)->pipe_output = false;
+	(*cmd)->pipefd = 0;
+	(*cmd)->type = 10;
+	(*cmd)->fd = -1;
+	(*cmd)->fd_in = -1;
+	(*cmd)->fd_out = -1;
+	(*cmd)->infile = NULL;
+	(*cmd)->outfile = NULL;
+	(*cmd)->stdin_backup = -1;
+	(*cmd)->stdout_backup = -1;
+	(*cmd)->heredoc_delimiter = NULL;
+	(*cmd)->heredoc_quotes = false;
+	(*cmd)->prev = NULL;
+	(*cmd)->next = NULL;
+}
+
+t_cmd	*lst_new_cmd(bool value)
 {
 	t_cmd	*new_node;
 
 	new_node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_node)
 		return (NULL);
-	//ft_memset(new_node, 0 , sizeof(t_cmd));
-	new_node->cmd = NULL;
-	new_node->type = 10;
-	new_node->fd = -1;
-	new_node->fd_in = -1;
-	new_node->fd_out = -1;
-	new_node->infile = NULL;
-	new_node->outfile = NULL;
-	new_node->next = NULL;
-	new_node->prev = NULL;
+	ft_memset(new_node, 0 , sizeof(t_cmd));
+	new_node->pipe_output = value;
+	init_cmd(&new_node);
 	return (new_node);
 }
 

@@ -1,5 +1,6 @@
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CC = clang
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 FLAGS = -lreadline
 
 LIB = libft/libft.a
@@ -33,6 +34,11 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(PARSDIR)/env_var_handling.c \
 		$(SRCDIR)/$(PARSDIR)/envp_check.c \
 		$(SRCDIR)/$(PARSDIR)/expand_variables.c \
+		$(SRCDIR)/$(PARSDIR)/file_io.c \
+		$(SRCDIR)/$(PARSDIR)/parse_append.c \
+		$(SRCDIR)/$(PARSDIR)/parse_heredoc.c \
+		$(SRCDIR)/$(PARSDIR)/parse_path.c \
+		$(SRCDIR)/$(PARSDIR)/parse_pipe.c \
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
 		$(SRCDIR)/$(PARSDIR)/quotes_handler.c \
 		$(SRCDIR)/$(PARSDIR)/signal.c \

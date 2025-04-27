@@ -47,7 +47,7 @@ void show_commands(t_data *data)
 				{
 						printf("      infile : \033[30;34m%s\033[0m\n", current->infile ? current->infile : "(null)");
 				}
-				if (current->fd_in)
+				if (current->fd_in != -1)
 				{
 						printf("      fd_in : \033[30;34m%d\033[0m\n", current->fd_in ? current->fd_in : 0);
 				}
@@ -55,18 +55,25 @@ void show_commands(t_data *data)
 				{
 						printf("      outfile : \033[30;34m%s\033[0m\n", current->outfile ? current->outfile : "(null)");
 				}
-				if (current->fd_out)
+				if (current->fd_out != -1)
 				{
 						printf("      fd_out : \033[30;34m%d\033[0m\n", current->fd_out ? current->fd_out : 0);
 				}
-				else
+				if (current->pipefd)
 				{
-					printf("   (No command arguments)\n");
+					int i = 0;
+					while (current->pipefd[i])
+					{
+						printf("      pipefd[%d] : \033[30;34m%d\033[0m\n", i, current->pipefd[i]);
+						i++;
+					}
+				}
+				if(current->heredoc_delimiter)
+				{
+					printf("      Heredoc delimiter : \033[30;34m%s\033[0m\n", current->heredoc_delimiter ? current->heredoc_delimiter : 0);
 				}
 			}
 		}
-
-
 		current = current->next;
 		cmd_num++;
 	}

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:20:56 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/19 13:02:51 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:47:27 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	check_quotes(int status, char *str, int i)
 	return (status);
 }
 
-t_token	*lst_new_token(char *str, int type, int status)
+t_token	*lst_new_token(char *str, char *str_backup, int type, int status)
 {
 	t_token	*new_node;
 
@@ -53,6 +53,8 @@ t_token	*lst_new_token(char *str, int type, int status)
 	if (!new_node)
 		return (NULL);
 	new_node->str = str;
+	new_node->str_backup = str_backup;
+	new_node->var_exist = false;
 	new_node->type = type;
 	new_node->status = status;
 	new_node->join = false;
@@ -96,7 +98,7 @@ int	save_word(t_token **token_list, char *str, int index, int start)
 		start++;
 	}
 	word[i] = '\0';
-	lst_addback_token(token_list, lst_new_token(word, WORD, DEFAULT));
+	lst_addback_token(token_list, lst_new_token(word, ft_strdup(word), WORD, DEFAULT));
 	return (0);
 }
 
@@ -114,7 +116,7 @@ int	save_separator(t_token **token_list, char *str, int index, int type)
 		while (i < 2)
 			sep[i++] = str[index++];
 		sep[i] = '\0';
-		lst_addback_token(token_list, lst_new_token(sep, type, DEFAULT));
+		lst_addback_token(token_list, lst_new_token(sep, NULL, type, DEFAULT));
 	}
 	else
 	{
@@ -124,7 +126,7 @@ int	save_separator(t_token **token_list, char *str, int index, int type)
 		while (i < 1)
 			sep[i++] = str[index++];
 		sep[i] = '\0';
-		lst_addback_token(token_list, lst_new_token(sep, type, DEFAULT));
+		lst_addback_token(token_list, lst_new_token(sep, NULL, type, DEFAULT));
 	}
 	return (0);
 }
