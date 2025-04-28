@@ -6,23 +6,11 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:56:52 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/27 14:03:43 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:03:18 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	update_status(t_token **token, char c)
-{
-	if (c == '\'' && (*token)->type == DEFAULT)
-		(*token)->type = SQUOTE;
-	else if (c == '\"' && (*token)->type == DEFAULT)
-		(*token)->type = DQUOTE;
-	else if (c == '\'' && (*token)->type == SQUOTE)
-		(*token)->type = DEFAULT;
-	else if (c == '\"' && (*token)->type == DQUOTE)
-		(*token)->type = DEFAULT;
-}
 
 int	var_exist(t_data *data, char *var)
 {
@@ -31,7 +19,7 @@ int	var_exist(t_data *data, char *var)
 
 	i = 0;
 	len = ft_strlen(var);
-	while(data->env_list[i])
+	while (data->env_list[i])
 	{
 		if (ft_strncmp(data->env_list[i], var, len) == 0)
 			return (0);
@@ -40,7 +28,7 @@ int	var_exist(t_data *data, char *var)
 	return (1);
 }
 
-char	*get_env_value(t_data *data, char *var)
+char	*extract_env_value(t_data *data, char *var)
 {
 	int		i;
 	char	*value;
@@ -48,7 +36,7 @@ char	*get_env_value(t_data *data, char *var)
 
 	i = 0;
 	len = ft_strlen(var);
-	while(data->env_list[i])
+	while (data->env_list[i])
 	{
 		if (ft_strncmp(data->env_list[i], var, len) == 0)
 			break ;
@@ -58,9 +46,9 @@ char	*get_env_value(t_data *data, char *var)
 	return (value);
 }
 
-char	*get_var_value(t_token *token, char *str, t_data *data)
+char	*resolve_env_variable(t_token *token, char *str, t_data *data)
 {
-	char 	*value;
+	char	*value;
 	char	*name_var;
 
 	name_var = search_name_var(str);
@@ -68,7 +56,7 @@ char	*get_var_value(t_token *token, char *str, t_data *data)
 	{
 		if (token != NULL)
 			token->var_exist = true;
-		value = get_env_value(data, name_var);
+		value = extract_env_value(data, name_var);
 	}
 	else if (name_var && name_var[0] == '?' && name_var[1] == '=')
 	{
@@ -80,29 +68,7 @@ char	*get_var_value(t_token *token, char *str, t_data *data)
 	return (value);
 }
 
-int	exchange_var(t_token **token, char *var_value, int index)
-{
-	if (var_value == NULL)
-	{
-		if (erase_var(token, (*token)->str, index) == 1)
-		{
-			free_ptr(var_value);
-			return (1);
-		}
-	}
-	else
-	{
-		if (erase_and_replace(token, (*token)->str, var_value, index) == NULL)
-		{
-			free_ptr(var_value);
-			return (1);
-		}
-	}
-	free_ptr(var_value);
-	return (0);
-}
-
-int	get_env_var_index(char **env, char *var)
+int	find_env_var_index(char **env, char *var)
 {
 	int		i;
 	size_t	len;
@@ -118,4 +84,26 @@ int	get_env_var_index(char **env, char *var)
 		i++;
 	}
 	return (-1);
+}
+
+char	*fetch_env_var_value(char **env, char *var)
+{
+	int		i;
+	char	*tmp;
+
+	tmp = ft_strjoin(var, "=");
+	if (!tmp)
+		return (NULL);
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(tmp, env[i], ft_strlen(tmp)) == 0)
+		{
+			free_ptr(tmp);
+			return (ft_strchr(env[i], '=') + 1);
+		}
+		i++;
+	}
+	free_ptr(tmp);
+	return (NULL);
 }

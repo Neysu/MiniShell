@@ -32,13 +32,16 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(PARSDIR)/cmd_list_utils.c \
 		$(SRCDIR)/$(PARSDIR)/create_commands.c \
 		$(SRCDIR)/$(PARSDIR)/env_var_handling.c \
+		$(SRCDIR)/$(PARSDIR)/env_var_utils.c \
 		$(SRCDIR)/$(PARSDIR)/envp_check.c \
 		$(SRCDIR)/$(PARSDIR)/expand_variables.c \
 		$(SRCDIR)/$(PARSDIR)/file_io.c \
 		$(SRCDIR)/$(PARSDIR)/parse_append.c \
 		$(SRCDIR)/$(PARSDIR)/parse_heredoc.c \
+		$(SRCDIR)/$(PARSDIR)/parse_io.c \
 		$(SRCDIR)/$(PARSDIR)/parse_path.c \
 		$(SRCDIR)/$(PARSDIR)/parse_pipe.c \
+		$(SRCDIR)/$(PARSDIR)/parse_word.c \
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
 		$(SRCDIR)/$(PARSDIR)/quotes_handler.c \
 		$(SRCDIR)/$(PARSDIR)/signal.c \
@@ -90,4 +93,10 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+supp:
+	valgrind --leak-check=full --gen-suppressions=all ./$(NAME)
+
+minigrind :
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
+
+.PHONY: all clean fclean re supp minigrind

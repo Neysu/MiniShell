@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/27 17:21:13 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:04:16 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ int		ft_unset(char *line, t_envp *envp_data);
 int		print_env2(char **envp);
 
 /* executions */
+
 int		exec_cmd(t_data *data, t_cmd *cmd);
 char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 int		exec_buitlins(t_data *data, t_cmd *cmd);
@@ -182,57 +183,49 @@ void	exit_shell(t_data *data, int exit_code);
 void	print_exit_shell(t_data *data, int exit_code);
 void	free_env_array(char **env_array);
 
-/*   parsing/lexer.c   */
+/*       PARSING       */
+/*   args_handling.c   */
 
-int		token_generator(t_data *data, char *str);
-t_token	*lst_new_token(char *str, char *str_backup, int type, int status);
-void	lst_addback_token(t_token **token_list, t_token *new_node);
-int		save_word(t_token **token_list, char *str, int index, int start);
-int		save_separator(t_token **token_list, char *str, int index, int type);
+int		create_args_default_mode(t_token **token_node, t_cmd *last_cmd);
+char	**copy_default_in_new_tab(int len, char **new_tab, t_cmd *last_cmd, t_token **tk_node);
+int		add_args_default_mode(t_token **token_node, t_cmd *last_cmd);
+int		fill_args(t_token **token_node, t_cmd *last_cmd);
 
-/*   parsing/cmd_list_utils.c   */
+/*   cmd_list_utils.c   */
+
+void	init_cmd(t_cmd **cmd);
 t_cmd	*lst_new_cmd(bool value);
 t_cmd	*lst_add_new_cmd(void);
 void	lst_addback_cmd(t_cmd **cmd_list, t_cmd *new_node);
 t_cmd	*lst_last_cmd(t_cmd *cmd);
 
-/*   parsing/token_utils.c   */
-bool	contains_space(char *str);
-void	lstdelone_token(t_token *lst, void (*del)(void *));
-void	lstclear_token(t_token **lst, void (*del)(void *));
+/*   create_commands.c   */
 
-/*   parsing/args_handling.c   */
-int		args_count(t_token *token);
-int		create_args_default_mode(t_token **token_node, t_cmd *last_cmd);
-char	**copy_default_in_new_tab(int len, char **new_tab, t_cmd *last_cmd, t_token **tk_node);
-int		add_args_default_mode(t_token **token_node, t_cmd *last_cmd);
-
-/*   parsing/create_commands.c   */
-int		fill_cmd(t_token **token_node, t_cmd *last_cmd, char *str);
-int		fill_args(t_token **token_node, t_cmd *last_cmd);
-void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str);
-void	parse_word(t_cmd **cmd, t_token **token);
-void	set_cmd_type(t_data *data, t_token **token, int type);
-void	create_commands(t_data *data, t_token *token);
+void	prep_no_arg_commands(t_data *data);
 bool	remove_old_file_ref(t_cmd *cmd, bool infile);
+void	create_commands(t_data *data, t_token *token);
 
-/*   parsing/var_validation.c   */
-bool	char_is_sep(char c);
-bool	between_quotes(char *str, int i);
-bool	is_var_valid(char c);
-int		var_len(char *str);
-char	*search_name_var(char *str);
+/*   env_var_handling.c   */
 
-/*   parsing/env_var_handling.c   */
-void	update_status(t_token **token, char c);
 int		var_exist(t_data *data, char *var);
-char	*get_env_value(t_data *data, char *var);
-char	*get_var_value(t_token *token, char *str, t_data *data);
-int		exchange_var(t_token **token, char *var_value, int index);
-int		get_env_var_index(char **env, char *var);
-char	*get_env_var_value(char **env, char *var);
+char	*extract_env_value(t_data *data, char *var);
+char	*resolve_env_variable(t_token *token, char *str, t_data *data);
+int		find_env_var_index(char **env, char *var);
+char	*fetch_env_var_value(char **env, char *var);
 
-/*   parsing/expand_variables.c   */
+/*   env_var_utils.c   */
+
+void	update_status(t_token **token, char c);
+
+/*   envp_check.c   */
+
+int		exchange_var(t_token **token, char *var_value, int index);
+void	envp_check_tool(t_token **token);
+bool	is_consecutive(t_token *token);
+int		check_syntax_operators(t_token **token_list);
+int		envp_check(t_token **token_list);
+
+/*   expand_variables.c   */
 
 int		erase_var(t_token **token, char *str, int index);
 void	copy_var_value(char *new_str, char *var_value, int *j);
@@ -240,50 +233,113 @@ char	*get_new_token_str(char *str, char *var_value, int new_str_size, int index)
 char	*erase_and_replace(t_token **token, char *str, char *var_value, int index);
 int		expand_variables(t_data *data, t_token **tokens);
 
+/*   file_io.c   */
 
-/*   parsing/file_io.c   */
-void	init_io(t_cmd *cmd);
 bool	restore_io(t_cmd *cmd);
 bool	redirect_io(t_cmd *cmd);
 
-/*   parsing/parse_path.c   */
-char	*get_cmd_path(t_data *data, char *name);
+/*   lexer.c   */
 
-/*   parsing/parse_pipe.c   */
-void	parse_pipe(t_cmd **cmd, t_token **token_lst);
+int		is_separator(char *str, int i);
+int		check_quotes(int status, char *str, int i);
+t_token	*lst_new_token(char *str, char *str_backup, int type, int status);
+void	lst_addback_token(t_token **token_list, t_token *new_node);
+int		save_word(t_token **token_list, char *str, int index, int start);
+int		save_separator(t_token **token_list, char *str, int index, int type);
+int		save_word_or_sep(int *i, char *str, int start, t_data *data);
+int		token_generator(t_data *data, char *str);
 
-/*   parsing/parse_append.c   */
+/*   parse_append.c   */
+
 void	parse_append(t_cmd **last_cmd, t_token **token_lst);
 
-/*   parsing/parse_append.c   */
+/*   parse_heredoc.c   */
+
+int		var_exists(t_data *data, char *var);
+char	*search_env_var(t_data *data, char *var);
+char	*identify_var(char *str);
+char	*recover_val(t_token *token, char *str, t_data *data);
+bool	is_var_compliant(char c);
+char	*get_new_token_string(char *oldstr, char *var_value, int newstr_size, int index);
+int		replace_var(t_token **token_node, char *var_value, int index);
+char	*replace_str_heredoc(char *str, char *var_value, int index);
+bool	is_next_char_a_sep(char c);
+bool	var_between_quotes(char *str, int i);
+int		var_expander(t_data *data, t_token **token_lst);
+char	*var_expander_heredoc(t_data *data, char *str);
+char	*make_str_from_tab(char **tab);
+char	*get_expanded_var_line(t_data *data, char *line);
+bool	evaluate_heredoc_line(t_data *data, char **line, t_cmd *cmd, bool *ret);
+bool	fill_heredoc(t_data *data, t_cmd *cmd, int fd);
+bool	get_heredoc(t_data *data);
+char	*get_heredoc_name(void);
+char	*get_delim(char *delim, bool *quotes);
 void	parse_heredoc(t_data *data, t_cmd **last_cmd, t_token **token_lst);
 
-/*   parsing/parsing.c   */
+/*   parse_io.c 4f  */
+
+void	set_outfile(t_token **token, t_cmd **last_cmd);
+void	set_infile(t_token **token, t_cmd **last_cmd);
+
+/*   parse_path.c   */
+
+char	*get_cmd_path(t_data *data, char *name);
+
+/*   parse_pipe.c   */
+
+void	parse_pipe(t_cmd **cmd, t_token **token_lst);
+
+/*   parse_pipe.c 3f  */
+void	parse_word(t_cmd **cmd, t_token **token);
+
+/*   parsing.c   */
+
 int		is_builtin(t_cmd *cmd_data);
-t_cmd	*create_cmd(int type, char *cmd);
-void	parsing(t_data *data);
-bool	parser_user_input(t_data *data);
-bool	check_infile_outfile(t_cmd *cmd);
-void	close_fds(t_cmd *cmds, bool close_backups);
+int		ft_isspace(int c);
+bool	input_is_space(char *input);
 void	close_pipe_fds(t_cmd *cmds, t_cmd *skip_cmd);
 bool	create_pipes(t_data *data);
+void	close_fds(t_cmd *cmds, bool close_backups);
+int		get_children(t_data *data);
+int		create_children(t_data *data);
+bool	check_infile_outfile(t_cmd *cmd);
+int		prep_for_exec(t_data *data);
+int		execute(t_data *data);
+void	parsing(t_data *data);
+bool	parser_user_input(t_data *data);
 
-/*   envp_check.c   */
-int		envp_check(t_token **token_list);
+/*   quotes_handler.c   */
 
-/*   parsing/signal.c   */
-void	signal_reset_prompt(int signal);
-void	signal_newline(int signal);
-void	signal_ignore_sigquit(void);
-void	set_signal_interactive(void);
-void	set_signal_noninteractive(void);
-
-/*   parsing/quotes_handler.c   */
+int		count_len(char *str, int count, int i);
+bool	quote_and_status_default(t_token **token, int i);
+void	change_status_quote(t_token **token, int *i);
+bool	back_status_to_default(t_token **token, int *i);
+int		remove_quotes(t_token **token);
+bool	quotes_in_str(char *str);
 int		quotes_handler(t_data *data);
 
-/*   parsing/quotes_handler.c   */
-int	create_args_echo_mode(t_token **token_node, t_cmd *last_cmd);
-int	add_args_echo_mode(t_token **token_node, t_cmd *last_cmd);
+/*   signal.c   */
+
+void	signal_reset_prompt(int signal);
+void	signal_newline(int signal);
+void	set_signal_interactive(void);
+void	set_signal_noninteractive(void);
+void	signal_ignore_sigquit(void);
+
+/*   token_utils.c   */
+
+bool	contains_space(char *str);
+void	lstdelone_token(t_token *lst, void (*del)(void *));
+void	lstclear_token(t_token **lst, void (*del)(void *));
+
+/*   var_validation.c   */
+
+bool	char_is_sep(char c);
+bool	between_quotes(char *str, int i);
+bool	is_var_valid(char c);
+int		var_len(char *str);
+char	*search_name_var(char *str);
+
 
 /*   DELETE THIS   */
 void	show_tokens(t_data *data);

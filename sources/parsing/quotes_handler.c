@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 19:40:41 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/27 18:12:29 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:07:47 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	back_status_to_default(t_token **token, int *i)
 		return (false);
 }
 
-int remove_quotes(t_token **token)
+int	remove_quotes(t_token **token)
 {
 	char	*new_line;
 	int		i;
@@ -106,7 +106,7 @@ bool	quotes_in_str(char *str)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			return (true);
@@ -122,7 +122,8 @@ int	quotes_handler(t_data *data)
 	temp = data->token;
 	while (temp)
 	{
-		if(quotes_in_str(temp->str) && (!temp->prev || (temp->prev && temp->prev->type != HEREDOC)))
+		if (quotes_in_str(temp->str)
+			&& (!temp->prev || (temp->prev && temp->prev->type != HEREDOC)))
 			remove_quotes(&temp);
 		temp = temp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:00:19 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/25 12:24:51 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:18:07 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	open_outfile_append(t_cmd *cmd, char *file, char *var_filename)
 
 void	parse_append(t_cmd **last_cmd, t_token **token_lst)
 {
-	t_token		*temp;
+	t_token	*temp;
 	t_cmd	*cmd;
 
 	temp = *token_lst;

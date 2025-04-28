@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:20:56 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/26 17:47:27 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:20:09 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static int	is_separator(char *str, int i)
+int	is_separator(char *str, int i)
 {
 	if (((str[i] > 8 && str[i] < 14) || str[i] == 32))
 		return (SPACES);
@@ -32,7 +32,7 @@ static int	is_separator(char *str, int i)
 		return (0);
 }
 
-static int	check_quotes(int status, char *str, int i)
+int	check_quotes(int status, char *str, int i)
 {
 	if (str[i] == '\'' && status == DEFAULT)
 		status = SQUOTE;
@@ -65,10 +65,10 @@ t_token	*lst_new_token(char *str, char *str_backup, int type, int status)
 
 void	lst_addback_token(t_token **token_list, t_token *new_node)
 {
-	t_token *start;
+	t_token	*start;
 
 	start = *token_list;
-	if(start == NULL)
+	if (start == NULL)
 	{
 		*token_list = new_node;
 		return ;
@@ -98,14 +98,15 @@ int	save_word(t_token **token_list, char *str, int index, int start)
 		start++;
 	}
 	word[i] = '\0';
-	lst_addback_token(token_list, lst_new_token(word, ft_strdup(word), WORD, DEFAULT));
+	lst_addback_token(token_list, \
+		lst_new_token(word, ft_strdup(word), WORD, DEFAULT));
 	return (0);
 }
 
 int	save_separator(t_token **token_list, char *str, int index, int type)
 {
 	char	*sep;
-	int	i;
+	int		i;
 
 	i = 0;
 	if (type == APPEND || type == HEREDOC)
@@ -140,7 +141,8 @@ int	save_word_or_sep(int *i, char *str, int start, t_data *data)
 	{
 		if ((*i) != 0 && is_separator(str, (*i) - 1) == 0)
 			save_word(&data->token, str, (*i), start);
-		if (type == PIPE || type == REDIRECT_IN ||type == REDIRECT_OUT || type == APPEND || type == HEREDOC || type == END)
+		if (type == PIPE || type == REDIRECT_IN || type == REDIRECT_OUT
+			|| type == APPEND || type == HEREDOC || type == END)
 		{
 			save_separator(&data->token, str, (*i), type);
 			if (type == APPEND || type == HEREDOC)

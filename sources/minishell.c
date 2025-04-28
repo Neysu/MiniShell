@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/26 21:34:16 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 19:10:45 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ static bool	init_wds(t_data *data)
 	data->working_dir = ft_strdup(wd);
 	if (!data->working_dir)
 		return (false);
-	if (get_env_var_index(data->env_list, "OLDPWD") != -1)
+	if (find_env_var_index(data->env_list, "OLDPWD") != -1)
 	{
-		data->old_working_dir = ft_strdup(get_env_var_value(data->env_list,
+		data->old_working_dir = ft_strdup(fetch_env_var_value(data->env_list,
 					"OLDPWD"));
 		if (!data->old_working_dir)
 			return (false);

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 12:12:02 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/27 14:10:19 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:17:30 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,12 @@ static char	**get_paths_from_env(t_data *data)
 {
 	char	**env_paths;
 
-	if (get_env_var_index(data->env_list, "PATH") == -1)
+	if (find_env_var_index(data->env_list, "PATH") == -1)
 		return (NULL);
-	env_paths = ft_split(get_env_var_value(data->env_list, "PATH"), ':');
+	env_paths = ft_split(fetch_env_var_value(data->env_list, "PATH"), ':');
 	if (!env_paths)
 		return (NULL);
 	return (env_paths);
-}
-
-char	*get_env_var_value(char **env, char *var)
-{
-	int		i;
-	char	*tmp;
-
-	tmp = ft_strjoin(var, "=");
-	if (!tmp)
-		return (NULL);
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(tmp, env[i], ft_strlen(tmp)) == 0)
-		{
-			free_ptr(tmp);
-			return (ft_strchr(env[i], '=') + 1);
-		}
-		i++;
-	}
-	free_ptr(tmp);
-	return (NULL);
 }
 
 char	*get_cmd_path(t_data *data, char *name)

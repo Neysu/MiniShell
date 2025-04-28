@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:15:16 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/17 18:58:46 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:22:57 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	copy_var_value(char *new_str, char *var_value, int *j)
 	}
 }
 
-char	*get_new_token_str(char *str, char *var_value, int new_str_size, int index)
+char	*get_new_token_str(char *str, char *var_value,
+							int new_str_size, int index)
 {
 	int		i;
 	int		j;
@@ -80,12 +81,14 @@ char	*get_new_token_str(char *str, char *var_value, int new_str_size, int index)
 	return (new_str);
 }
 
-char	*erase_and_replace(t_token **token, char *str, char *var_value, int index)
+char	*erase_and_replace(t_token **token, char *str,
+							char *var_value, int index)
 {
 	char	*new_str;
 	int		new_str_size;
 
-	new_str_size = (ft_strlen(str) - var_len(str + index) + ft_strlen(var_value));
+	new_str_size = (ft_strlen(str) - var_len(str + index)
+			+ ft_strlen(var_value));
 	new_str = get_new_token_str(str, var_value, new_str_size, index);
 	if (token && *token)
 	{
@@ -109,10 +112,12 @@ int	expand_variables(t_data *data, t_token **tokens)
 			while (temp->str[i])
 			{
 				update_status(&temp, temp->str[i]);
-				if (temp->str[i] == '$' && char_is_sep(temp->str[i + 1]) == false
+				if (temp->str[i] == '$'
+					&& char_is_sep(temp->str[i + 1]) == false
 					&& between_quotes(temp->str, i) == false
 					&& (temp->status == DEFAULT || temp->status == DQUOTE))
-					exchange_var(&temp, get_var_value(temp, temp->str + i, data), i);
+					exchange_var(&temp,
+						resolve_env_variable(temp, temp->str + i, data), i);
 				else
 					i++;
 			}

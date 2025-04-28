@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:37:50 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/26 19:16:44 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:42:25 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_cmd	*lst_new_cmd(bool value)
 	new_node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_node)
 		return (NULL);
-	ft_memset(new_node, 0 , sizeof(t_cmd));
+	ft_memset(new_node, 0, sizeof(t_cmd));
 	new_node->pipe_output = value;
 	init_cmd(&new_node);
 	return (new_node);
@@ -52,7 +52,7 @@ t_cmd	*lst_add_new_cmd(void)
 	new_node = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new_node)
 		return (NULL);
-	ft_memset(new_node, 0 , sizeof(t_cmd));
+	ft_memset(new_node, 0, sizeof(t_cmd));
 	new_node->cmd = NULL;
 	new_node->fd = -1;
 	new_node->next = NULL;
@@ -62,10 +62,10 @@ t_cmd	*lst_add_new_cmd(void)
 
 void	lst_addback_cmd(t_cmd **cmd_list, t_cmd *new_node)
 {
-	t_cmd *start;
+	t_cmd	*start;
 
 	start = *cmd_list;
-	if(start == NULL)
+	if (start == NULL)
 	{
 		*cmd_list = new_node;
 		return ;

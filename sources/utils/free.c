@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:59:51 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/26 21:30:20 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:43:18 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,8 @@ void	exit_shell(t_data *data, int exit_code)
 void	print_exit_shell(t_data *data, int exit_code)
 {
 	write(STDERR_FILENO, "exit\n", 5);
-	free_tokens(data->token);
+	// lst_clear_token(&data->token, &free_ptr);
+	//free_tokens(data->token);
 	exit_shell(data, exit_code);
 }
 
@@ -227,6 +228,8 @@ void	free_tokens(t_token *head)
 		tmp = head->next;
 		if (head->str)
 			free(head->str);
+		if (head->str_backup)
+			free(head->str_backup);
 		free(head);
 		head = tmp;
 	}

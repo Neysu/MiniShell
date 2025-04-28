@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/27 15:14:59 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:17:12 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_isspace(int c)
 	return (0);
 }
 
-static bool	input_is_space(char *input)
+bool	input_is_space(char *input)
 {
 	int	i;
 
@@ -54,7 +54,7 @@ static bool	input_is_space(char *input)
 	}
 	return (true);
 }
-/*    exec START     */
+
 void	close_pipe_fds(t_cmd *cmds, t_cmd *skip_cmd)
 {
 	while (cmds)
@@ -105,7 +105,7 @@ void	close_fds(t_cmd *cmds, bool close_backups)
 	close_pipe_fds(cmds, NULL);
 }
 
-static int	get_children(t_data *data)
+int	get_children(t_data *data)
 {
 	pid_t	wpid;
 	int		status;
@@ -130,7 +130,7 @@ static int	get_children(t_data *data)
 	return (status);
 }
 
-static int	create_children(t_data *data)
+int	create_children(t_data *data)
 {
 	t_cmd	*cmd;
 
@@ -157,13 +157,14 @@ bool	check_infile_outfile(t_cmd *cmd)
 	return (true);
 }
 
-static int	prep_for_exec(t_data *data)
+int	prep_for_exec(t_data *data)
 {
 	if (!data || !data->cmd)
 		return (EXIT_SUCCESS);
 	if (!data->cmd->cmd[0])
 	{
-		if ((data->cmd->infile || data->cmd->outfile || data->cmd->heredoc_delimiter)
+		if ((data->cmd->infile || data->cmd->outfile
+				|| data->cmd->heredoc_delimiter)
 			&& !check_infile_outfile(data->cmd))
 			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
@@ -210,7 +211,6 @@ void	parsing(t_data *data)
 		data->user_input = ft_strdup(user_input[i]);
 		if (parser_user_input(data) == true)
 		{
-			show_lists(data);
 			data->exit_code = execute(data);
 		}
 		else
@@ -223,7 +223,6 @@ void	parsing(t_data *data)
 
 bool	parser_user_input(t_data *data)
 {
-
 	if (ft_strcmp(data->user_input, "\0") == 0)
 		return (false);
 	else if (input_is_space(data->user_input))

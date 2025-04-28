@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:32 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/17 18:55:24 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:13:35 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ char	*search_name_var(char *str)
 	int		len;
 	int		start;
 	int		i;
+
 	i = 0;
-	start  = 0;
+	start = 0;
 	while (str[i])
 	{
 		if (str[i] == '$')

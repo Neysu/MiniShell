@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/27 17:21:08 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 19:10:25 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ bool	cmd_is_dir(char *cmd)
 int	check_command_not_found(t_data *data, t_cmd *cmd)
 {
 	if (ft_strchr(cmd->cmd[0], '/') == NULL
-		&& get_env_var_index(data->env_list, "PATH") != -1)
+		&& find_env_var_index(data->env_list, "PATH") != -1)
 		return (errmsg_cmd(cmd->cmd[0], NULL, "command not found",
 				CMD_NOT_FOUND));
 	if (access(cmd->cmd[0], F_OK) != 0)

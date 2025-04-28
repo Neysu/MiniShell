@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:52:42 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/26 21:02:21 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:17:55 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static int	var_exists(t_data *data, char *var)
+int	var_exists(t_data *data, char *var)
 {
 	int		i;
 	int		len;
@@ -28,7 +28,7 @@ static int	var_exists(t_data *data, char *var)
 	return (1);
 }
 
-static char	*search_env_var(t_data *data, char *var)
+char	*search_env_var(t_data *data, char *var)
 {
 	char	*str;
 	int		i;
@@ -170,7 +170,7 @@ char	*replace_str_heredoc(char *str, char *var_value, int index)
 	return (str);
 }
 
-static bool	is_next_char_a_sep(char c)
+bool	is_next_char_a_sep(char c)
 {
 	if (c == '$' || c == ' ' || c == '=' || c == '\0')
 		return (true);
@@ -178,7 +178,7 @@ static bool	is_next_char_a_sep(char c)
 		return (false);
 }
 
-static bool	var_between_quotes(char *str, int i)
+bool	var_between_quotes(char *str, int i)
 {
 	if (i > 0)
 	{
@@ -236,7 +236,7 @@ char	*var_expander_heredoc(t_data *data, char *str)
 	return (str);
 }
 
-static char	*make_str_from_tab(char **tab)
+char	*make_str_from_tab(char **tab)
 {
 	char	*str;
 	char	*tmp;
@@ -264,7 +264,7 @@ static char	*make_str_from_tab(char **tab)
 	return (str);
 }
 
-static char	*get_expanded_var_line(t_data *data, char *line)
+char	*get_expanded_var_line(t_data *data, char *line)
 {
 	char	**words;
 	int		i;
@@ -286,7 +286,7 @@ static char	*get_expanded_var_line(t_data *data, char *line)
 	return (make_str_from_tab(words));
 }
 
-static bool	evaluate_heredoc_line(t_data *data, char **line,
+bool	evaluate_heredoc_line(t_data *data, char **line,
 									t_cmd *cmd, bool *ret)
 {
 	if (*line == NULL)
@@ -347,7 +347,7 @@ bool	get_heredoc(t_data *data)
 	return (ret);
 }
 
-static char	*get_heredoc_name(void)
+char	*get_heredoc_name(void)
 {
 	static int	i;
 	char		*name;
@@ -362,7 +362,7 @@ static char	*get_heredoc_name(void)
 	return (name);
 }
 
-static char	*get_delim(char *delim, bool *quotes)
+char	*get_delim(char *delim, bool *quotes)
 {
 	int	len;
 
@@ -378,7 +378,7 @@ static char	*get_delim(char *delim, bool *quotes)
 
 void	parse_heredoc(t_data *data, t_cmd **last_cmd, t_token **token_lst)
 {
-	t_token		*temp;
+	t_token	*temp;
 	t_cmd	*cmd;
 
 	temp = *token_lst;

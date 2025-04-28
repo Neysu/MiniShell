@@ -6,23 +6,23 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:05 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/27 14:24:01 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:39:45 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	args_count(t_token *token)
+static int	args_count(t_token *token)
 {
 	int	i;
 
 	i = 0;
-	while(token && (token->type == WORD || token->type == ENV))
+	while (token && (token->type == WORD || token->type == ENV))
 	{
 		token = token->next;
 		i++;
 	}
-	return(i);
+	return (i);
 }
 
 int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
@@ -33,16 +33,11 @@ int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
 
 	i = 0;
 	temp = *token_node;
-	nb_args = 1;
-	while (temp->type == WORD || temp->type == ENV)
-	{
-		nb_args++;
-		temp = temp->next;
-	}
-	temp = *token_node;
+	nb_args = args_count(temp);
 	last_cmd->cmd = malloc(sizeof(char *) * (nb_args + 1));
 	if (!last_cmd->cmd)
 		return (FAILURE);
+	temp = *token_node;
 	i = 1;
 	while (temp->type == WORD || temp->type == ENV)
 	{
@@ -107,7 +102,6 @@ int	add_args_default_mode(t_token **token_node, t_cmd *last_cmd)
 
 int	fill_args(t_token **token_node, t_cmd *last_cmd)
 {
-
 	if (last_cmd && !(last_cmd->cmd))
 		return (create_args_default_mode(token_node, last_cmd));
 	else

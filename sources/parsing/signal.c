@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:47:29 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/27 17:03:03 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:14:49 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	signal_newline(int signal)
 
 void	set_signal_interactive(void)
 {
-	struct sigaction sig;
+	struct sigaction	sig;
 
 	signal_ignore_sigquit();
 	ft_memset(&sig, 0, sizeof(sig));
@@ -39,7 +39,7 @@ void	set_signal_interactive(void)
 
 void	set_signal_noninteractive(void)
 {
-	struct sigaction sig;
+	struct sigaction	sig;
 
 	ft_memset(&sig, 0, sizeof(sig));
 	sig.sa_handler = &signal_newline;
@@ -49,10 +49,9 @@ void	set_signal_noninteractive(void)
 
 void	signal_ignore_sigquit(void)
 {
-	struct sigaction sig;
+	struct sigaction	sig;
 
 	ft_memset(&sig, 0, sizeof(sig));
 	sig.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sig, NULL);
 }
-
