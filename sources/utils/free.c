@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:59:51 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/28 12:43:18 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:30:28 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,8 @@ void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
 		if (lst->heredoc_delimiter)
 			(*del)(lst->heredoc_delimiter);
 	}
-
 	if (lst->pipefd)
 		free(lst->pipefd);
-
 	if (lst->fd > 2)
 		close(lst->fd);
 	if (lst->fd_in > 2)
@@ -140,12 +138,10 @@ void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
 		close(lst->stdin_backup);
 	if (lst->stdout_backup > 2)
 		close(lst->stdout_backup);
-
 	if (lst->prev)
 		lst->prev->next = lst->next;
 	if (lst->next)
 		lst->next->prev = lst->prev;
-
 	lst->cmd = NULL;
 	lst->path = NULL;
 	lst->pipefd = NULL;
@@ -204,24 +200,28 @@ void	free_data(t_data *data, bool clear_history)
 	}
 }
 
+
+
 void	exit_shell(t_data *data, int exit_code)
 {
 	if (data)
+	{
+		if (data->cmd)
+			close_fds(data->cmd, true);
 		free_data(data, true);
+	}
 	exit(exit_code);
 }
 
 void	print_exit_shell(t_data *data, int exit_code)
 {
 	write(STDERR_FILENO, "exit\n", 5);
-	// lst_clear_token(&data->token, &free_ptr);
-	//free_tokens(data->token);
 	exit_shell(data, exit_code);
 }
 
 void	free_tokens(t_token *head)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	while (head)
 	{
@@ -240,7 +240,7 @@ void	free_env_array(char **env_array)
 	int	i;
 
 	if (!env_array)
-		return;
+		return ;
 	i = 0;
 	while (env_array[i])
 	{

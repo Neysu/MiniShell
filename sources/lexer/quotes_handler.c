@@ -1,31 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   quotes_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/16 21:35:43 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/29 16:02:09 by rureshet         ###   ########.fr       */
+/*   Created: 2025/03/25 19:40:41 by rureshet          #+#    #+#             */
+/*   Updated: 2025/04/29 12:53:21 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../../minishell.h"
 
-char	*ft_strdup(const char *s)
+bool	quotes_in_str(char *str)
 {
-	char	*dest;
-	int		i;
+	int	i;
 
 	i = 0;
-	dest = (char *) malloc((ft_strlen(s) + 1) * sizeof(char));
-	if (!dest)
-		return (NULL);
-	while (s[i])
+	while (str[i])
 	{
-		dest[i] = s[i];
+		if (str[i] == '\'' || str[i] == '\"')
+			return (true);
 		i++;
 	}
-	dest[i] = '\0';
-	return (dest);
+	return (false);
+}
+
+int	quotes_handler(t_data *data)
+{
+	t_token	*temp;
+
+	temp = data->token;
+	while (temp)
+	{
+		if (quotes_in_str(temp->str)
+			&& (!temp->prev || (temp->prev && temp->prev->type != HEREDOC)))
+			remove_quotes(&temp);
+		temp = temp->next;
+	}
+	return (0);
 }

@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 01:40:14 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/01/30 22:42:13 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:56:34 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
 static void	ft_free(char **tab, size_t allocated)
 {
 	size_t	i;
 
+	if(!tab)
+		return ;
 	i = 0;
 	while (i < allocated)
 	{
@@ -47,7 +50,7 @@ static size_t	ft_count_words(const char *s, char c)
 	return (count);
 }
 
-static void	ft_alloc(char **tab, const char *s, char c)
+static bool	ft_alloc(char **tab, const char *s, char c)
 {
 	size_t	i;
 	size_t	j;
@@ -59,8 +62,8 @@ static void	ft_alloc(char **tab, const char *s, char c)
 	{
 		while (s[i] == c)
 			i++;
-		if (s[i] == '\0')
-			return ;
+		if (!s[i])
+			break ;
 		start = i;
 		while (s[i] && s[i] != c)
 			i++;
@@ -68,11 +71,12 @@ static void	ft_alloc(char **tab, const char *s, char c)
 		if (!tab[j])
 		{
 			ft_free(tab, j);
-			return ;
+			return (false);
 		}
 		j++;
 	}
 	tab[j] = NULL;
+	return (true);
 }
 
 char	**ft_split(char const *s, char c)
@@ -83,14 +87,15 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	word_count = ft_count_words(s, c);
-	tbl = ft_calloc(sizeof(char *), word_count + 1);
+	tbl = ft_calloc(word_count + 1, sizeof(char *));
 	if (!tbl)
 		return (NULL);
-	ft_alloc(tbl, s, c);
-	if (!tbl[0] && word_count > 0)
-	{
-		free(tbl);
+	if (!ft_alloc(tbl, s, c))
 		return (NULL);
-	}
+	// if (!tbl[0] && word_count > 0)
+	// {
+	// 	free(tbl);
+	// 	return (NULL);
+	// }
 	return (tbl);
 }

@@ -64,6 +64,16 @@
 	"string_view": "c",
 	"ranges": "c",
 	"span": "c",
-	"vector": "c"
+	"vector": "c",
+	"minishell.h": "c",
+	"bitset": "c",
+	"initializer_list": "c",
+	"utility": "c",
+	"__hash_table": "c",
+	"__split_buffer": "c",
+	"deque": "c",
+	"queue": "c",
+	"random": "c",
+	"unordered_map": "c"
 }
 }

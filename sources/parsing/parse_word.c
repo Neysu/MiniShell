@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 18:45:35 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/28 20:11:39 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:02:24 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,28 @@ static void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str)
 	free_str_tab(strs);
 }
 
+static void	process_word_token(t_token **temp, t_cmd *last_cmd)
+{
+	if ((*temp)->prev == NULL || ((*temp)->prev && (*temp)->prev->type == PIPE)
+		|| last_cmd->cmd[0] == NULL)
+	{
+		if ((*temp)->type == ENV && contains_space((*temp)->str))
+			split_var_cmd_token(last_cmd, (*temp)->str);
+		else if ((*temp)->str)
+			last_cmd->cmd[0] = ft_strdup((*temp)->str);
+		*temp = (*temp)->next;
+	}
+	else
+		fill_args(temp, last_cmd);
+}
+
 void	parse_word(t_cmd **cmd, t_token **token)
 {
 	t_token	*temp;
 	t_cmd	*last_cmd;
 
 	temp = *token;
-	while (temp->type == WORD || temp->type == ENV)
+	while (temp && (temp->type == WORD || temp->type == ENV))
 	{
 		last_cmd = lst_last_cmd(*cmd);
 		if (!last_cmd->cmd)
@@ -84,17 +99,39 @@ void	parse_word(t_cmd **cmd, t_token **token)
 			last_cmd->cmd[0] = NULL;
 			last_cmd->cmd[1] = NULL;
 		}
-		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE)
-			|| last_cmd->cmd[0] == NULL)
-		{
-			if (temp->type == ENV && contains_space(temp->str))
-				split_var_cmd_token(last_cmd, temp->str);
-			else if (temp->str)
-				last_cmd->cmd[0] = ft_strdup(temp->str);
-			temp = temp->next;
-		}
-		else
-			fill_args(&temp, last_cmd);
+		process_word_token(&temp, last_cmd);
 	}
 	*token = temp;
 }
+
+// void	parse_word(t_cmd **cmd, t_token **token)
+// {
+// 	t_token	*temp;
+// 	t_cmd	*last_cmd;
+
+// 	temp = *token;
+// 	while (temp->type == WORD || temp->type == ENV)
+// 	{
+// 		last_cmd = lst_last_cmd(*cmd);
+// 		if (!last_cmd->cmd)
+// 		{
+// 			last_cmd->cmd = malloc(sizeof(char *) * 2);
+// 			if (!last_cmd->cmd)
+// 				return ;
+// 			last_cmd->cmd[0] = NULL;
+// 			last_cmd->cmd[1] = NULL;
+// 		}
+// 		if (temp->prev == NULL || (temp->prev && temp->prev->type == PIPE)
+// 			|| last_cmd->cmd[0] == NULL)
+// 		{
+// 			if (temp->type == ENV && contains_space(temp->str))
+// 				split_var_cmd_token(last_cmd, temp->str);
+// 			else if (temp->str)
+// 				last_cmd->cmd[0] = ft_strdup(temp->str);
+// 			temp = temp->next;
+// 		}
+// 		else
+// 			fill_args(&temp, last_cmd);
+// 	}
+// 	*token = temp;
+// }

@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 19:57:50 by rureshet          #+#    #+#             */
-/*   Updated: 2025/03/24 20:00:33 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:33:24 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-void 	*ft_memdel(void *ptr)
+void	*ft_memdel(void *ptr)
 {
 	if (ptr)
 	{

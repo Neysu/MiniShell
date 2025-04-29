@@ -6,20 +6,20 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/28 19:10:45 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/29 13:44:39 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_sig g_sig;
+t_sig	g_sig;
 
 static bool	start_check(int argc)
 {
 	if (argc != 1)
 	{
 		ft_putendl_fd("Usage: ./minishell\n", 2);
-		return(false);
+		return (false);
 	}
 	return (true);
 }
@@ -54,7 +54,6 @@ static bool	init_env(t_data *data, char **env)
 			return (false);
 		}
 		new_node->next = NULL;
-
 		if (!data->envp)
 			data->envp = new_node;
 		else
@@ -66,7 +65,6 @@ static bool	init_env(t_data *data, char **env)
 		}
 		i++;
 	}
-
 	data->env_list = ft_calloc(env_var_count(env) + 1, sizeof * data->env_list);
 	if (!data->env_list)
 		return (false);

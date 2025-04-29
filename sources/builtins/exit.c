@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:29:27 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/13 18:29:36 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:37:30 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ int		ft_exit(char *line, t_data *data)
 	}
 	else
 		data->work = false;
-	exit(0);
+	free_str_tab(args);
+	exit_shell(data, data->exit_code);
+	return (2);
+	//exit(0);
 }
 

@@ -8,6 +8,7 @@ FT_PRINTF = ft_printf/ft_printf.a
 
 SRCDIR = sources
 EXECDIR = exec
+LEXERDIR = lexer
 PARSDIR = parsing
 UTILS = utils
 BUILDIR = builtins
@@ -28,26 +29,33 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(BUILDIR)/unset.c \
 		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
 		$(SRCDIR)/$(EXECDIR)/redirect.c \
+		$(SRCDIR)/$(LEXERDIR)/env_var_handling.c \
+		$(SRCDIR)/$(LEXERDIR)/env_var_utils.c \
+		$(SRCDIR)/$(LEXERDIR)/envp_check.c \
+		$(SRCDIR)/$(LEXERDIR)/lexer_utils.c \
+		$(SRCDIR)/$(LEXERDIR)/quotes_handler_utils.c \
+		$(SRCDIR)/$(LEXERDIR)/quotes_handler.c \
+		$(SRCDIR)/$(LEXERDIR)/token_generator.c \
+		$(SRCDIR)/$(LEXERDIR)/token_utils.c \
+		$(SRCDIR)/$(LEXERDIR)/var_validation.c \
 		$(SRCDIR)/$(PARSDIR)/args_handling.c \
 		$(SRCDIR)/$(PARSDIR)/cmd_list_utils.c \
 		$(SRCDIR)/$(PARSDIR)/create_commands.c \
-		$(SRCDIR)/$(PARSDIR)/env_var_handling.c \
-		$(SRCDIR)/$(PARSDIR)/env_var_utils.c \
-		$(SRCDIR)/$(PARSDIR)/envp_check.c \
+		$(SRCDIR)/$(PARSDIR)/execute.c \
 		$(SRCDIR)/$(PARSDIR)/expand_variables.c \
+		$(SRCDIR)/$(PARSDIR)/fd_utils.c \
 		$(SRCDIR)/$(PARSDIR)/file_io.c \
+		$(SRCDIR)/$(PARSDIR)/heredoc_utils.c \
+		$(SRCDIR)/$(PARSDIR)/heredoc_var_utils.c \
 		$(SRCDIR)/$(PARSDIR)/parse_append.c \
+		$(SRCDIR)/$(PARSDIR)/parse_heredoc_utils.c \
 		$(SRCDIR)/$(PARSDIR)/parse_heredoc.c \
 		$(SRCDIR)/$(PARSDIR)/parse_io.c \
 		$(SRCDIR)/$(PARSDIR)/parse_path.c \
 		$(SRCDIR)/$(PARSDIR)/parse_pipe.c \
 		$(SRCDIR)/$(PARSDIR)/parse_word.c \
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
-		$(SRCDIR)/$(PARSDIR)/quotes_handler.c \
 		$(SRCDIR)/$(PARSDIR)/signal.c \
-		$(SRCDIR)/$(PARSDIR)/lexer.c \
-		$(SRCDIR)/$(PARSDIR)/token_utils.c \
-		$(SRCDIR)/$(PARSDIR)/var_validation.c \
 		$(SRCDIR)/$(UTILS)/free.c \
 		$(SRCDIR)/$(UTILS)/errors.c \
 		$(SRCDIR)/delete_this/tests.c
