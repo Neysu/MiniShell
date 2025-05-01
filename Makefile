@@ -7,6 +7,7 @@ LIB = libft/libft.a
 FT_PRINTF = ft_printf/ft_printf.a
 
 SRCDIR = sources
+ENVDIR = env
 EXECDIR = exec
 LEXERDIR = lexer
 PARSDIR = parsing
@@ -16,6 +17,8 @@ OBJDIR = objects
 
 SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/get_env.c \
+		$(SRCDIR)/$(ENVDIR)/env_set.c \
+		$(SRCDIR)/$(ENVDIR)/env_utils.c \
 		$(SRCDIR)/$(EXECDIR)/exec.c \
 		$(SRCDIR)/$(EXECDIR)/open_files.c \
 		$(SRCDIR)/$(BUILDIR)/builtins.c \

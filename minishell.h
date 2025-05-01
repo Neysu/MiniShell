@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/29 14:51:19 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:21:20 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,15 +135,28 @@ t_envp	*ft_lstnsave_word_or_sepew_env(char *envp);
 void	ft_lstadd_back(t_envp **lst, char *envp);
 char	**env_to_str(t_envp *envp);
 
+/*   ENV   */
+/*   env_set.c   */
+
+bool	set_env_var(t_data *data, char *key, char *value);
+bool	remove_env_var(t_data *data, int idx);
+
+/*   env_utils.c   */
+
+int		env_var_count(char **env);
+int		get_env_var_index(char **env, char *var);
+char	*get_env_var_value(char **env, char *var);
+bool	is_valid_env_var_key(char *var);
+
 /* builtins */
 size_t	ft_envsize(t_envp *env);
 int		ft_exit(char *line, t_data *data);
-int		ft_export(char *line, t_envp *envp_data);
+int		ft_export(t_data *data, char **args);
 int		ft_echo(char *line, t_data *data);
 int		print_pwd(char *line);
-int		print_env(t_envp *envp);
+int		print_env(char **envp);
 int		change_dirs(t_envp *envp, t_cmd	*cmd_data);
-int		ft_unset(char *line, t_envp *envp_data);
+int		ft_unset(t_data *data, char **args); 
 
 int		print_env2(char **envp);
 

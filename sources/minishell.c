@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/29 13:44:39 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:36:36 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,6 @@ static bool	start_check(int argc)
 		return (false);
 	}
 	return (true);
-}
-
-int	env_var_count(char **env)
-{
-	int	i;
-
-	i = 0;
-	while (env && env[i])
-		i++;
-	return (i);
 }
 
 static bool	init_env(t_data *data, char **env)

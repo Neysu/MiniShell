@@ -3,38 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:14:33 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/18 20:15:00 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/05/01 19:19:29 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_unset(char *line, t_envp *envp_data)
+int	ft_unset(t_data *data, char **args)
 {
-	int		i;
-	size_t	len;
-	t_envp	*current;
-	char	**args;
+	int	i;
+	int	idx;
+	int	ret;
 
+	ret = EXIT_SUCCESS;
 	i = 1;
-	args = ft_split(line, ' ');
-	if (ft_arrlen(args) < 2)
-		return (ft_putendl_fd(UNSETARGS, 2), 1);
 	while (args[i])
 	{
-		len = ft_strlen(args[i]);
-		current = envp_data;
-		while (current->next)
+		if (!is_valid_env_var_key(args[i]) || ft_strchr(args[i], '=') != NULL)
 		{
-			if (!ft_strncmp(current->var, args[i], len))
-				ft_bzero(current->var, ft_strlen(current->var));
-			current = current->next;
+			errmsg_cmd("unset", args[i], "not a valid identifier", false);
+			ret = EXIT_FAILURE;
+		}
+		else
+		{
+			idx = get_env_var_index(data->env_list, args[i]);
+			if (idx != -1)
+				remove_env_var(data, idx);
 		}
 		i++;
 	}
-	ft_free_arr(args);
-	return (0);
+	return (ret);
 }
