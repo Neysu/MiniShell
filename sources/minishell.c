@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/01 18:36:36 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/02 22:20:28 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ bool	init_data(t_data *data, char **envp)
 
 void	minishell(t_data *data)
 {
-	while (data->work)
+	while (1)
 	{
 		set_signal_interactive();
 		data->user_input = readline(PROMPT);

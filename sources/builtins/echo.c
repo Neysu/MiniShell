@@ -6,35 +6,62 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:15:41 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/13 18:28:57 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:27:43 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	ft_echo(char *line, t_data *data)
+static bool	is_n_flag(char *arg)
 {
-	char	**tab;
 	int		i;
-	bool	new_line;
+	bool	n_flag;
 
+	n_flag = false;
+	i = 0;
+	if (arg[i] != '-')
+		return (n_flag);
+	i++;
+	while (arg[i] && arg[i] == 'n')
+		i++;
+	if (arg[i] == '\0')
+		n_flag = true;
+	return (n_flag);
+}
+
+static void	echo_print_args(char **args, bool n_flag, int i)
+{
+	if (!args[i])
+	{
+		if (!n_flag)
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		return ;
+	}
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		else if (!args[i + 1] && !n_flag)
+			ft_putchar_fd('\n', STDOUT_FILENO);
+		i++;
+	}
+}
+
+int	ft_echo(t_data *data, char **args)
+{
+	int		i;
+	bool	n_flag;
+
+	(void)data;
+	n_flag = false;
 	i = 1;
-	(void)line;
-	new_line = true;
-	tab = data->cmd->cmd;
-	while (tab[i] && !ft_strncmp(tab[i], "-n", -1))
+	while (args[i] && is_n_flag(args[i]))
 	{
-		new_line = false;
+		n_flag = true;
 		i++;
 	}
-	while (tab[i])
-	{
-		ft_putstr_fd(tab[i], 1);
-		ft_putchar_fd(' ', 1);
-		i++;
-	}
-	if (new_line)
-		ft_putchar_fd('\n', 1);
-	return (0);
+	echo_print_args(args, n_flag, i);
+	return (EXIT_SUCCESS);
 }
 

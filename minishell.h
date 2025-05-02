@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/01 19:21:20 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:36:34 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,11 +152,11 @@ bool	is_valid_env_var_key(char *var);
 size_t	ft_envsize(t_envp *env);
 int		ft_exit(char *line, t_data *data);
 int		ft_export(t_data *data, char **args);
-int		ft_echo(char *line, t_data *data);
+int		ft_echo(t_data *data, char **args);
 int		print_pwd(char *line);
 int		print_env(char **envp);
-int		change_dirs(t_envp *envp, t_cmd	*cmd_data);
-int		ft_unset(t_data *data, char **args); 
+int		ft_cd(t_data *data, char **args);
+int		ft_unset(t_data *data, char **args);
 
 int		print_env2(char **envp);
 
