@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:39:39 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 12:41:30 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:35:19 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	var_exists(t_data *data, char *var)
+int	var_existss(t_data *data, char *var)
 {
 	int		i;
 	int		len;
@@ -81,10 +81,10 @@ char	*recover_val(t_token *token, char *str, t_data *data)
 	char	*var;
 
 	var = identify_var(str);
-	if (var && var_exists(data, var) == 0)
+	if (var && var_existss(data, var) == 0)
 	{
 		if (token != NULL)
-			token->var_exist = true;
+			token->var_exists = true;
 		value = search_env_var(data, var);
 	}
 	else if (var && var[0] == '?' && var[1] == '=')

@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:56:52 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/28 20:03:18 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:35:19 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	var_exist(t_data *data, char *var)
+int	var_exists(t_data *data, char *var)
 {
 	int	i;
 	int	len;
@@ -52,16 +52,14 @@ char	*resolve_env_variable(t_token *token, char *str, t_data *data)
 	char	*name_var;
 
 	name_var = search_name_var(str);
-	if (name_var && var_exist(data, name_var) == 0)
+	if (name_var && var_exists(data, name_var) == 0)
 	{
 		if (token != NULL)
-			token->var_exist = true;
+			token->var_exists = true;
 		value = extract_env_value(data, name_var);
 	}
 	else if (name_var && name_var[0] == '?' && name_var[1] == '=')
-	{
 		value = ft_itoa(data->exit_code);
-	}
 	else
 		value = NULL;
 	free_ptr(name_var);

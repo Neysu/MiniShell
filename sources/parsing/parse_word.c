@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 18:45:35 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 13:02:24 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:06:46 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	process_word_token(t_token **temp, t_cmd *last_cmd)
 	{
 		if ((*temp)->type == ENV && contains_space((*temp)->str))
 			split_var_cmd_token(last_cmd, (*temp)->str);
-		else if ((*temp)->str)
+		else
 			last_cmd->cmd[0] = ft_strdup((*temp)->str);
 		*temp = (*temp)->next;
 	}
@@ -82,13 +82,13 @@ static void	process_word_token(t_token **temp, t_cmd *last_cmd)
 		fill_args(temp, last_cmd);
 }
 
-void	parse_word(t_cmd **cmd, t_token **token)
+void	parse_word(t_cmd **cmd, t_token **token_lst)
 {
 	t_token	*temp;
 	t_cmd	*last_cmd;
 
-	temp = *token;
-	while (temp && (temp->type == WORD || temp->type == ENV))
+	temp = *token_lst;
+	while (temp->type == WORD || temp->type == ENV)
 	{
 		last_cmd = lst_last_cmd(*cmd);
 		if (!last_cmd->cmd)
@@ -101,7 +101,7 @@ void	parse_word(t_cmd **cmd, t_token **token)
 		}
 		process_word_token(&temp, last_cmd);
 	}
-	*token = temp;
+	*token_lst = temp;
 }
 
 // void	parse_word(t_cmd **cmd, t_token **token)

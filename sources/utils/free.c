@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:59:51 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 15:30:28 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 16:53:44 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,30 +86,30 @@ void	lst_clear_token(t_token **lst, void (*del)(void *))
 	}
 }
 
-void	lst_delone_envp(t_envp *lst, void (*del)(void *))
-{
-	if (del && lst && lst->var)
-	{
-		(*del)(lst->var);
-		lst->var = NULL;
-	}
-	if (lst->next)
-		lst->next = NULL;
-	free_ptr(lst);
-}
+// void	lst_delone_envp(t_envp *lst, void (*del)(void *))
+// {
+// 	if (del && lst && lst->var)
+// 	{
+// 		(*del)(lst->var);
+// 		lst->var = NULL;
+// 	}
+// 	if (lst->next)
+// 		lst->next = NULL;
+// 	free_ptr(lst);
+// }
 
-void	lst_clear_envp(t_envp **lst, void (*del)(void *))
-{
-	t_envp	*tmp;
+// void	lst_clear_envp(t_envp **lst, void (*del)(void *))
+// {
+// 	t_envp	*tmp;
 
-	tmp = NULL;
-	while (*lst != NULL)
-	{
-		tmp = (*lst)->next;
-		lst_delone_envp(*lst, del);
-		*lst = tmp;
-	}
-}
+// 	tmp = NULL;
+// 	while (*lst != NULL)
+// 	{
+// 		tmp = (*lst)->next;
+// 		lst_delone_envp(*lst, del);
+// 		*lst = tmp;
+// 	}
+// }
 
 void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
 {
@@ -186,8 +186,8 @@ void	free_data(t_data *data, bool clear_history)
 		lst_clear_token(&data->token, &free_ptr);
 	if (data && data->cmd)
 		lst_clear_cmd(&data->cmd, &free_ptr);
-	if (data && data->envp)
-		lst_clear_envp(&data->envp, &free_ptr);
+	// if (data && data->envp)
+	// 	lst_clear_envp(&data->envp, &free_ptr);
 	if (clear_history == true)
 	{
 		if (data && data->working_dir)
@@ -199,8 +199,6 @@ void	free_data(t_data *data, bool clear_history)
 		rl_clear_history();
 	}
 }
-
-
 
 void	exit_shell(t_data *data, int exit_code)
 {

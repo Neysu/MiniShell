@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:20:56 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 12:27:10 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:35:19 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_token	*lst_new_token(char *str, char *str_backup, int type, int status)
 		return (NULL);
 	new_node->str = str;
 	new_node->str_backup = str_backup;
-	new_node->var_exist = false;
+	new_node->var_exists = false;
 	new_node->type = type;
 	new_node->status = status;
 	new_node->join = false;

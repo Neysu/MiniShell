@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:05 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/02 20:58:09 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:35:19 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	remove_empty_var_args(t_token **tokens)
 	while (temp->type == WORD || temp->type == ENV)
 	{
 		if (temp->type == ENV && temp->str[0] == '\0'
-			&& temp->var_exist == false)
+			&& temp->var_exists == false)
 		{
 			temp = temp->next;
 			if (temp == (*tokens)->next)

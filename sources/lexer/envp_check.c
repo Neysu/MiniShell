@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 17:51:19 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/28 20:24:16 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:14:16 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	envp_check(t_token **token_list)
 	temp = *token_list;
 	if (temp->type == PIPE)
 	{
-		error_message("syntax error near unexpected token", "|", true);
+		error_message("syntax error near unexpected token", temp->str, true);
 		return (FAILURE);
 	}
 	while (temp)

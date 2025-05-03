@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/02 20:36:34 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:35:19 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define PROMPT "\033[1;37mminishell >>\033[0m "
+# define PROMPT "\001\033[38;5;82m\002minishell >>\001\033[0m\002 "
 # define ERRORCMD "minishell : %s: unknown command\n"
 # define HEREDOC_NAME "/tmp/.minishell_heredoc_"
 # define UNSETARGS "unset: not enough args"
@@ -49,11 +49,11 @@
 # define CMD_NOT_FOUND 127
 # define CMD_NOT_EXECUTABLE 126
 
-typedef struct s_envp
-{
-	char			*var;
-	struct s_envp	*next;
-}					t_envp;
+// typedef struct s_envp
+// {
+// 	char			*var;
+// 	struct s_envp	*next;
+// }					t_envp;
 
 typedef struct s_token
 {
@@ -62,7 +62,7 @@ typedef struct s_token
 	int				type;
 	int				status;
 	bool			join;
-	bool			var_exist;
+	bool			var_exists;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
@@ -73,7 +73,6 @@ typedef struct s_cmd
 	char			*path;
 	bool			pipe_output;
 	int				*pipefd;
-	int				type;
 	int				fd;
 	int				fd_in;
 	int				fd_out;
@@ -95,7 +94,7 @@ typedef struct s_data
 	char			*working_dir;
 	char			*old_working_dir;
 	char			**env_list;
-	t_envp			*envp;
+	//t_envp			*envp;
 	t_token			*token;
 	t_cmd			*cmd;
 	pid_t			pid;
@@ -130,10 +129,10 @@ enum e_quoting_status
 };
 
 /* env related*/
-t_envp	*get_env(char **envp);
-t_envp	*ft_lstnsave_word_or_sepew_env(char *envp);
-void	ft_lstadd_back(t_envp **lst, char *envp);
-char	**env_to_str(t_envp *envp);
+// t_envp	*get_env(char **envp);
+// t_envp	*ft_lstnsave_word_or_sepew_env(char *envp);
+// void	ft_lstadd_back(t_envp **lst, char *envp);
+// char	**env_to_str(t_envp *envp);
 
 /*   ENV   */
 /*   env_set.c   */
@@ -149,7 +148,7 @@ char	*get_env_var_value(char **env, char *var);
 bool	is_valid_env_var_key(char *var);
 
 /* builtins */
-size_t	ft_envsize(t_envp *env);
+//size_t	ft_envsize(t_envp *env);
 int		ft_exit(char *line, t_data *data);
 int		ft_export(t_data *data, char **args);
 int		ft_echo(t_data *data, char **args);
@@ -163,7 +162,7 @@ int		print_env2(char **envp);
 /* executions */
 
 int		exec_cmd(t_data *data, t_cmd *cmd);
-char	*findcmd(t_cmd *cmd_data, t_envp *envp);
+//char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 int		exec_buitlins(t_data *data, t_cmd *cmd);
 int		exec(t_data *data);
 
@@ -221,7 +220,7 @@ void	create_commands(t_data *data, t_token *token);
 
 /*   env_var_handling.c   */
 
-int		var_exist(t_data *data, char *var);
+int		var_exists(t_data *data, char *var);
 char	*extract_env_value(t_data *data, char *var);
 char	*resolve_env_variable(t_token *token, char *str, t_data *data);
 int		find_env_var_index(char **env, char *var);
@@ -274,7 +273,7 @@ void	parse_append(t_cmd **last_cmd, t_token **token_lst);
 
 /*   heredoc_var_utils.c   */
 
-int		var_exists(t_data *data, char *var);
+int		var_existss(t_data *data, char *var);
 char	*search_env_var(t_data *data, char *var);
 char	*identify_var(char *str);
 char	*recover_val(t_token *token, char *str, t_data *data);

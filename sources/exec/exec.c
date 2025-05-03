@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/28 19:10:25 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 16:53:01 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,23 @@
 // 	return (1);
 // }
 
-char	**env_to_str(t_envp *envp)
-{
-	char	**env;
-	t_envp	*current;
-	int		i;
+// char	**env_to_str(t_envp *envp)
+// {
+// 	char	**env;
+// 	t_envp	*current;
+// 	int		i;
 
-	i = 0;
-	env = ft_calloc(sizeof(char *), ft_envsize(envp));
-	current = envp;
-	while (current->next)
-	{
-		env[i] = ft_strdup(current->var);
-		i++;
-		current = current->next;
-	}
-	return (env);
-}
+// 	i = 0;
+// 	env = ft_calloc(sizeof(char *), ft_envsize(envp));
+// 	current = envp;
+// 	while (current->next)
+// 	{
+// 		env[i] = ft_strdup(current->var);
+// 		i++;
+// 		current = current->next;
+// 	}
+// 	return (env);
+// }
 
 bool	cmd_is_dir(char *cmd)
 {

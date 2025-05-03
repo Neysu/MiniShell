@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/04/29 15:45:20 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 17:16:09 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,31 @@ int	is_builtin(t_cmd *cmd_data)
 	return (0);
 }
 
-void	parsing(t_data *data)
-{
-	char	**user_input;
-	int		i;
+// void	parsing(t_data *data)
+// {
+// 	char	**user_input;
+// 	int		i;
 
-	if (data->user_input == NULL)
-		print_exit_shell(data, data->exit_code);
-	user_input = ft_split(data->user_input, ';');
-	if (!user_input)
-		exit_shell(data, EXIT_FAILURE);
-	i = 0;
-	while (user_input[i])
-	{
-		data->user_input = ft_strdup(user_input[i]);
-		if (parser_user_input(data) == true)
-		{
-			data->exit_code = execute(data);
-		}
-		else
-			data->exit_code = 1;
-		i++;
-		free_data(data, false);
-	}
-	free_str_tab(user_input);
-}
+// 	if (data->user_input == NULL)
+// 		print_exit_shell(data, data->exit_code);
+// 	user_input = ft_split(data->user_input, ';');
+// 	if (!user_input)
+// 		exit_shell(data, EXIT_FAILURE);
+// 	i = 0;
+// 	while (user_input[i])
+// 	{
+// 		data->user_input = ft_strdup(user_input[i]);
+// 		if (parser_user_input(data) == true)
+// 		{
+// 			data->exit_code = execute(data);
+// 		}
+// 		else
+// 			data->exit_code = 1;
+// 		i++;
+// 		free_data(data, false);
+// 	}
+// 	free_str_tab(user_input);
+// }
 
 bool	parser_user_input(t_data *data)
 {

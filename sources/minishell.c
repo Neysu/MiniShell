@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/02 22:20:28 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:07:51 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,34 +27,7 @@ static bool	start_check(int argc)
 static bool	init_env(t_data *data, char **env)
 {
 	int		i;
-	t_envp	*new_node;
-	t_envp	*last;
 
-	data->envp = NULL;
-	i = 0;
-	while (env[i])
-	{
-		new_node = malloc(sizeof(t_envp));
-		if (!new_node)
-			return (false);
-		new_node->var = ft_strdup(env[i]);
-		if (!new_node->var)
-		{
-			free(new_node);
-			return (false);
-		}
-		new_node->next = NULL;
-		if (!data->envp)
-			data->envp = new_node;
-		else
-		{
-			last = data->envp;
-			while (last->next)
-				last = last->next;
-			last->next = new_node;
-		}
-		i++;
-	}
 	data->env_list = ft_calloc(env_var_count(env) + 1, sizeof * data->env_list);
 	if (!data->env_list)
 		return (false);
@@ -107,9 +80,9 @@ bool	init_data(t_data *data, char **envp)
 			1);
 		return (false);
 	}
+	data->token = NULL;
 	data->user_input = NULL;
 	data->work = true;
-	data->token = NULL;
 	data->cmd = NULL;
 	data->pid = -1;
 	data->exit_code = 0;
@@ -118,13 +91,34 @@ bool	init_data(t_data *data, char **envp)
 
 void	minishell(t_data *data)
 {
+	char	**user_input;
+	int		i;
+
 	while (1)
 	{
 		set_signal_interactive();
 		data->user_input = readline(PROMPT);
 		set_signal_noninteractive();
-		parsing(data);
-		free(data->user_input);
+		if (data->user_input == NULL)
+			print_exit_shell(data, data->exit_code);
+		user_input = ft_split(data->user_input, ';');
+		if (!user_input)
+			exit_shell(data, EXIT_FAILURE);
+		i = 0;
+		while (user_input[i])
+		{
+			data->user_input = ft_strdup(user_input[i]);
+			if (parser_user_input(data) == true)
+			{
+				show_lists(data);
+				data->exit_code = execute(data);
+			}
+			else
+				data->exit_code = 1;
+			i++;
+			free_data(data, false);
+		}
+		free_str_tab(user_input);
 	}
 }
 
@@ -137,6 +131,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!start_check(argc) || !init_data(&data, envp))
 		exit_shell(NULL, EXIT_FAILURE);
 	minishell(&data);
-	exit_shell(&data, EXIT_SUCCESS);
+	exit_shell(&data, data.exit_code);
 	return (0);
 }

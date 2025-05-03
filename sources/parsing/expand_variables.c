@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:15:16 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/28 20:22:57 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/03 18:22:15 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int	erase_var(t_token **token, char *str, int index)
 	i = 0;
 	j = 0;
 	len = ft_strlen(str) - var_len(str + index);
-	new_str = malloc(sizeof(char) * len + 1);
+	new_str = (char *)malloc(sizeof(char) * len + 1);
 	if (!new_str)
 		return (1);
 	while (str[i])
 	{
 		if (str[i] == '$' && i == index)
 		{
-			i += var_len(str + index) + 1;
+			i = i + var_len(str + index) + 1;
 			if (str[i] == '\0')
 				break ;
 		}
