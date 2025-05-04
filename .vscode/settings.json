@@ -74,6 +74,7 @@
 	"deque": "c",
 	"queue": "c",
 	"random": "c",
-	"unordered_map": "c"
+	"unordered_map": "c",
+	"libft.h": "c"
 }
 }

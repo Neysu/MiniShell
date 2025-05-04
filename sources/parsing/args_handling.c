@@ -6,21 +6,21 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:42:05 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/03 19:35:19 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:46:26 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static int	args_count(t_token *token)
+int	count_arguments(t_token *temp)
 {
 	int	i;
 
 	i = 0;
-	while (token && (token->type == WORD || token->type == ENV))
+	while (temp && (temp->type == WORD || temp->type == ENV))
 	{
-		token = token->next;
 		i++;
+		temp = temp->next;
 	}
 	return (i);
 }
@@ -33,12 +33,14 @@ int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
 
 	i = 0;
 	temp = *token_node;
-	nb_args = args_count(temp);
-	last_cmd->cmd = malloc(sizeof(char *) * (nb_args + 1));
+	nb_args = count_arguments(temp);
+	last_cmd->cmd = malloc(sizeof(char *) * (nb_args + 2));
 	if (!last_cmd->cmd)
 		return (FAILURE);
 	temp = *token_node;
-	i = 1;
+	i = 0;
+	last_cmd->cmd[i] = ft_strdup(last_cmd->command);
+	i++;
 	while (temp->type == WORD || temp->type == ENV)
 	{
 		last_cmd->cmd[i] = ft_strdup(temp->str);
@@ -196,6 +198,8 @@ int	create_args_echo_mode(t_token **token_node, t_cmd *last_cmd)
 	if (!last_cmd->cmd)
 		return (FAILURE);
 	i = 0;
+	last_cmd->cmd[i] = ft_strdup(last_cmd->command);
+	i++;
 	while (temp->type == WORD || temp->type == ENV)
 	{
 		if (temp->join == true)
@@ -238,7 +242,7 @@ int	add_args_echo_mode(t_token **token_node, t_cmd *last_cmd)
 
 int	fill_args(t_token **token_node, t_cmd *last_cmd)
 {
-	if (!ft_strcmp(last_cmd->cmd[0], "echo"))
+	if (!ft_strcmp(last_cmd->command, "echo"))
 	{
 		if (!(last_cmd->cmd))
 			return (create_args_echo_mode(token_node, last_cmd));

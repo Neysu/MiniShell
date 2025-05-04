@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 01:40:14 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/29 15:56:34 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:24:15 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,88 +14,115 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-static void	ft_free(char **tab, size_t allocated)
+static int	ft_count_words(const char *s, char c)
 {
-	size_t	i;
+	int	words;
+	int	i;
 
-	if(!tab)
-		return ;
+	words = 0;
 	i = 0;
-	while (i < allocated)
+	while (s[i])
 	{
-		free(tab[i]);
+		if (i == 0 && s[i] != c)
+			words++;
+		if (i > 0 && s[i] != c && s[i - 1] == c)
+			words++;
 		i++;
 	}
-	free(tab);
+	return (words);
 }
 
-static size_t	ft_count_words(const char *s, char c)
+static char	**ft_malloc_strs(char **strs, const char *s, char c)
 {
-	size_t	count;
-	size_t	i;
+	int	count;
+	int	i;
+	int	x;
 
 	count = 0;
 	i = 0;
+	x = 0;
 	while (s[i])
 	{
-		while (s[i] == c)
-			i++;
-		if (s[i])
-		{
+		if (s[i] != c)
 			count++;
-			while (s[i] && s[i] != c)
-				i++;
+		if ((s[i] == c && i > 0 && s[i - 1] != c)
+			|| (s[i] != c && s[i + 1] == '\0'))
+		{
+			strs[x] = malloc(sizeof(char) * (count + 1));
+			if (!strs[x])
+				return (NULL);
+			count = 0;
+			x++;
 		}
+		i++;
 	}
-	return (count);
+	return (strs);
 }
 
-static bool	ft_alloc(char **tab, const char *s, char c)
+static char	**ft_cpy_strs(char **strs, const char *s, char c)
 {
-	size_t	i;
-	size_t	j;
-	size_t	start;
+	int	i;
+	int	x;
+	int	y;
 
 	i = 0;
-	j = 0;
+	x = 0;
+	y = 0;
 	while (s[i])
 	{
-		while (s[i] == c)
-			i++;
-		if (!s[i])
-			break ;
-		start = i;
-		while (s[i] && s[i] != c)
-			i++;
-		tab[j] = ft_substr(s, start, i - start);
-		if (!tab[j])
+		if (s[i] != c)
+			strs[x][y++] = s[i];
+		if (s[i] != c && s[i + 1] == '\0')
+			strs[x][y] = '\0';
+		if (s[i] == c && i > 0 && s[i - 1] != c)
 		{
-			ft_free(tab, j);
-			return (false);
+			strs[x][y] = '\0';
+			x++;
+			y = 0;
 		}
-		j++;
+		i++;
 	}
-	tab[j] = NULL;
-	return (true);
+	return (strs);
+}
+
+static char	**ft_merror(char **strs)
+{
+	int	i;
+
+	i = 0;
+	while (strs[i])
+	{
+		free(strs[i]);
+		strs[i] = NULL;
+		i++;
+	}
+	free(strs);
+	return (NULL);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**tbl;
-	size_t	word_count;
+	char	**strs;
+	int		wordcount;
 
 	if (!s)
+	{
+		strs = malloc(sizeof(char) * 1);
+		if (!strs)
+			return (NULL);
+		*strs = NULL;
+		return (strs);
+	}
+	wordcount = ft_count_words(s, c);
+	strs = malloc(sizeof(*strs) * (wordcount + 1));
+	if (!strs)
 		return (NULL);
-	word_count = ft_count_words(s, c);
-	tbl = ft_calloc(word_count + 1, sizeof(char *));
-	if (!tbl)
-		return (NULL);
-	if (!ft_alloc(tbl, s, c))
-		return (NULL);
-	// if (!tbl[0] && word_count > 0)
-	// {
-	// 	free(tbl);
-	// 	return (NULL);
-	// }
-	return (tbl);
+	if (ft_malloc_strs(strs, s, c))
+	{
+		ft_cpy_strs(strs, s, c);
+		strs[wordcount] = NULL;
+	}
+	else
+		strs = ft_merror(strs);
+	return (strs);
 }

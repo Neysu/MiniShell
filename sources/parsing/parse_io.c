@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 18:52:49 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/28 20:12:30 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:02:29 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ void	set_outfile(t_token **token, t_cmd **last_cmd)
 	*token = temp;
 }
 
-void	set_infile(t_token **token, t_cmd **last_cmd)
+void	set_infile(t_cmd **last_cmd, t_token **token)
 {
 	t_cmd	*last;
 	t_token	*temp;
 
-	last = lst_last_cmd(*last_cmd);
 	temp = *token;
+	last = lst_last_cmd(*last_cmd);
 	open_infile(last, temp->next->str);
 	if (temp->next->next)
 		temp = temp->next->next;

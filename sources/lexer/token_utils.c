@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:39:54 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/17 18:40:23 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:27:59 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void	lstdelone_token(t_token *lst, void (*del)(void *))
 	{
 		(*del)(lst->str);
 		lst->str = NULL;
+	}
+	if (del && lst && lst->str_backup)
+	{
+		(*del)(lst->str_backup);
+		lst->str_backup = NULL;
 	}
 	if (lst->prev)
 		lst->prev->next = lst->next;

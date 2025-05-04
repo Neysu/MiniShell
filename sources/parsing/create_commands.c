@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/28 19:00:33 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:06:06 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,12 @@ void	prep_no_arg_commands(t_data *data)
 	if (!data || !data->cmd)
 		return ;
 	cmd = data->cmd;
-	while (cmd && cmd->cmd)
+	while (cmd && cmd->command)
 	{
-		if (!cmd->cmd[0])
+		if (!cmd->cmd)
 		{
-			cmd->cmd = malloc(sizeof(char *) * 2);
-			if (!cmd->cmd)
-				return ;
-			if (cmd->cmd[0])
-				cmd->cmd[0] = ft_strdup(cmd->cmd[0]);
-			else
-				cmd->cmd[0] = NULL;
+			cmd->cmd = malloc(sizeof * cmd->cmd * 2);
+			cmd->cmd[0] = ft_strdup(cmd->command);
 			cmd->cmd[1] = NULL;
 		}
 		cmd = cmd->next;
@@ -76,7 +71,7 @@ void	create_commands(t_data *data, t_token *token)
 		if (temp->type == WORD || temp->type == ENV)
 			parse_word(&data->cmd, &temp);
 		else if (temp->type == REDIRECT_IN)
-			set_infile(&temp, &data->cmd);
+			set_infile(&data->cmd, &temp);
 		else if (temp->type == REDIRECT_OUT)
 			set_outfile(&temp, &data->cmd);
 		else if (temp->type == HEREDOC)

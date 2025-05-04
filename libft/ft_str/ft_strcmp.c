@@ -6,18 +6,20 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 11:32:55 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 13:34:16 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:30:01 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(char *s1, char *s2)
+#include "../libft.h"
+
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-	{
+	if (!s1 || !s2)
+		return (1);
+	while (s1[i] && s2[i] && (s1[i] == s2[i]))
 		i++;
-	}
-	return (s1[i] - s2[i]);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

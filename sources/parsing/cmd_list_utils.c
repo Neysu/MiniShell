@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:37:50 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/03 17:04:52 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:17:05 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_cmd(t_cmd **cmd)
 {
+	(*cmd)->command = NULL;
 	(*cmd)->cmd = NULL;
 	(*cmd)->path = NULL;
 	(*cmd)->pipe_output = false;

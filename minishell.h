@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/03 19:35:19 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 19:22:16 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
+	char			*command;
 	char			**cmd;
 	char			*path;
 	bool			pipe_output;
@@ -307,7 +308,7 @@ void	parse_heredoc(t_data *data, t_cmd **last_cmd, t_token **token_lst);
 /*   parse_io.c 4f  */
 
 void	set_outfile(t_token **token, t_cmd **last_cmd);
-void	set_infile(t_token **token, t_cmd **last_cmd);
+void	set_infile(t_cmd **last_cmd, t_token **token);
 
 /*   parse_path.c   */
 
