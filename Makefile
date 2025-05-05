@@ -51,7 +51,7 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(PARSDIR)/heredoc_utils.c \
 		$(SRCDIR)/$(PARSDIR)/heredoc_var_utils.c \
 		$(SRCDIR)/$(PARSDIR)/parse_append.c \
-		$(SRCDIR)/$(PARSDIR)/parse_heredoc_utils.c \
+		$(SRCDIR)/$(PARSDIR)/var_expander.c \
 		$(SRCDIR)/$(PARSDIR)/parse_heredoc.c \
 		$(SRCDIR)/$(PARSDIR)/parse_io.c \
 		$(SRCDIR)/$(PARSDIR)/parse_path.c \

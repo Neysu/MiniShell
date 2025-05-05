@@ -6,32 +6,32 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/05/03 17:16:09 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:55:39 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	is_builtin(t_cmd *cmd_data)
-{
-	if (!cmd_data || !cmd_data->cmd || !cmd_data->cmd[0])
-		return (0);
-	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))
-		return (ft_putendl_fd("echo is on", STDERR), 1);
-	if (!ft_strncmp(cmd_data->cmd[0], "cd", -1))
-		return (1);
-	if (!ft_strncmp(cmd_data->cmd[0], "pwd", -1))
-		return (1);
-	if (!ft_strncmp(cmd_data->cmd[0], "export", -1))
-		return (1);
-	if (!ft_strncmp(cmd_data->cmd[0], "unset", -1))
-		return (1);
-	if (!ft_strncmp(cmd_data->cmd[0], "env", -1))
-		return (1);
-	if (!ft_strncmp(cmd_data->cmd[0], "exit", -1))
-		return (1);
-	return (0);
-}
+// int	is_builtin(t_cmd *cmd_data)
+// {
+// 	if (!cmd_data || !cmd_data->cmd || !cmd_data->cmd[0])
+// 		return (0);
+// 	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))
+// 		return (ft_putendl_fd("echo is on", STDERR), 1);
+// 	if (!ft_strncmp(cmd_data->cmd[0], "cd", -1))
+// 		return (1);
+// 	if (!ft_strncmp(cmd_data->cmd[0], "pwd", -1))
+// 		return (1);
+// 	if (!ft_strncmp(cmd_data->cmd[0], "export", -1))
+// 		return (1);
+// 	if (!ft_strncmp(cmd_data->cmd[0], "unset", -1))
+// 		return (1);
+// 	if (!ft_strncmp(cmd_data->cmd[0], "env", -1))
+// 		return (1);
+// 	if (!ft_strncmp(cmd_data->cmd[0], "exit", -1))
+// 		return (1);
+// 	return (0);
+// }
 
 // void	parsing(t_data *data)
 // {
@@ -72,7 +72,7 @@ bool	parser_user_input(t_data *data)
 		return (false);
 	if (envp_check(&data->token) == FAILURE)
 		return (false);
-	expand_variables(data, &data->token);
+	var_expander(data, &data->token);
 	quotes_handler(data);
 	create_commands(data, data->token);
 	return (true);

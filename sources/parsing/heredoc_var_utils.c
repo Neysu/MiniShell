@@ -6,27 +6,11 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:39:39 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/03 19:35:19 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:47:17 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	var_existss(t_data *data, char *var)
-{
-	int		i;
-	int		len;
-
-	i = 0;
-	len = ft_strlen(var);
-	while (data->env_list[i])
-	{
-		if (ft_strncmp(data->env_list[i], var, len) == 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 char	*search_env_var(t_data *data, char *var)
 {
@@ -81,7 +65,7 @@ char	*recover_val(t_token *token, char *str, t_data *data)
 	char	*var;
 
 	var = identify_var(str);
-	if (var && var_existss(data, var) == 0)
+	if (var && var_exists(data, var) == 0)
 	{
 		if (token != NULL)
 			token->var_exists = true;
@@ -95,10 +79,4 @@ char	*recover_val(t_token *token, char *str, t_data *data)
 	return (value);
 }
 
-bool	is_var_compliant(char c)
-{
-	if (ft_isalnum(c) == 0 && c != '_')
-		return (false);
-	else
-		return (true);
-}
+

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:47:10 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 12:48:35 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:18:28 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	prep_for_exec(t_data *data)
 {
 	if (!data || !data->cmd)
 		return (EXIT_SUCCESS);
-	if (!data->cmd->cmd[0])
+	if (!data->cmd->command)
 	{
 		if ((data->cmd->infile || data->cmd->outfile
 				|| data->cmd->heredoc_delimiter)

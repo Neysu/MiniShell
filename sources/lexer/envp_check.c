@@ -6,33 +6,11 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 17:51:19 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/03 18:14:16 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:53:09 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-int	exchange_var(t_token **token, char *var_value, int index)
-{
-	if (var_value == NULL)
-	{
-		if (erase_var(token, (*token)->str, index) == 1)
-		{
-			free_ptr(var_value);
-			return (1);
-		}
-	}
-	else
-	{
-		if (erase_and_replace(token, (*token)->str, var_value, index) == NULL)
-		{
-			free_ptr(var_value);
-			return (1);
-		}
-	}
-	free_ptr(var_value);
-	return (0);
-}
 
 void	envp_check_tool(t_token **token)
 {

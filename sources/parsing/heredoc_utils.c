@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:39:36 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 12:41:08 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:47:01 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*get_new_token_string(char *oldstr, char *var_value,
+char	*get_new_token_str(char *oldstr, char *var_value,
 		int newstr_size, int index)
 {
 	int		i;

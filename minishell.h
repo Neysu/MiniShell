@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/04 19:22:16 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:13:38 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ enum e_token_type
 	APPEND,			// 7 >>
 	HEREDOC,		// 8 <<
 	END,			// 9 '\0'
-	COMMAND = 10	// 10 COMMAND
+	//COMMAND = 10	// 10 COMMAND
 };
 
 enum e_quoting_status
@@ -204,12 +204,12 @@ char	**copy_default_in_new_tab(int len, char **new_tab,
 			t_cmd *last_cmd, t_token **tk_node);
 int		add_args_default_mode(t_token **token_node, t_cmd *last_cmd);
 int		fill_args(t_token **token_node, t_cmd *last_cmd);
+void	remove_empty_var_args(t_token **tokens);
 
 /*   cmd_list_utils.c   */
 
 void	init_cmd(t_cmd **cmd);
 t_cmd	*lst_new_cmd(bool value);
-t_cmd	*lst_add_new_cmd(void);
 void	lst_addback_cmd(t_cmd **cmd_list, t_cmd *new_node);
 t_cmd	*lst_last_cmd(t_cmd *cmd);
 
@@ -243,8 +243,7 @@ int		envp_check(t_token **token_list);
 
 int		erase_var(t_token **token, char *str, int index);
 void	copy_var_value(char *new_str, char *var_value, int *j);
-char	*get_new_token_str(char *str, char *var_value,
-			int new_str_size, int index);
+
 char	*erase_and_replace(t_token **token, char *str,
 			char *var_value, int index);
 int		expand_variables(t_data *data, t_token **tokens);
@@ -274,7 +273,6 @@ void	parse_append(t_cmd **last_cmd, t_token **token_lst);
 
 /*   heredoc_var_utils.c   */
 
-int		var_existss(t_data *data, char *var);
 char	*search_env_var(t_data *data, char *var);
 char	*identify_var(char *str);
 char	*recover_val(t_token *token, char *str, t_data *data);
@@ -282,7 +280,7 @@ bool	is_var_compliant(char c);
 
 /*   heredoc_utils.c   */
 
-char	*get_new_token_string(char *oldstr, char *var_value,
+char	*get_new_token_str(char *oldstr, char *var_value,
 			int newstr_size, int index);
 int		replace_var(t_token **token_node, char *var_value, int index);
 char	*replace_str_heredoc(char *str, char *var_value, int index);
@@ -382,7 +380,5 @@ char	*search_name_var(char *str);
 void	show_tokens(t_data *data);
 void	show_lists(t_data *data);
 /*   DELETE THIS   */
-
-t_cmd	*lst_last_cmd(t_cmd *cmd);
 
 #endif
