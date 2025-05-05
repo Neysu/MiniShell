@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:31 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 14:20:22 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 21:13:28 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	lst_delone_token(t_token *lst, void (*del)(void *))
 		lst->prev->next = lst->next;
 	if (lst->next)
 		lst->next->prev = lst->prev;
-	free_ptr(lst);
+	free(lst);
 }
 
 void	lst_clear_token(t_token **lst, void (*del)(void *))
@@ -42,10 +42,13 @@ void	lst_clear_token(t_token **lst, void (*del)(void *))
 		lst_delone_token(*lst, del);
 		*lst = tmp;
 	}
+	*lst = NULL;
 }
 
 static void	cleanup_cmd_node(t_cmd *lst, void (*del)(void *))
 {
+	if (lst->command)
+		(del)(lst->command);
 	if (lst->cmd)
 		free_str_tab(lst->cmd);
 	if (del)
@@ -88,18 +91,18 @@ void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
 	lst->heredoc_delimiter = NULL;
 	lst->next = NULL;
 	lst->prev = NULL;
-	(*del)(lst);
+	free(lst);
 }
 
 void	lst_clear_cmd(t_cmd **lst, void (*del)(void *))
 {
 	t_cmd	*temp;
 
-	temp = NULL;
 	while (*lst != NULL)
 	{
 		temp = (*lst)->next;
 		lst_delone_cmd(*lst, del);
 		*lst = temp;
 	}
+	*lst = NULL;
 }
