@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 18:45:35 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 11:47:43 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:48:37 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	split_var_cmd_token(t_cmd *last_cmd, char *cmd_str)
 
 void	parse_word(t_cmd **cmd, t_token **token_lst)
 {
-	t_token		*temp;
+	t_token	*temp;
 	t_cmd	*last_cmd;
 
 	temp = *token_lst;
@@ -61,4 +61,3 @@ void	parse_word(t_cmd **cmd, t_token **token_lst)
 	}
 	*token_lst = temp;
 }
-

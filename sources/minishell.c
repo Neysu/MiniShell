@@ -6,13 +6,11 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/03 19:07:51 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:46:00 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_sig	g_sig;
 
 static bool	start_check(int argc)
 {
@@ -24,76 +22,35 @@ static bool	start_check(int argc)
 	return (true);
 }
 
-static bool	init_env(t_data *data, char **env)
+static int	process_user_input(t_data *data, char *input_line)
 {
+	char	**commands;
 	int		i;
+	int		exit_code;
 
-	data->env_list = ft_calloc(env_var_count(env) + 1, sizeof * data->env_list);
-	if (!data->env_list)
-		return (false);
+	commands = ft_split(input_line, ';');
+	if (!commands)
+		exit_shell(data, EXIT_FAILURE);
 	i = 0;
-	while (env[i])
+	while (commands[i])
 	{
-		data->env_list[i] = ft_strdup(env[i]);
-		if (!data->env_list[i])
-			return (false);
+		data->user_input = ft_strdup(commands[i]);
+		if (parser_user_input(data) == true)
+		{
+			show_lists(data);
+			exit_code = execute(data);
+		}
+		else
+			exit_code = 1;
 		i++;
+		free_data(data, false);
 	}
-	return (true);
-}
-
-static bool	init_wds(t_data *data)
-{
-	char	buff[PATH_MAX_LEN];
-	char	*wd;
-
-	wd = getcwd(buff, PATH_MAX_LEN);
-	data->working_dir = ft_strdup(wd);
-	if (!data->working_dir)
-		return (false);
-	if (find_env_var_index(data->env_list, "OLDPWD") != -1)
-	{
-		data->old_working_dir = ft_strdup(fetch_env_var_value(data->env_list,
-					"OLDPWD"));
-		if (!data->old_working_dir)
-			return (false);
-	}
-	else
-	{
-		data->old_working_dir = ft_strdup(wd);
-		if (!data->old_working_dir)
-			return (false);
-	}
-	return (true);
-}
-
-bool	init_data(t_data *data, char **envp)
-{
-	if (!init_env(data, envp))
-	{
-		errmsg_cmd("Fatal", NULL, "Could not initialize environment", 1);
-		return (false);
-	}
-	if (!init_wds(data))
-	{
-		errmsg_cmd("Fatal", NULL, "Could not initialize working directories",
-			1);
-		return (false);
-	}
-	data->token = NULL;
-	data->user_input = NULL;
-	data->work = true;
-	data->cmd = NULL;
-	data->pid = -1;
-	data->exit_code = 0;
-	return (true);
+	free_str_tab(commands);
+	return (exit_code);
 }
 
 void	minishell(t_data *data)
 {
-	char	**user_input;
-	int		i;
-
 	while (1)
 	{
 		set_signal_interactive();
@@ -101,24 +58,7 @@ void	minishell(t_data *data)
 		set_signal_noninteractive();
 		if (data->user_input == NULL)
 			print_exit_shell(data, data->exit_code);
-		user_input = ft_split(data->user_input, ';');
-		if (!user_input)
-			exit_shell(data, EXIT_FAILURE);
-		i = 0;
-		while (user_input[i])
-		{
-			data->user_input = ft_strdup(user_input[i]);
-			if (parser_user_input(data) == true)
-			{
-				show_lists(data);
-				data->exit_code = execute(data);
-			}
-			else
-				data->exit_code = 1;
-			i++;
-			free_data(data, false);
-		}
-		free_str_tab(user_input);
+		data->exit_code = process_user_input(data, data->user_input);
 	}
 }
 

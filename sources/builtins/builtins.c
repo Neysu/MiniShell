@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:20:54 by elliot            #+#    #+#             */
-/*   Updated: 2025/05/04 20:10:45 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:36:51 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		exec_buitlins(t_data *data, t_cmd *cmd)
+int	exec_buitlins(t_data *data, t_cmd *cmd)
 {
 	int	ret;
 
@@ -30,7 +30,6 @@ int		exec_buitlins(t_data *data, t_cmd *cmd)
 	else if (ft_strncmp(cmd->command, "unset", 6) == 0)
 		ret = ft_unset(data, cmd->cmd);
 	else if (ft_strncmp(cmd->command, "exit", 5) == 0)
-		ret = ft_exit(cmd->command, data);
+		ret = ft_exit(data->user_input, data);
 	return (ret);
 }
-

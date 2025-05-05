@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:59 by elliot            #+#    #+#             */
-/*   Updated: 2025/05/03 17:03:16 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:51:03 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,3 @@ void	closepipe(t_cmd *cmd_data)
 	close(cmd_data->pipefd[0]);
 	close(cmd_data->pipefd[1]);
 }
-
-// int		is_redirect(t_cmd	*cmd_data)
-// {
-// 	if (cmd_data->type == REDIRECT_IN)
-// 		return (1);
-// 	if (cmd_data->type == REDIRECT_OUT)
-// 		return (1);
-// 	if (cmd_data->type == APPEND)
-// 		return (1);
-// 	if (cmd_data->type == HEREDOC)
-// 		return (1);
-// 	return (0);
-// }
-

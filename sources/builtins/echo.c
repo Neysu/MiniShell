@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:15:41 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/02 20:27:43 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:54:30 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,3 @@ int	ft_echo(t_data *data, char **args)
 	echo_print_args(args, n_flag, i);
 	return (EXIT_SUCCESS);
 }
-

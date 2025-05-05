@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:39:39 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 11:47:17 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:48:59 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,3 @@ char	*recover_val(t_token *token, char *str, t_data *data)
 	free_ptr(var);
 	return (value);
 }
-
-

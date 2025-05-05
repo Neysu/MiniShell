@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 02:27:58 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/01 18:27:56 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:51:36 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static char	**get_key_value_pair(char *arg)
 	tmp[2] = NULL;
 	return (tmp);
 }
+
 int	env_builtin(t_data *data, char **args)
 {
 	int	i;

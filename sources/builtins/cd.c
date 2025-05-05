@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:29:50 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/02 19:06:46 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:54:45 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void	update_wds(t_data *data, char *wd)
 	}
 	free_ptr(wd);
 }
-
 
 static	bool	chdir_errno_mod(char *path)
 {

@@ -92,7 +92,7 @@ void show_lists(t_data *data)
 		return;
 	}
 	printf("User Input: %s\n", data->user_input ? data->user_input : "NULL");
-	printf("Work: %s\n", data->work ? "true" : "false");
+	
 	show_tokens(data);
 	show_commands(data);
 }

@@ -6,58 +6,11 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 02:35:57 by elliot            #+#    #+#             */
-/*   Updated: 2025/05/04 20:55:39 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 12:12:57 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// int	is_builtin(t_cmd *cmd_data)
-// {
-// 	if (!cmd_data || !cmd_data->cmd || !cmd_data->cmd[0])
-// 		return (0);
-// 	if (!ft_strncmp(cmd_data->cmd[0], "echo", -1))
-// 		return (ft_putendl_fd("echo is on", STDERR), 1);
-// 	if (!ft_strncmp(cmd_data->cmd[0], "cd", -1))
-// 		return (1);
-// 	if (!ft_strncmp(cmd_data->cmd[0], "pwd", -1))
-// 		return (1);
-// 	if (!ft_strncmp(cmd_data->cmd[0], "export", -1))
-// 		return (1);
-// 	if (!ft_strncmp(cmd_data->cmd[0], "unset", -1))
-// 		return (1);
-// 	if (!ft_strncmp(cmd_data->cmd[0], "env", -1))
-// 		return (1);
-// 	if (!ft_strncmp(cmd_data->cmd[0], "exit", -1))
-// 		return (1);
-// 	return (0);
-// }
-
-// void	parsing(t_data *data)
-// {
-// 	char	**user_input;
-// 	int		i;
-
-// 	if (data->user_input == NULL)
-// 		print_exit_shell(data, data->exit_code);
-// 	user_input = ft_split(data->user_input, ';');
-// 	if (!user_input)
-// 		exit_shell(data, EXIT_FAILURE);
-// 	i = 0;
-// 	while (user_input[i])
-// 	{
-// 		data->user_input = ft_strdup(user_input[i]);
-// 		if (parser_user_input(data) == true)
-// 		{
-// 			data->exit_code = execute(data);
-// 		}
-// 		else
-// 			data->exit_code = 1;
-// 		i++;
-// 		free_data(data, false);
-// 	}
-// 	free_str_tab(user_input);
-// }
 
 bool	parser_user_input(t_data *data)
 {

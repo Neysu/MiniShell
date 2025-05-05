@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egibeaux <egibeaux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:16:45 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/03/18 20:16:58 by egibeaux         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:55:18 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		print_pwd(char *line)
+int	print_pwd(char *line)
 {
 	char	*buffer;
 	char	*pwd;

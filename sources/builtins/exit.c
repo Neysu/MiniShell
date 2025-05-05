@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 22:29:27 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/04/29 15:37:30 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:35:31 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int		ft_exit(char *line, t_data *data)
+int	ft_exit(char *line, t_data *data)
 {
 	char	**args;
 	int		ret;
@@ -28,13 +28,8 @@ int		ft_exit(char *line, t_data *data)
 		ft_putendl_fd("exit", 1);
 		ret = ft_atoi(args[1]);
 		data->exit_code = (ret % 256);
-		data->work = false;
 	}
-	else
-		data->work = false;
 	free_str_tab(args);
 	exit_shell(data, data->exit_code);
 	return (2);
-	//exit(0);
 }
-

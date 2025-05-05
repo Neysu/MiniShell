@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:37:50 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/04 21:41:23 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:47:07 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ t_cmd	*lst_new_cmd(bool value)
 	init_cmd(&new_node);
 	return (new_node);
 }
-
-
 
 void	lst_addback_cmd(t_cmd **cmd_list, t_cmd *new_node)
 {

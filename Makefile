@@ -16,10 +16,11 @@ BUILDIR = builtins
 OBJDIR = objects
 
 SRC =	$(SRCDIR)/minishell.c \
-		$(SRCDIR)/get_env.c \
 		$(SRCDIR)/$(ENVDIR)/env_set.c \
 		$(SRCDIR)/$(ENVDIR)/env_utils.c \
-		$(SRCDIR)/$(EXECDIR)/exec.c \
+		$(SRCDIR)/$(EXECDIR)/exec_cmd.c \
+		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
+		$(SRCDIR)/$(EXECDIR)/execute.c \
 		$(SRCDIR)/$(EXECDIR)/open_files.c \
 		$(SRCDIR)/$(BUILDIR)/builtins.c \
 		$(SRCDIR)/$(BUILDIR)/builtins_utils.c \
@@ -30,8 +31,6 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(BUILDIR)/export.c \
 		$(SRCDIR)/$(BUILDIR)/pwd.c \
 		$(SRCDIR)/$(BUILDIR)/unset.c \
-		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
-		$(SRCDIR)/$(EXECDIR)/redirect.c \
 		$(SRCDIR)/$(LEXERDIR)/env_var_handling.c \
 		$(SRCDIR)/$(LEXERDIR)/env_var_utils.c \
 		$(SRCDIR)/$(LEXERDIR)/envp_check.c \
@@ -44,10 +43,10 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(PARSDIR)/args_handling.c \
 		$(SRCDIR)/$(PARSDIR)/cmd_list_utils.c \
 		$(SRCDIR)/$(PARSDIR)/create_commands.c \
-		$(SRCDIR)/$(PARSDIR)/execute.c \
 		$(SRCDIR)/$(PARSDIR)/expand_variables.c \
 		$(SRCDIR)/$(PARSDIR)/fd_utils.c \
 		$(SRCDIR)/$(PARSDIR)/file_io.c \
+		$(SRCDIR)/$(PARSDIR)/fill_args.c \
 		$(SRCDIR)/$(PARSDIR)/heredoc_utils.c \
 		$(SRCDIR)/$(PARSDIR)/heredoc_var_utils.c \
 		$(SRCDIR)/$(PARSDIR)/parse_append.c \
@@ -59,8 +58,11 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(PARSDIR)/parse_word.c \
 		$(SRCDIR)/$(PARSDIR)/parsing.c \
 		$(SRCDIR)/$(PARSDIR)/signal.c \
-		$(SRCDIR)/$(UTILS)/free.c \
+		$(SRCDIR)/$(UTILS)/cleanup.c \
 		$(SRCDIR)/$(UTILS)/errors.c \
+		$(SRCDIR)/$(UTILS)/exit.c \
+		$(SRCDIR)/$(UTILS)/free.c \
+		$(SRCDIR)/$(UTILS)/init.c \
 		$(SRCDIR)/delete_this/tests.c
 
 OBJ := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRC))

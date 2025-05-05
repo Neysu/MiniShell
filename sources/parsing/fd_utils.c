@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:47:49 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 12:48:55 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:07:54 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,6 @@ bool	input_is_space(char *input)
 	return (true);
 }
 
-void	close_pipe_fds(t_cmd *cmds, t_cmd *skip_cmd)
-{
-	while (cmds)
-	{
-		if (cmds != skip_cmd && cmds->pipefd)
-		{
-			close(cmds->pipefd[0]);
-			close(cmds->pipefd[1]);
-		}
-		cmds = cmds->next;
-	}
-}
-
 bool	create_pipes(t_data *data)
 {
 	int			*fd;
@@ -70,16 +57,14 @@ bool	create_pipes(t_data *data)
 	return (true);
 }
 
-void	close_fds(t_cmd *cmds, bool close_backups)
+bool	set_pipe_fds(t_cmd *cmds, t_cmd *c)
 {
-	if (cmds)
-	{
-		if (cmds->fd_in != -1)
-			close(cmds->fd_in);
-		if (cmds->fd_out != -1)
-			close(cmds->fd_out);
-		if (close_backups)
-			restore_io(cmds);
-	}
-	close_pipe_fds(cmds, NULL);
+	if (!c)
+		return (false);
+	if (c->prev && c->prev->pipe_output)
+		dup2(c->prev->pipefd[0], STDIN_FILENO);
+	if (c->pipe_output)
+		dup2(c->pipefd[1], STDOUT_FILENO);
+	close_pipe_fds(cmds, c);
+	return (true);
 }

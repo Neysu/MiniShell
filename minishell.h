@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/05 11:13:38 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:22:11 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,6 @@
 # define CMD_NOT_FOUND 127
 # define CMD_NOT_EXECUTABLE 126
 
-// typedef struct s_envp
-// {
-// 	char			*var;
-// 	struct s_envp	*next;
-// }					t_envp;
-
 typedef struct s_token
 {
 	char			*str;
@@ -90,12 +84,10 @@ typedef struct s_cmd
 typedef struct s_data
 {
 	char			*user_input;
-	bool			work;
 	int				exit_code;
 	char			*working_dir;
 	char			*old_working_dir;
 	char			**env_list;
-	//t_envp			*envp;
 	t_token			*token;
 	t_cmd			*cmd;
 	pid_t			pid;
@@ -129,15 +121,6 @@ enum e_quoting_status
 	DQUOTE
 };
 
-/* env related*/
-// t_envp	*get_env(char **envp);
-// t_envp	*ft_lstnsave_word_or_sepew_env(char *envp);
-// void	ft_lstadd_back(t_envp **lst, char *envp);
-// char	**env_to_str(t_envp *envp);
-
-/*   ENV   */
-/*   env_set.c   */
-
 bool	set_env_var(t_data *data, char *key, char *value);
 bool	remove_env_var(t_data *data, int idx);
 
@@ -149,7 +132,7 @@ char	*get_env_var_value(char **env, char *var);
 bool	is_valid_env_var_key(char *var);
 
 /* builtins */
-//size_t	ft_envsize(t_envp *env);
+
 int		ft_exit(char *line, t_data *data);
 int		ft_export(t_data *data, char **args);
 int		ft_echo(t_data *data, char **args);
@@ -163,7 +146,6 @@ int		print_env2(char **envp);
 /* executions */
 
 int		exec_cmd(t_data *data, t_cmd *cmd);
-//char	*findcmd(t_cmd *cmd_data, t_envp *envp);
 int		exec_buitlins(t_data *data, t_cmd *cmd);
 int		exec(t_data *data);
 
@@ -183,7 +165,6 @@ void	error_message(char *text_error, char *detail, int quote);
 
 /*   utils/free.c   */
 void	free_ptr(void *ptr);
-void	free_tokens(t_token *head);
 
 /*   utils/free.c   */
 void	lst_clear_cmd(t_cmd **lst, void (*del)(void *));
@@ -194,17 +175,25 @@ void	lst_delone_token(t_token *lst, void (*del)(void *));
 void	free_str_tab(char **tab);
 void	exit_shell(t_data *data, int exit_code);
 void	print_exit_shell(t_data *data, int exit_code);
-void	free_env_array(char **env_array);
+
+/*   utils/init.c   */
+
+bool	init_data(t_data *data, char **envp);
 
 /*       PARSING       */
 /*   args_handling.c   */
 
-int		create_args_default_mode(t_token **token_node, t_cmd *last_cmd);
+int		count_args(t_token *temp);
 char	**copy_default_in_new_tab(int len, char **new_tab,
 			t_cmd *last_cmd, t_token **tk_node);
+void	remove_empty_var_args(t_token **tokens);
+char	*join_vars(t_token **token_node);
+char	**copy_in_new_tab(int len, char **new_tab,
+			t_cmd *last_cmd, t_token *tmp);
+int		create_args_default_mode(t_token **token_node, t_cmd *last_cmd);
+
 int		add_args_default_mode(t_token **token_node, t_cmd *last_cmd);
 int		fill_args(t_token **token_node, t_cmd *last_cmd);
-void	remove_empty_var_args(t_token **tokens);
 
 /*   cmd_list_utils.c   */
 
@@ -326,6 +315,7 @@ bool	input_is_space(char *input);
 void	close_pipe_fds(t_cmd *cmds, t_cmd *skip_cmd);
 bool	create_pipes(t_data *data);
 void	close_fds(t_cmd *cmds, bool close_backups);
+bool	set_pipe_fds(t_cmd *cmds, t_cmd *c);
 
 /*   execute.c   */
 

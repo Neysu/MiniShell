@@ -1,66 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/05/04 20:17:09 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:08:10 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-// void	exec_single(t_data *data, t_cmd *cmd_data)
-// {
-// 	pid_t	pid;
-// 	int		status;
-
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		if (is_builtin(cmd_data))
-// 		 	exec_buitlins(data, cmd_data);
-// 		else
-// 			exec_cmd(cmd_data, data->envp);
-// 	}
-// 	waitpid(pid, &status, 0);
-// }
-
-// int		exec(t_data *data)
-// {
-// 	t_cmd *current = data->cmd;
-
-// 	while (current)
-// 	{
-// 		if (current->type == REDIRECT_OUT || current->type == REDIRECT_IN
-// 			|| current->type == APPEND)
-// 			redirect(current, data);
-// 		else if (current->type == COMMAND && current->cmd && current->cmd[0])
-// 			exec_single(data, current);
-// 		current = current->next;
-// 	}
-// 	return (1);
-// }
-
-// char	**env_to_str(t_envp *envp)
-// {
-// 	char	**env;
-// 	t_envp	*current;
-// 	int		i;
-
-// 	i = 0;
-// 	env = ft_calloc(sizeof(char *), ft_envsize(envp));
-// 	current = envp;
-// 	while (current->next)
-// 	{
-// 		env[i] = ft_strdup(current->var);
-// 		i++;
-// 		current = current->next;
-// 	}
-// 	return (env);
-// }
 
 bool	cmd_is_dir(char *cmd)
 {
@@ -113,21 +63,6 @@ static int	execute_local_bin(t_data *data, t_cmd *cmd)
 		return (errmsg_cmd("execve", NULL, strerror(errno), errno));
 	return (EXIT_FAILURE);
 }
-/*    PIPE START     */
-
-bool	set_pipe_fds(t_cmd *cmds, t_cmd *c)
-{
-	if (!c)
-		return (false);
-	if (c->prev && c->prev->pipe_output)
-		dup2(c->prev->pipefd[0], STDIN_FILENO);
-	if (c->pipe_output)
-		dup2(c->pipefd[1], STDOUT_FILENO);
-	close_pipe_fds(cmds, c);
-	return (true);
-}
-
-/*    PIPE END     */
 
 int	exec_cmd(t_data *data, t_cmd *cmd)
 {
