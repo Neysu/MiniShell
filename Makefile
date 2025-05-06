@@ -19,11 +19,10 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(ENVDIR)/env_set.c \
 		$(SRCDIR)/$(ENVDIR)/env_utils.c \
 		$(SRCDIR)/$(EXECDIR)/exec_cmd.c \
-		$(SRCDIR)/$(EXECDIR)/exec_utils.c\
 		$(SRCDIR)/$(EXECDIR)/execute.c \
-		$(SRCDIR)/$(EXECDIR)/open_files.c \
+		$(SRCDIR)/$(EXECDIR)/fd_utils.c \
+		$(SRCDIR)/$(EXECDIR)/file_io.c \
 		$(SRCDIR)/$(BUILDIR)/builtins.c \
-		$(SRCDIR)/$(BUILDIR)/builtins_utils.c \
 		$(SRCDIR)/$(BUILDIR)/cd.c \
 		$(SRCDIR)/$(BUILDIR)/echo.c \
 		$(SRCDIR)/$(BUILDIR)/env.c \
@@ -31,21 +30,18 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(BUILDIR)/export.c \
 		$(SRCDIR)/$(BUILDIR)/pwd.c \
 		$(SRCDIR)/$(BUILDIR)/unset.c \
-		$(SRCDIR)/$(LEXERDIR)/env_var_handling.c \
-		$(SRCDIR)/$(LEXERDIR)/env_var_utils.c \
 		$(SRCDIR)/$(LEXERDIR)/envp_check.c \
+		$(SRCDIR)/$(LEXERDIR)/envp_handling.c \
+		$(SRCDIR)/$(LEXERDIR)/envp_utils.c \
 		$(SRCDIR)/$(LEXERDIR)/lexer_utils.c \
 		$(SRCDIR)/$(LEXERDIR)/quotes_handler_utils.c \
 		$(SRCDIR)/$(LEXERDIR)/quotes_handler.c \
 		$(SRCDIR)/$(LEXERDIR)/token_generator.c \
 		$(SRCDIR)/$(LEXERDIR)/token_utils.c \
-		$(SRCDIR)/$(LEXERDIR)/var_validation.c \
 		$(SRCDIR)/$(PARSDIR)/args_handling.c \
 		$(SRCDIR)/$(PARSDIR)/cmd_list_utils.c \
 		$(SRCDIR)/$(PARSDIR)/create_commands.c \
 		$(SRCDIR)/$(PARSDIR)/expand_variables.c \
-		$(SRCDIR)/$(PARSDIR)/fd_utils.c \
-		$(SRCDIR)/$(PARSDIR)/file_io.c \
 		$(SRCDIR)/$(PARSDIR)/fill_args.c \
 		$(SRCDIR)/$(PARSDIR)/heredoc_utils.c \
 		$(SRCDIR)/$(PARSDIR)/heredoc_var_utils.c \

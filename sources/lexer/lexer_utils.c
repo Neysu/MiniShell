@@ -6,11 +6,23 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:20:56 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/03 19:35:19 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:47:46 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	update_status(t_token **token_node, char c)
+{
+	if (c == '\'' && (*token_node)->status == DEFAULT)
+		(*token_node)->status = SQUOTE;
+	else if (c == '\"' && (*token_node)->status == DEFAULT)
+		(*token_node)->status = DQUOTE;
+	else if (c == '\'' && (*token_node)->status == SQUOTE)
+		(*token_node)->status = DEFAULT;
+	else if (c == '\"' && (*token_node)->status == DQUOTE)
+		(*token_node)->status = DEFAULT;
+}
 
 int	is_separator(char *str, int i)
 {

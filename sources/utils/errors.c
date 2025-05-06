@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:45:57 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/23 21:11:36 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:35:27 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*str_join(char *str, char *add)
+static char	*str_join(char *str, char *add)
 {
 	char	*tmp;
 

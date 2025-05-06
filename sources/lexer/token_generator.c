@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:25:21 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 11:45:38 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:04:59 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	save_word(t_token **token_list, char *str, int index, int start)
+static int	save_word(t_token **token_list, char *str, int index, int start)
 {
 	int		i;
 	char	*word;
@@ -33,7 +33,7 @@ int	save_word(t_token **token_list, char *str, int index, int start)
 	return (0);
 }
 
-int	save_separator(t_token **token_list, char *str, int index, int type)
+static int	save_separator(t_token **token_list, char *str, int index, int type)
 {
 	char	*sep;
 	int		i;
@@ -62,7 +62,7 @@ int	save_separator(t_token **token_list, char *str, int index, int type)
 	return (0);
 }
 
-int	save_word_or_sep(int *i, char *str, int start, t_data *data)
+static int	save_word_or_sep(int *i, char *str, int start, t_data *data)
 {
 	int	type;
 

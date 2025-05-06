@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_validation.c                                   :+:      :+:    :+:   */
+/*   envp_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:54:32 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 13:46:27 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:10:44 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-bool	is_var_compliant(char c)
+static bool	is_var_compliant(char c)
 {
 	if (ft_isalnum(c) == 0 && c != '_')
 		return (false);

@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:16:12 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/05 14:46:00 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:43:40 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	process_user_input(t_data *data, char *input_line)
 	return (exit_code);
 }
 
-void	minishell(t_data *data)
+static void	minishell(t_data *data)
 {
 	while (1)
 	{

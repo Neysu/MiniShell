@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:31 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 21:13:28 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:33:39 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	lst_delone_token(t_token *lst, void (*del)(void *))
+static void	lst_delone_token(t_token *lst, void (*del)(void *))
 {
 	if (del && lst && lst->str)
 	{
@@ -76,7 +76,7 @@ static void	cleanup_cmd_node(t_cmd *lst, void (*del)(void *))
 		close(lst->stdout_backup);
 }
 
-void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
+static void	lst_delone_cmd(t_cmd *lst, void (*del)(void *))
 {
 	cleanup_cmd_node(lst, del);
 	if (lst->prev)

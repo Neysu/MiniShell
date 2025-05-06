@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:52:50 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 12:53:18 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:00:25 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	count_len(char *str, int count, int i)
+static int	count_len(char *str, int count, int i)
 {
 	int	status;
 
@@ -41,7 +41,7 @@ int	count_len(char *str, int count, int i)
 	return (count + 1);
 }
 
-bool	quote_and_status_default(t_token **token, int i)
+static bool	quote_and_status_default(t_token **token, int i)
 {
 	if (((*token)->str[i] == '\'' || (*token)->str[i] == '\"')
 		&& (*token)->status == DEFAULT)
@@ -50,7 +50,7 @@ bool	quote_and_status_default(t_token **token, int i)
 		return (false);
 }
 
-void	change_status_quote(t_token **token, int *i)
+static void	change_status_quote(t_token **token, int *i)
 {
 	if ((*token)->str[*i] == '\'')
 		(*token)->status = SQUOTE;
@@ -59,7 +59,7 @@ void	change_status_quote(t_token **token, int *i)
 	(*i)++;
 }
 
-bool	back_status_to_default(t_token **token, int *i)
+static bool	back_status_to_default(t_token **token, int *i)
 {
 	if (((*token)->str[*i] == '\'' && (*token)->status == SQUOTE)
 		|| ((*token)->str[*i] == '\"' && (*token)->status == DQUOTE))

@@ -6,25 +6,29 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 20:16:45 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/05 13:55:18 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:59:09 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	print_pwd(char *line)
+int	print_pwd(t_data *data, char **line)
 {
-	char	*buffer;
-	char	*pwd;
-	size_t	size;
+	char	buffer[PATH_MAX_LEN];
+	char	*cwd;
 
 	(void)line;
-	size = PATH_MAX_LEN;
-	buffer = ft_calloc(sizeof(char), PATH_MAX_LEN);
-	pwd = getcwd(buffer, size);
-	if (!pwd)
-		return (1);
-	ft_putendl_fd(pwd, 1);
-	free(pwd);
-	return (0);
+	if (data->working_dir)
+	{
+		ft_putendl_fd(data->working_dir, STDOUT_FILENO);
+		return (EXIT_SUCCESS);
+	}
+	cwd = getcwd(buffer, PATH_MAX_LEN);
+	if (cwd)
+	{
+		ft_putendl_fd(cwd, STDOUT_FILENO);
+		return (EXIT_SUCCESS);
+	}
+	errmsg_cmd("pwd", NULL, strerror(errno), errno);
+	return (EXIT_FAILURE);
 }

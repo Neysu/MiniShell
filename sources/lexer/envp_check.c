@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/23 17:51:19 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 11:53:09 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:52:26 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	envp_check_tool(t_token **token)
+static void	envp_check_tool(t_token **token)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ void	envp_check_tool(t_token **token)
 	}
 }
 
-bool	is_consecutive(t_token *token)
+static bool	is_consecutive(t_token *token)
 {
 	if (token->prev)
 	{
@@ -44,7 +44,7 @@ bool	is_consecutive(t_token *token)
 	return (false);
 }
 
-int	check_syntax_operators(t_token **token_list)
+static int	check_syntax_operators(t_token **token_list)
 {
 	t_token	*temp;
 

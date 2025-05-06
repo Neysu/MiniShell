@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 16:44:03 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/04 19:06:06 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:38:56 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	prep_no_arg_commands(t_data *data)
+static void	prep_no_arg_commands(t_data *data)
 {
 	t_cmd	*cmd;
 

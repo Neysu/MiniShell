@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:47:10 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/04 20:18:28 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:26:34 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	get_children(t_data *data)
+static int	get_children(t_data *data)
 {
 	pid_t	wpid;
 	int		status;
@@ -37,7 +37,7 @@ int	get_children(t_data *data)
 	return (status);
 }
 
-int	create_children(t_data *data)
+static int	create_children(t_data *data)
 {
 	t_cmd	*cmd;
 
@@ -64,7 +64,7 @@ bool	check_infile_outfile(t_cmd *cmd)
 	return (true);
 }
 
-int	prep_for_exec(t_data *data)
+static int	prep_for_exec(t_data *data)
 {
 	if (!data || !data->cmd)
 		return (EXIT_SUCCESS);

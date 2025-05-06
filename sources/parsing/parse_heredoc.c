@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 12:52:42 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 12:41:37 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:55:06 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-bool	fill_heredoc(t_data *data, t_cmd *cmd, int fd)
+static bool	fill_heredoc(t_data *data, t_cmd *cmd, int fd)
 {
 	char	*line;
 	bool	ret;
@@ -33,7 +33,7 @@ bool	fill_heredoc(t_data *data, t_cmd *cmd, int fd)
 	return (ret);
 }
 
-bool	get_heredoc(t_data *data)
+static bool	get_heredoc(t_data *data)
 {
 	int		tmp_fd;
 	bool	ret;
@@ -45,7 +45,7 @@ bool	get_heredoc(t_data *data)
 	return (ret);
 }
 
-char	*get_heredoc_name(void)
+static char	*get_heredoc_name(void)
 {
 	static int	i;
 	char		*name;
@@ -60,7 +60,7 @@ char	*get_heredoc_name(void)
 	return (name);
 }
 
-char	*get_delim(char *delim, bool *quotes)
+static char	*get_delim(char *delim, bool *quotes)
 {
 	int	len;
 

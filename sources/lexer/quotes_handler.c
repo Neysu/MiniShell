@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 19:40:41 by rureshet          #+#    #+#             */
-/*   Updated: 2025/04/29 12:53:21 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:02:57 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-bool	quotes_in_str(char *str)
+static bool	quotes_in_str(char *str)
 {
 	int	i;
 

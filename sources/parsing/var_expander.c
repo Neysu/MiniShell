@@ -6,11 +6,61 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:33:27 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 13:48:12 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:29:19 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+static char	*make_str_from_tab(char **tab)
+{
+	char	*str;
+	char	*tmp;
+	int		i;
+
+	i = -1;
+	while (tab[++i])
+	{
+		tmp = str;
+		if (i == 0)
+			str = ft_strdup(tab[0]);
+		else
+		{
+			str = ft_strjoin(tmp, tab[i]);
+			free_ptr(tmp);
+		}
+		if (tab[i + 1])
+		{
+			tmp = str;
+			str = ft_strjoin(tmp, " ");
+			free_ptr(tmp);
+		}
+	}
+	free_str_tab(tab);
+	return (str);
+}
+
+static char	*get_expanded_var_line(t_data *data, char *line)
+{
+	char	**words;
+	int		i;
+
+	words = ft_split(line, ' ');
+	if (!words)
+		return (NULL);
+	i = 0;
+	while (words[i])
+	{
+		if (ft_strchr(words[i], '$'))
+		{
+			words[i] = var_expander_heredoc(data, words[i]);
+			if (!words[i])
+				return (NULL);
+		}
+		i++;
+	}
+	return (make_str_from_tab(words));
+}
 
 int	var_expander(t_data *data, t_token **token_lst)
 {
@@ -56,56 +106,6 @@ char	*var_expander_heredoc(t_data *data, char *str)
 			i++;
 	}
 	return (str);
-}
-
-char	*make_str_from_tab(char **tab)
-{
-	char	*str;
-	char	*tmp;
-	int		i;
-
-	i = -1;
-	while (tab[++i])
-	{
-		tmp = str;
-		if (i == 0)
-			str = ft_strdup(tab[0]);
-		else
-		{
-			str = ft_strjoin(tmp, tab[i]);
-			free_ptr(tmp);
-		}
-		if (tab[i + 1])
-		{
-			tmp = str;
-			str = ft_strjoin(tmp, " ");
-			free_ptr(tmp);
-		}
-	}
-	free_str_tab(tab);
-	return (str);
-}
-
-char	*get_expanded_var_line(t_data *data, char *line)
-{
-	char	**words;
-	int		i;
-
-	words = ft_split(line, ' ');
-	if (!words)
-		return (NULL);
-	i = 0;
-	while (words[i])
-	{
-		if (ft_strchr(words[i], '$'))
-		{
-			words[i] = var_expander_heredoc(data, words[i]);
-			if (!words[i])
-				return (NULL);
-		}
-		i++;
-	}
-	return (make_str_from_tab(words));
 }
 
 bool	evaluate_heredoc_line(t_data *data, char **line,

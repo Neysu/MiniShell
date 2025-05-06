@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:20:54 by elliot            #+#    #+#             */
-/*   Updated: 2025/05/05 14:36:51 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:07:44 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	exec_buitlins(t_data *data, t_cmd *cmd)
 	else if (ft_strncmp(cmd->command, "echo", 5) == 0)
 		ret = ft_echo(data, cmd->cmd);
 	else if (ft_strncmp(cmd->command, "env", 4) == 0)
-		ret = print_env(data->env_list);
+		ret = print_env(data, cmd->cmd);
 	else if (ft_strncmp(cmd->command, "export", 7) == 0)
 		ret = ft_export(data, cmd->cmd);
 	else if (ft_strncmp(cmd->command, "pwd", 4) == 0)
-		ret = print_pwd(cmd->command);
+		ret = print_pwd(data, cmd->cmd);
 	else if (ft_strncmp(cmd->command, "unset", 6) == 0)
 		ret = ft_unset(data, cmd->cmd);
 	else if (ft_strncmp(cmd->command, "exit", 5) == 0)

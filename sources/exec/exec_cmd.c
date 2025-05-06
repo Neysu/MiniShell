@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/05/05 15:08:10 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:20:02 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-bool	cmd_is_dir(char *cmd)
+static bool	cmd_is_dir(char *cmd)
 {
 	struct stat	cmd_stat;
 
@@ -21,7 +21,7 @@ bool	cmd_is_dir(char *cmd)
 	return (S_ISDIR(cmd_stat.st_mode));
 }
 
-int	check_command_not_found(t_data *data, t_cmd *cmd)
+static int	check_command_not_found(t_data *data, t_cmd *cmd)
 {
 	if (ft_strchr(cmd->command, '/') == NULL
 		&& get_env_var_index(data->env_list, "PATH") != -1)

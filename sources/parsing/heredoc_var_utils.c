@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:39:39 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 13:48:59 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:50:51 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*search_env_var(t_data *data, char *var)
+static char	*search_env_var(t_data *data, char *var)
 {
 	char	*str;
 	int		i;
@@ -30,7 +30,7 @@ char	*search_env_var(t_data *data, char *var)
 	return (str);
 }
 
-char	*identify_var(char *str)
+static char	*identify_var(char *str)
 {
 	char	*var;
 	char	*tmp;

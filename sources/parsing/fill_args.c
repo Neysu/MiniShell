@@ -6,13 +6,13 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:12:02 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 15:17:55 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/06 13:43:08 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	create_args_echo_mode(t_token **token_node, t_cmd *last_cmd)
+static int	create_args_echo_mode(t_token **token_node, t_cmd *last_cmd)
 {
 	int		nb_args;
 	t_token	*temp;
@@ -41,7 +41,7 @@ int	create_args_echo_mode(t_token **token_node, t_cmd *last_cmd)
 	return (SUCCESS);
 }
 
-int	add_args_echo_mode(t_token **token_node, t_cmd *last_cmd)
+static int	add_args_echo_mode(t_token **token_node, t_cmd *last_cmd)
 {
 	int		len;
 	int		nb_args;
@@ -66,7 +66,7 @@ int	add_args_echo_mode(t_token **token_node, t_cmd *last_cmd)
 	return (SUCCESS);
 }
 
-int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
+static int	create_args_default_mode(t_token **token_node, t_cmd *last_cmd)
 {
 	int		i;
 	int		nb_args;
