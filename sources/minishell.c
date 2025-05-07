@@ -37,7 +37,7 @@ static int	process_user_input(t_data *data, char *input_line)
 		data->user_input = ft_strdup(commands[i]);
 		if (parser_user_input(data) == true)
 		{
-			show_lists(data);
+			//show_lists(data);
 			exit_code = execute(data);
 		}
 		else

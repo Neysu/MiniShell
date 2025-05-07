@@ -24,7 +24,7 @@ static void	open_infile(t_cmd *cmd, char *file)
 	}
 	cmd->fd_in = open(cmd->infile, O_RDONLY);
 	if (cmd->fd_in == -1)
-		printf("File dont opened: %d\n", cmd->fd_in);
+		ft_putendl_fd("Error opening Infile", STDERR);
 }
 
 static void	open_outfile(t_cmd *cmd, char *file)
@@ -39,7 +39,7 @@ static void	open_outfile(t_cmd *cmd, char *file)
 	}
 	cmd->fd_out = open(cmd->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (cmd->fd_out == -1)
-		printf("File dont opened: %d\n", cmd->fd_in);
+		ft_putendl_fd("Error opening Infile", STDERR);
 }
 
 void	set_outfile(t_token **token, t_cmd **last_cmd)
