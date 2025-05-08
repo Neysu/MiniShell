@@ -58,8 +58,7 @@ SRC =	$(SRCDIR)/minishell.c \
 		$(SRCDIR)/$(UTILS)/errors.c \
 		$(SRCDIR)/$(UTILS)/exit.c \
 		$(SRCDIR)/$(UTILS)/free.c \
-		$(SRCDIR)/$(UTILS)/init.c \
-		$(SRCDIR)/delete_this/tests.c
+		$(SRCDIR)/$(UTILS)/init.c 
 
 OBJ := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRC))
 

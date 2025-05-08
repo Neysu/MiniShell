@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:31 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/06 14:33:39 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/08 11:10:11 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ static void	cleanup_cmd_node(t_cmd *lst, void (*del)(void *))
 	}
 	if (lst->pipefd)
 		free(lst->pipefd);
-	if (lst->fd > 2)
-		close(lst->fd);
 	if (lst->fd_in > 2)
 		close(lst->fd_in);
 	if (lst->fd_out > 2)
