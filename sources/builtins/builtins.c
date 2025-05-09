@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 12:20:54 by elliot            #+#    #+#             */
-/*   Updated: 2025/05/06 12:07:44 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:18:46 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ int	exec_buitlins(t_data *data, t_cmd *cmd)
 	else if (ft_strncmp(cmd->command, "unset", 6) == 0)
 		ret = ft_unset(data, cmd->cmd);
 	else if (ft_strncmp(cmd->command, "exit", 5) == 0)
-		ret = ft_exit(data->user_input, data);
+		ret = ft_exit(data, cmd->cmd);
 	return (ret);
 }

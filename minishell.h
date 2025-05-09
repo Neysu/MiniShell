@@ -6,7 +6,7 @@
 /*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 23:11:51 by egibeaux          #+#    #+#             */
-/*   Updated: 2025/05/08 11:20:58 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/09 19:17:34 by rureshet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include <stddef.h>
 # include <sys/stat.h>
+# include <limits.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
@@ -137,7 +138,7 @@ int		ft_echo(t_data *data, char **args);
 /* env.c */
 int		print_env(t_data *data, char **args);
 /* exit.c */
-int		ft_exit(char *line, t_data *data);
+int		ft_exit(t_data *data, char **args);
 /* export.c+ */
 int		env_builtin(t_data *data, char **args);
 int		ft_export(t_data *data, char **args);
