@@ -105,6 +105,6 @@ supp:
 	valgrind --leak-check=full --gen-suppressions=all ./$(NAME)
 
 minigrind :
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=readline.supp ./$(NAME)
 
 .PHONY: all clean fclean re supp minigrind

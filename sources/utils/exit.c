@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:13:06 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/05 14:20:56 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:20:28 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ void	close_fds(t_cmd *cmds, bool close_backups)
 			close(cmds->fd_in);
 		if (cmds->fd_out != -1)
 			close(cmds->fd_out);
+		if (cmds->stdout_backup != -1)
+			close(cmds->stdout_backup);
+		if (cmds->stdin_backup != -1)
+			close(cmds->stdin_backup);
 		if (close_backups)
 			restore_io(cmds);
 	}

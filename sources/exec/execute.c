@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:47:10 by rureshet          #+#    #+#             */
-/*   Updated: 2025/05/06 12:26:34 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:18:28 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int	execute(t_data *data)
 
 	ret = prep_for_exec(data);
 	if (ret != CMD_NOT_FOUND)
-		return (ret);
-	if (!data->cmd->pipe_output && !data->cmd->prev
-		&& check_infile_outfile(data->cmd))
+	return (ret);
+if (!data->cmd->pipe_output && !data->cmd->prev
+	&& check_infile_outfile(data->cmd))
 	{
 		redirect_io(data->cmd);
 		ret = exec_buitlins(data, data->cmd);
@@ -97,5 +97,6 @@ int	execute(t_data *data)
 	}
 	if (ret != CMD_NOT_FOUND)
 		return (ret);
+
 	return (create_children(data));
 }

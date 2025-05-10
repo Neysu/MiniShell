@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rureshet <rureshet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elliot <elliot@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:17:29 by elliot            #+#    #+#             */
-/*   Updated: 2025/05/06 12:20:02 by rureshet         ###   ########.fr       */
+/*   Updated: 2025/05/10 17:18:56 by elliot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	exec_cmd(t_data *data, t_cmd *cmd)
 	close_fds(data->cmd, false);
 	if (ft_strchr(cmd->command, '/') == NULL)
 	{
+		printf("all fds: %d %d %d %d %d\n", data->cmd->fd_in, data->cmd->fd_out, data->cmd->stdin_backup, data->cmd->fd, data->cmd->stdout_backup);
 		ret = exec_buitlins(data, cmd);
 		if (ret != CMD_NOT_FOUND)
 			exit_shell(data, ret);
