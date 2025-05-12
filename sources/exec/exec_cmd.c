@@ -78,7 +78,6 @@ int	exec_cmd(t_data *data, t_cmd *cmd)
 	close_fds(data->cmd, false);
 	if (ft_strchr(cmd->command, '/') == NULL)
 	{
-		printf("all fds: %d %d %d %d %d\n", data->cmd->fd_in, data->cmd->fd_out, data->cmd->stdin_backup, data->cmd->fd, data->cmd->stdout_backup);
 		ret = exec_buitlins(data, cmd);
 		if (ret != CMD_NOT_FOUND)
 			exit_shell(data, ret);

@@ -87,9 +87,9 @@ int	execute(t_data *data)
 
 	ret = prep_for_exec(data);
 	if (ret != CMD_NOT_FOUND)
-	return (ret);
-if (!data->cmd->pipe_output && !data->cmd->prev
-	&& check_infile_outfile(data->cmd))
+		return (ret);
+	if (!data->cmd->pipe_output && !data->cmd->prev
+		&& check_infile_outfile(data->cmd))
 	{
 		redirect_io(data->cmd);
 		ret = exec_buitlins(data, data->cmd);
@@ -97,6 +97,5 @@ if (!data->cmd->pipe_output && !data->cmd->prev
 	}
 	if (ret != CMD_NOT_FOUND)
 		return (ret);
-
 	return (create_children(data));
 }
