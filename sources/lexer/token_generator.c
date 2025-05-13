@@ -28,7 +28,7 @@ static int	save_word(t_token **token_list, char *str, int index, int start)
 		start++;
 	}
 	word[i] = '\0';
-	lst_addback_token(token_list, \
+	lst_addback_token(token_list,
 		lst_new_token(word, ft_strdup(word), WORD, DEFAULT));
 	return (0);
 }

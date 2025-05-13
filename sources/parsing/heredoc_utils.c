@@ -51,8 +51,8 @@ int	replace_var(t_token **token_node, char *var_value, int index)
 	}
 	else
 	{
-		if (erase_and_replace(token_node, (*token_node)->str, \
-		var_value, index) == NULL)
+		if (erase_and_replace(token_node, (*token_node)->str,
+				var_value, index) == NULL)
 		{
 			free_ptr(var_value);
 			return (1);

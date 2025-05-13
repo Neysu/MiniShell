@@ -12,8 +12,11 @@
 
 #include "../../minishell.h"
 
-void	close_pipe_fds(t_cmd *cmds, t_cmd *skip_cmd)
+void	close_pipe_fds(t_cmd *cmd, t_cmd *skip_cmd)
 {
+	t_cmd	*cmds;
+
+	cmds = cmd;
 	while (cmds)
 	{
 		if (cmds != skip_cmd && cmds->pipefd)
@@ -25,9 +28,12 @@ void	close_pipe_fds(t_cmd *cmds, t_cmd *skip_cmd)
 	}
 }
 
-void	close_fds(t_cmd *cmds, bool close_backups)
+void	close_fds(t_cmd *cmd, bool close_backups)
 {
-	if (cmds)
+	t_cmd	*cmds;
+
+	cmds = cmd;
+	while (cmds)
 	{
 		if (cmds->fd_in != -1)
 			close(cmds->fd_in);
@@ -39,8 +45,9 @@ void	close_fds(t_cmd *cmds, bool close_backups)
 			close(cmds->stdin_backup);
 		if (close_backups)
 			restore_io(cmds);
+		cmds = cmds->next;
 	}
-	close_pipe_fds(cmds, NULL);
+	close_pipe_fds(cmd, NULL);
 }
 
 void	exit_shell(t_data *data, int exit_code)
